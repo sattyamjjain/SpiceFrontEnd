@@ -2,15 +2,16 @@ import * as React from "react";
 import ProductContainer from '../components/Product/ProductContainer'
 
 import withLayout from "../HOC/withLayout";
+import WishListContainer from './../components/wishlist/WishlistContainer';
 
-class Product extends React.Component{
+class Wishlist extends React.Component{
   render(){
     return (
       <div>
-        <ProductContainer/>
+        <WishListContainer/>
       </div>
     );
   }
 };
 
-export default withLayout(Product);
+export default withLayout(Wishlist);

@@ -2,6 +2,9 @@
 import React from "react";
 import styled from 'styled-components';
 import {AppBar,Toolbar,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem} from '@material-ui/core'
+import {
+  Link
+} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const HeaderMainContainer = styled.div`
@@ -55,7 +58,7 @@ export default function Header () {
       </NotificationContainer>
       <HeaderContainer>
         <AppBar position="static">
-          <Toolbar style={{backgroundColor:'#EE6622',align:'right'}}>
+          <Toolbar style={{backgroundColor:'#EE6622',justifyContent:'flex-end'}}>
             <Button color="inherit">Home</Button>
             <Button color="inherit">About Us</Button>
             <div>
@@ -77,7 +80,7 @@ export default function Header () {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                          <MenuItem onClick={handleClose}>Haldi</MenuItem>
+                          <MenuItem ><Link to="/product">Haldi</Link></MenuItem>
                           <MenuItem onClick={handleClose}>Mirch</MenuItem>
                           <MenuItem onClick={handleClose}>Khatai</MenuItem>
                           <MenuItem onClick={handleClose}>Garam Masala</MenuItem>
@@ -89,7 +92,7 @@ export default function Header () {
                 )}
               </Popper>
             </div>
-            <Button color="inherit">Contact Us</Button>
+            <Button color="primary"><Link to="/contactUs">Contact Us</Link></Button>
             <Button color="inherit">Login</Button>
             <Button color="inherit">Signup</Button>
           </Toolbar>

@@ -14,7 +14,7 @@ export default class Router extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-        <Route path="/cart">
+          <Route path="/cart">
             <Cart />
           </Route>
           <Route path="/wishlist">

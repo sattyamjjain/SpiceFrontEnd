@@ -1,11 +1,15 @@
 /* eslint-disable no-sequences */
 import React from "react";
 import styled from 'styled-components';
-import {AppBar,Toolbar,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem} from '@material-ui/core'
+import {AppBar,Modal,Toolbar,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Link
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import AuthContainer from './Auth/AuthContainer';
+
+const AUTH = 'auth';
 
 const HeaderMainContainer = styled.div`
 `;
@@ -19,8 +23,28 @@ const HeaderContainer = styled.div`
   background-color:red;
 `;
 
+function getModalStyle() {
+  return {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width:'100vh',
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5]
+  },
+}));
+
 export default function Header () {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [modalStyle] = React.useState(getModalStyle);
+  const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
@@ -42,6 +66,12 @@ export default function Header () {
     }
   }
 
+  const authBody = (
+    <div style={modalStyle} className={classes.paper}>
+      <AuthContainer/>
+    </div>
+  );
+
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -50,6 +80,24 @@ export default function Header () {
 
     prevOpen.current = open;
   }, [open]);
+
+  function onActionClickHandler(action) {
+    switch (action) {
+      case AUTH:
+        handleLoginAction();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function handleLoginAction() {
+    setVisibleActionPopup(AUTH)
+  }
+
+  function handleActionPopupClose() {
+    setVisibleActionPopup(null)
+  }
 
   return (
     <HeaderMainContainer>
@@ -93,13 +141,16 @@ export default function Header () {
               </Popper>
             </div>
             <Button color="primary"><Link to="/contactUs">Contact Us</Link></Button>
-            <Button color="inherit">Login</Button>
-            <Button color="inherit">Signup</Button>
+            <Button color="inherit" onClick={()=>onActionClickHandler(AUTH)}>Login</Button>
           </Toolbar>
         </AppBar>
       </HeaderContainer>
+      <Modal
+        open={visibleActionPopup===AUTH}
+        onClose={handleActionPopupClose}
+      >
+        {authBody}
+      </Modal>
     </HeaderMainContainer>
   );
 };
-
-// export default Header;

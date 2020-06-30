@@ -9,7 +9,6 @@ const MainContainer = styled.div`
     padding-top:30px;
 `;
 
-
 export default class PaymentContainer extends React.Component {
     render() {
         return (

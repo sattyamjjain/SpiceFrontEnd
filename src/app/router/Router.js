@@ -7,6 +7,8 @@ import ContactUs from "../pages/ContactUs";
 import Product from "../pages/Product";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
+import Admin from '../pages/Admin';
+import Dashboard from '../pages/Dashboard';
 const history = createHistory();
 
 export default class Router extends React.Component {
@@ -14,18 +16,25 @@ export default class Router extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+          <Route path="/admin">
+            <Admin />
+          </Route>
           <Route path="/cart">
             <Cart />
           </Route>
           <Route path="/wishlist">
             <Wishlist />
           </Route>
-          <Route path="/product">
+          <Route path="/product">  
+          {/*           <Route path="/product/:productId">   */}
             <Product />
           </Route>
           {/* <Route path="/aboutUs">
             <AboutUs />
-          </Route> */}
+          </Route> */}                                                      
           <Route path="/contactUs">
             <ContactUs />
           </Route>

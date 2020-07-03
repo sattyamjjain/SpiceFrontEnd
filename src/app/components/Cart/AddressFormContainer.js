@@ -14,7 +14,6 @@ const MainContainer = styled.div`
 const FormContainer = styled.div`
 `;
 
-
 export default class AddressFormContainer extends React.Component {
   render() {
     return (

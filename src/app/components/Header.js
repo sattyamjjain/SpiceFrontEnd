@@ -1,13 +1,14 @@
 /* eslint-disable no-sequences */
 import React from "react";
 import styled from 'styled-components';
-import {AppBar,Modal,Toolbar,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+import {AppBar,Modal,Toolbar,ListItemIcon,ListItemText,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem,Menu} from '@material-ui/core'
+import { makeStyles,withStyles } from '@material-ui/core/styles';
 import {
   Link
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AuthContainer from './Auth/AuthContainer';
+import * as FeatherIcon from 'react-feather';
 
 const AUTH = 'auth';
 
@@ -38,48 +39,75 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5]
   },
+  button:{
+    textTransform:'capitalize',
+    '&:focus':{
+      oultine:'none',
+      border:'none'
+    }
+  }
 }));
+
+const StyledMenu = withStyles((theme)=>({
+  paper: {
+    boxShadow: theme.shadows[5]
+  },
+}))((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 
 export default function Header () {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [modalStyle] = React.useState(getModalStyle);
   const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
-  const anchorRef = React.useRef(null);
+  const [accountButton, setAccountButton] = React.useState(false);
+  const [anchorProduct, setAnchorProduct] = React.useState(null);
+  const [anchorAccount, setAnchorAccount] = React.useState(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleProductClick = (event) => {
+    setAnchorProduct(event.currentTarget);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
+  const handleAccountClick = (event) => {
+    setAnchorAccount(event.currentTarget);
   };
 
-  function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
+  const handleProductClose = () => {
+    setAnchorProduct(null);
+  };
+
+  const handleAccountClose = () => {
+    setAnchorAccount(null);
+  };
 
   const authBody = (
     <div style={modalStyle} className={classes.paper}>
       <AuthContainer/>
     </div>
   );
-
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
 
   function onActionClickHandler(action) {
     switch (action) {
@@ -92,7 +120,8 @@ export default function Header () {
   }
 
   function handleLoginAction() {
-    setVisibleActionPopup(AUTH)
+    setVisibleActionPopup(AUTH);
+    setAccountButton(true);
   }
 
   function handleActionPopupClose() {
@@ -107,41 +136,98 @@ export default function Header () {
       <HeaderContainer>
         <AppBar position="static">
           <Toolbar style={{backgroundColor:'#EE6622',justifyContent:'flex-end'}}>
-            <Button color="inherit">Home</Button>
-            <Button color="inherit">About Us</Button>
+          <Button color="inherit" className={classes.button}><Link to="/" style={{color:'inherit'}}>Home</Link></Button>
+            <Button color="inherit" className={classes.button}>About Us</Button>
             <div>
-              <Button
-                ref={anchorRef}
-                aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
-                color="inherit"
-                onClick={handleToggle}
-              >
-                Products
-              </Button>
-              <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            <div>
+                  <Button
+                    variant="text"
+                    color="inherit"
+                    onClick={handleProductClick}
+                    className={classes.button}
                   >
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                          <MenuItem ><Link to="/product">Haldi</Link></MenuItem>
-                          <MenuItem onClick={handleClose}>Mirch</MenuItem>
-                          <MenuItem onClick={handleClose}>Khatai</MenuItem>
-                          <MenuItem onClick={handleClose}>Garam Masala</MenuItem>
-                          <MenuItem onClick={handleClose}>Jeera</MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
+                    Products
+                  </Button>
+                  <StyledMenu
+                    id="customized-menu"
+                    anchorEl={anchorProduct}
+                    keepMounted
+                    open={Boolean(anchorProduct)}
+                    onClose={handleProductClose}
+                  >
+                    <Link to="/product" style={{color:'inherit'}}>
+                      <StyledMenuItem>
+                        <ListItemText primary="Haldi" />
+                      </StyledMenuItem>
+                    </Link>
+                    <StyledMenuItem>
+                      <ListItemText primary="Mirchi" />
+                    </StyledMenuItem>
+                    <StyledMenuItem>
+                      <ListItemText primary="Khatai" />
+                    </StyledMenuItem>
+                    <StyledMenuItem>
+                      <ListItemText primary="Jeera" />
+                    </StyledMenuItem>
+                  </StyledMenu>
+                </div>
             </div>
-            <Button color="primary"><Link to="/contactUs">Contact Us</Link></Button>
-            <Button color="inherit" onClick={()=>onActionClickHandler(AUTH)}>Login</Button>
+            <Button color="inherit" className={classes.button}><Link to="/contactUs" style={{color:'inherit'}}>Contact Us</Link></Button>
+            {
+              !accountButton ? <Button color="inherit" className={classes.button} onClick={()=>onActionClickHandler(AUTH)}>Login</Button> : (
+                <div>
+                  <Button
+                    variant="text"
+                    onClick={handleAccountClick}
+                  >
+                    <FeatherIcon.User size={28} color="#FFFFFF"/>
+                  </Button>
+                  <StyledMenu
+                    id="customized-menu"
+                    anchorEl={anchorAccount}
+                    keepMounted
+                    open={Boolean(anchorAccount)}
+                    onClose={handleAccountClose}
+                  >
+                    <Link to="/profile" style={{color:'inherit'}}>
+                      <StyledMenuItem>
+                          <ListItemIcon>
+                            <FeatherIcon.User size={20} color="#000000"/>
+                          </ListItemIcon>
+                          <ListItemText primary="Profile" />
+                      </StyledMenuItem>
+                    </Link>
+                    <Link to="/wishlist" style={{color:'inherit'}}>
+                      <StyledMenuItem>
+                          <ListItemIcon>
+                            <FeatherIcon.Heart size={20} color="#000000"/>
+                          </ListItemIcon>
+                          <ListItemText primary="Wishlist" />
+                      </StyledMenuItem>
+                    </Link>
+                    <Link to="/cart" style={{color:'inherit'}}>
+                      <StyledMenuItem>
+                          <ListItemIcon>
+                            <FeatherIcon.Truck size={20} color="#000000"/>
+                          </ListItemIcon>
+                          <ListItemText primary="Your Cart" />
+                      </StyledMenuItem>
+                    </Link>
+                    <StyledMenuItem>
+                      <ListItemIcon>
+                        <FeatherIcon.Truck size={20} color="#000000"/>
+                      </ListItemIcon>
+                      <ListItemText primary="Your orders" />
+                    </StyledMenuItem>
+                    <StyledMenuItem>
+                      <ListItemIcon>
+                        <FeatherIcon.LogOut size={20} color="#000000"/>
+                      </ListItemIcon>
+                      <ListItemText primary="Logout" />
+                    </StyledMenuItem>
+                  </StyledMenu>
+                </div>
+              )}
           </Toolbar>
         </AppBar>
       </HeaderContainer>

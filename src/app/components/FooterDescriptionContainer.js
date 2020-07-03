@@ -78,8 +78,8 @@ export default function FooterDescriptionContainer () {
                 </InputContainer>
             </NewsLetterContainer>
             <DescipContainer>
-                <img src={require("./images/logo.jpg")}  alt="logo" style={{height:'50px',width:'100px'}}/>
-                <Typography variant="subtitle1">
+                <img src={require("./images/webLogo.png")}  alt="logo" style={{height:'100px',width:'100px'}}/>
+                <Typography variant="subtitle1" style={{paddingTop:'5px'}}>
                     It is a long established fact that a reader will be distracted by the readable content.
                 </Typography>
             </DescipContainer>

@@ -24,66 +24,66 @@ export default class ForgetPasswordContainer extends React.Component {
         this.props.displayedComponent(val);
     }
 
-  render() {
-    return (
-        <MainContainer>
-            <Typography variant="h5" style={{textAlign:'center'}}>
-                Recover your password
-            </Typography>
-            <Typography variant="caption" style={{textAlign:'center'}}>
-                Fill in your email address below and we will send you and email with further instructions.
-            </Typography>
-            <PaddingContainer/>
-            <FormContainer>
-                <Formik
-                    initialValues={{ username:'',password:''}}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                        }, 400);
-                    }}
-                    >
-                    {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting,
-                    }) => (
-                        <form onSubmit={handleSubmit}>
-                            <div style={{paddingTop:'10px'}}>
-                                <TextField 
-                                    id="standard-basic" 
-                                    fullWidth
-                                    label="Email"
-                                    type="email"
-                                    name="email"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.email}
-                                />
-                            </div>
-                            <div style={{paddingTop:'20px'}}>
-                                <Button variant="contained" fullWidth={true} type="submit" disabled={isSubmitting} color="primary">
-                                    Recover your password
-                                </Button>
-                            </div>
-                            <div style={{paddingTop:'10px'}}>
-                                <Button variant="text" onClick={this.goToPage.bind(this,'login')}>
-                                    Already have an account?
-                                </Button>
-                                <Button variant="text" onClick={this.goToPage.bind(this,'signup')}>
-                                    Don't have an account?
-                                </Button>
-                            </div>
-                        </form>
-                    )}
-                </Formik>
-            </FormContainer>
-        </MainContainer>
-    );
-  }
+    render() {
+        return (
+            <MainContainer>
+                <Typography variant="h5" style={{textAlign:'center'}}>
+                    Recover your password
+                </Typography>
+                <Typography variant="caption" style={{textAlign:'center'}}>
+                    Fill in your email address below and we will send you and email with further instructions.
+                </Typography>
+                <PaddingContainer/>
+                <FormContainer>
+                    <Formik
+                        initialValues={{ username:'',password:''}}
+                        onSubmit={(values, { setSubmitting }) => {
+                            setTimeout(() => {
+                            alert(JSON.stringify(values, null, 2));
+                            setSubmitting(false);
+                            }, 400);
+                        }}
+                        >
+                        {({
+                            values,
+                            errors,
+                            touched,
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            isSubmitting,
+                        }) => (
+                            <form onSubmit={handleSubmit}>
+                                <div style={{paddingTop:'10px'}}>
+                                    <TextField 
+                                        id="standard-basic" 
+                                        fullWidth
+                                        label="Email"
+                                        type="email"
+                                        name="email"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.email}
+                                    />
+                                </div>
+                                <div style={{paddingTop:'20px'}}>
+                                    <Button variant="contained" fullWidth={true} type="submit" disabled={isSubmitting} color="primary" style={{textTransform:'capitalize'}}>
+                                        Recover your password
+                                    </Button>
+                                </div>
+                                <div style={{paddingTop:'10px'}}>
+                                    <Button variant="text" onClick={this.goToPage.bind(this,'login')} style={{textTransform:'capitalize'}}>
+                                        Already have an account?
+                                    </Button>
+                                    <Button variant="text" onClick={this.goToPage.bind(this,'signup')} style={{textTransform:'capitalize'}}>
+                                        Don't have an account?
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </FormContainer>
+            </MainContainer>
+        );
+    }
 }

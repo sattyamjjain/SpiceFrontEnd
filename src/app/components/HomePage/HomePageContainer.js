@@ -22,7 +22,7 @@ const TopContent = styled.div`
     text-align:center;
     padding-left:20vh;
     padding-right:20vh;
-    padding-top:15vh;
+    padding-top:10vh;
     padding-bottom:7vh;
 `;
 
@@ -153,7 +153,7 @@ class HomePageContainer extends React.Component {
                                             <Typography variant="h6">
                                                 Haldi
                                             </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622"}}>
+                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
                                                 Buy it now
                                             </Button>
                                         </div>
@@ -166,7 +166,7 @@ class HomePageContainer extends React.Component {
                                             <Typography variant="h6">
                                                 Haldi
                                             </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622"}}>
+                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
                                                 Buy it now
                                             </Button>
                                         </div>
@@ -179,7 +179,7 @@ class HomePageContainer extends React.Component {
                                             <Typography variant="h6">
                                                 Haldi
                                             </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622"}}>
+                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
                                                 Buy it now
                                             </Button>
                                         </div>
@@ -192,7 +192,7 @@ class HomePageContainer extends React.Component {
                                             <Typography variant="h6">
                                                 Haldi
                                             </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622"}}>
+                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
                                                 Buy it now
                                             </Button>
                                         </div>
@@ -205,7 +205,7 @@ class HomePageContainer extends React.Component {
                                             <Typography variant="h6">
                                                 Haldi
                                             </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622"}}>
+                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
                                                 Buy it now
                                             </Button>
                                         </div>

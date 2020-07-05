@@ -123,7 +123,7 @@ export default  class ProductContainer extends React.Component {
     );
 
     const addEditProductBody = (
-        <Paper style={{width:'80vh',height:'25vh'}}>
+        <Paper style={{width:'80vh',height:'90vh'}}>
             <AddEditProduct/>
         </Paper>
     );
@@ -143,7 +143,7 @@ export default  class ProductContainer extends React.Component {
                     >
                     <div style={{display:'flex',justifyContent:'flex-start'}}>
                         <Typography variant="h6">
-                            Haldi
+                            1. Haldi
                         </Typography>
                         <Button variant="text">
                             <FeatherIcon.Edit size={20} onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT)}/>
@@ -216,14 +216,14 @@ export default  class ProductContainer extends React.Component {
             <Modal
                 open={this.state.visibleActionPopup===EDIT_PRODUCT}
                 onClose={this.handleActionPopupClose}
-                style={{display:'flex',justifyContent:'center',top:'30%',bottom:'30%'}}
+                style={{display:'flex',justifyContent:'center',top:'8%'}}
             >
                 {addEditProductBody}
             </Modal>
             <Modal
                 open={this.state.visibleActionPopup===ADD_PRODUCT}
                 onClose={this.handleActionPopupClose}
-                style={{display:'flex',justifyContent:'center',top:'30%',bottom:'30%'}}
+                style={{display:'flex',justifyContent:'center',top:'8%'}}
             >
                 {addEditProductBody}
             </Modal>

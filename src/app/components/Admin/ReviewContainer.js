@@ -60,27 +60,27 @@ export default  class ReviewContainer extends React.Component {
                 <Table  aria-label="simple table">
                     <TableHead>
                     <TableRow>
-                        <TableCell align="center">Product</TableCell>
-                        <TableCell align="center">Reveiwer</TableCell>
-                        <TableCell align="center">Review</TableCell>
-                        <TableCell align="center">Rating</TableCell>
+                        <TableCell align="left">Product</TableCell>
+                        <TableCell align="left">Reveiwer</TableCell>
+                        <TableCell align="left">Rating</TableCell>
                         <TableCell align="left">Date</TableCell>
-                        <TableCell align="center">Actions</TableCell>
+                        <TableCell align="left">Review</TableCell>
+                        <TableCell align="right">Actions</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow >
-                            <TableCell align="center">Haldi</TableCell>
-                            <TableCell align="center">RatanJI</TableCell>
-                            <TableCell align="center">Amazing Product</TableCell>
-                            <TableCell align="center">4.3</TableCell>
+                            <TableCell align="left">Haldi</TableCell>
+                            <TableCell align="left">RatanJI</TableCell>
+                            <TableCell align="left">4.3</TableCell>
                             <TableCell align="left">
                                 <div style={{textAlign:'left'}}>
                                     <Typography variant="subtitle1">Dec 1, 2019</Typography>
                                     <Typography variant="caption">05:18</Typography>
                                 </div>
                             </TableCell>
-                            <TableCell align="center">
+                            <TableCell align="left">Amazing Product</TableCell>
+                            <TableCell align="right">
                                 <Button onClick={this.onActionClickHandler.bind(this,DELETE)}>
                                     <FeatherIcon.Trash2
                                         color="#000000"

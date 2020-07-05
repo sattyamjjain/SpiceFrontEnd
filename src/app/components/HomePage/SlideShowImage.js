@@ -16,9 +16,6 @@ const fadeProperties = {
   infinite: true,
   indicators: false,
   pauseOnHover: true,
-  onChange: (oldIndex, newIndex) => {
-    console.log(`fade transition from ${oldIndex} to ${newIndex}`);
-  }
 }
  
 export default function SlideShowImage () {

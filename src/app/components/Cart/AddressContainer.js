@@ -4,7 +4,9 @@ import * as FeatherIcon from 'react-feather';
 import styled from 'styled-components';
 import AddressFormContainer from './AddressFormContainer';
 
-const ADDRESS = 'address';
+const ADD_ADDRESS = 'add';
+const EDIT_ADDRESS = 'edit';
+const DELETE_ADDRESS = 'delete';
 
 const MainContainer = styled.div`
     display:flex;
@@ -32,7 +34,7 @@ const DividerContainer = styled.div`
 
 function getModalStyle() {
     return {
-      top: '50%',
+      top: '55%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
     };
@@ -54,16 +56,30 @@ export default function  AddressContainer () {
 
     function onActionClickHandler(action) {
         switch (action) {
-          case ADDRESS:
-            handleAddressAction();
+          case ADD_ADDRESS:
+            handleAddAddressAction();
+            break;
+        case EDIT_ADDRESS:
+            handleEditAddressAction();
+            break;
+        case DELETE_ADDRESS:
+            handleDeleteAddressAction();
             break;
           default:
             break;
         }
       }
     
-      function handleAddressAction() {
-        setVisibleActionPopup(ADDRESS)
+      function handleAddAddressAction() {
+        setVisibleActionPopup(ADD_ADDRESS)
+      }
+
+      function handleEditAddressAction() {
+        setVisibleActionPopup(EDIT_ADDRESS)
+      }
+
+      function handleDeleteAddressAction() {
+        setVisibleActionPopup(DELETE_ADDRESS)
       }
     
       function handleActionPopupClose() {
@@ -76,7 +92,6 @@ export default function  AddressContainer () {
         </div>
       );
     
-    
     return (
         <MainContainer>
             <LeftSideContainer>
@@ -84,7 +99,7 @@ export default function  AddressContainer () {
                     <Typography variant="h5">
                         Select delivery address
                     </Typography>
-                    <Button variant="outlined" onClick={()=>onActionClickHandler(ADDRESS)}>Add delivery address</Button>
+                    <Button variant="outlined" onClick={()=>onActionClickHandler(ADD_ADDRESS)}>Add delivery address</Button>
                 </div>
                 <PaddingContainer/>
                 <Typography variant="subtitle2">
@@ -106,7 +121,7 @@ export default function  AddressContainer () {
                         <PaddingContainer/>
                         <div style={{display:'flex',justifyContent:'space-between'}}>
                             <Button variant="outlined">Remove</Button>
-                            <Button variant="outlined">Edit</Button>
+                            <Button variant="outlined" onClick={()=>onActionClickHandler(EDIT_ADDRESS)}>Edit</Button>
                         </div>
                     </Paper>
                 </Button>
@@ -181,7 +196,13 @@ export default function  AddressContainer () {
                 </Paper>
             </RightSideContainer>
             <Modal
-                open={visibleActionPopup===ADDRESS}
+                open={visibleActionPopup===ADD_ADDRESS}
+                onClose={handleActionPopupClose}
+            >
+                {addressBody}
+            </Modal>
+            <Modal
+                open={visibleActionPopup===EDIT_ADDRESS}
                 onClose={handleActionPopupClose}
             >
                 {addressBody}

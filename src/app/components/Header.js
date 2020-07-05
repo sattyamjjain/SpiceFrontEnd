@@ -6,6 +6,7 @@ import { makeStyles,withStyles } from '@material-ui/core/styles';
 import {
   Link
 } from "react-router-dom";
+import Ticker from 'react-ticker'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AuthContainer from './Auth/AuthContainer';
 import * as FeatherIcon from 'react-feather';
@@ -13,11 +14,14 @@ import * as FeatherIcon from 'react-feather';
 const AUTH = 'auth';
 
 const HeaderMainContainer = styled.div`
+  position: fixed;
+  width:100%;
+  z-index:999999;
 `;
 
 const NotificationContainer = styled.div`
-  height:40px;
-  background-color:yellow;
+  height:30px;
+  background-color:#FBB45F;
 `;
 
 const HeaderContainer = styled.div`
@@ -131,103 +135,112 @@ export default function Header () {
   return (
     <HeaderMainContainer>
       <NotificationContainer>
-        Notification
+        <Ticker mode="chain" speed={15}>
+          {({ index }) => (
+            <div style={{padding:'1vh'}}>
+              notification
+            </div> 
+          )}
+        </Ticker>
       </NotificationContainer>
       <HeaderContainer>
         <AppBar position="static">
           <Toolbar style={{backgroundColor:'#EE6622',justifyContent:'flex-end'}}>
-          <Button color="inherit" className={classes.button}><Link to="/" style={{color:'inherit'}}>Home</Link></Button>
-            <Button color="inherit" className={classes.button}>About Us</Button>
-            <div>
-            <div>
-                  <Button
-                    variant="text"
-                    color="inherit"
-                    onClick={handleProductClick}
-                    className={classes.button}
-                  >
-                    Products
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorProduct}
-                    keepMounted
-                    open={Boolean(anchorProduct)}
-                    onClose={handleProductClose}
-                  >
-                    <Link to="/product" style={{color:'inherit'}}>
-                      <StyledMenuItem>
-                        <ListItemText primary="Haldi" />
-                      </StyledMenuItem>
-                    </Link>
-                    <StyledMenuItem>
-                      <ListItemText primary="Mirchi" />
-                    </StyledMenuItem>
-                    <StyledMenuItem>
-                      <ListItemText primary="Khatai" />
-                    </StyledMenuItem>
-                    <StyledMenuItem>
-                      <ListItemText primary="Jeera" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </div>
+            {/* <div style={{width:'20%'}}>
+              <img src={require("./images/webLogo.png")}  alt="logo" style={{height:'100px',width:'100px'}}/>
             </div>
-            <Button color="inherit" className={classes.button}><Link to="/contactUs" style={{color:'inherit'}}>Contact Us</Link></Button>
-            {
-              !accountButton ? <Button color="inherit" className={classes.button} onClick={()=>onActionClickHandler(AUTH)}>Login</Button> : (
-                <div>
-                  <Button
-                    variant="text"
-                    onClick={handleAccountClick}
-                  >
-                    <FeatherIcon.User size={28} color="#FFFFFF"/>
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorAccount}
-                    keepMounted
-                    open={Boolean(anchorAccount)}
-                    onClose={handleAccountClose}
-                  >
-                    <Link to="/profile" style={{color:'inherit'}}>
-                      <StyledMenuItem>
-                          <ListItemIcon>
-                            <FeatherIcon.User size={20} color="#000000"/>
-                          </ListItemIcon>
-                          <ListItemText primary="Profile" />
-                      </StyledMenuItem>
-                    </Link>
-                    <Link to="/wishlist" style={{color:'inherit'}}>
-                      <StyledMenuItem>
-                          <ListItemIcon>
-                            <FeatherIcon.Heart size={20} color="#000000"/>
-                          </ListItemIcon>
-                          <ListItemText primary="Wishlist" />
-                      </StyledMenuItem>
-                    </Link>
-                    <Link to="/cart" style={{color:'inherit'}}>
-                      <StyledMenuItem>
-                          <ListItemIcon>
-                            <FeatherIcon.Truck size={20} color="#000000"/>
-                          </ListItemIcon>
-                          <ListItemText primary="Your Cart" />
-                      </StyledMenuItem>
-                    </Link>
+            <div style={{justifyContent:'flex-end',width:'50%'}}> */}
+              <Button color="inherit" className={classes.button}><Link to="/" style={{color:'inherit'}}>Home</Link></Button>
+              <Button color="inherit" className={classes.button}><Link to="/aboutUs" style={{color:'inherit'}}>About Us</Link></Button>
+              <div>
+                <Button
+                  variant="text"
+                  color="inherit"
+                  onClick={handleProductClick}
+                  className={classes.button}
+                >
+                  Products
+                </Button>
+                <StyledMenu
+                  anchorEl={anchorProduct}
+                  keepMounted
+                  open={Boolean(anchorProduct)}
+                  onClose={handleProductClose}
+                  style={{zIndex:'999999999'}}
+                >
+                  <Link to="/product" style={{color:'inherit'}}>
                     <StyledMenuItem>
-                      <ListItemIcon>
-                        <FeatherIcon.Truck size={20} color="#000000"/>
-                      </ListItemIcon>
-                      <ListItemText primary="Your orders" />
+                      <ListItemText primary="Haldi" />
                     </StyledMenuItem>
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <FeatherIcon.LogOut size={20} color="#000000"/>
-                      </ListItemIcon>
-                      <ListItemText primary="Logout" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </div>
-              )}
+                  </Link>
+                  <StyledMenuItem>
+                    <ListItemText primary="Mirchi" />
+                  </StyledMenuItem>
+                  <StyledMenuItem>
+                    <ListItemText primary="Khatai" />
+                  </StyledMenuItem>
+                  <StyledMenuItem>
+                    <ListItemText primary="Jeera" />
+                  </StyledMenuItem>
+                </StyledMenu>
+              </div>
+              <Button color="inherit" className={classes.button}><Link to="/contactUs" style={{color:'inherit'}}>Contact Us</Link></Button>
+              {
+                !accountButton ? <Button color="inherit" className={classes.button} onClick={()=>onActionClickHandler(AUTH)}>Login</Button> : (
+                  <div>
+                    <Button
+                      variant="text"
+                      onClick={handleAccountClick}
+                    >
+                      <FeatherIcon.User size={24} color="#FFFFFF"/>
+                    </Button>
+                    <StyledMenu
+                      anchorEl={anchorAccount}
+                      keepMounted
+                      open={Boolean(anchorAccount)}
+                      onClose={handleAccountClose}
+                      style={{zIndex:'999999999'}}
+                    >
+                      <Link to="/profile" style={{color:'inherit'}}>
+                        <StyledMenuItem>
+                            <ListItemIcon>
+                              <FeatherIcon.User size={20} color="#000000"/>
+                            </ListItemIcon>
+                            <ListItemText primary="Profile" />
+                        </StyledMenuItem>
+                      </Link>
+                      <Link to="/wishlist" style={{color:'inherit'}}>
+                        <StyledMenuItem>
+                            <ListItemIcon>
+                              <FeatherIcon.Heart size={20} color="#000000"/>
+                            </ListItemIcon>
+                            <ListItemText primary="Wishlist" />
+                        </StyledMenuItem>
+                      </Link>
+                      <Link to="/cart" style={{color:'inherit'}}>
+                        <StyledMenuItem>
+                            <ListItemIcon>
+                              <FeatherIcon.Truck size={20} color="#000000"/>
+                            </ListItemIcon>
+                            <ListItemText primary="Your Cart" />
+                        </StyledMenuItem>
+                      </Link>
+                      <StyledMenuItem>
+                        <ListItemIcon>
+                          <FeatherIcon.Truck size={20} color="#000000"/>
+                        </ListItemIcon>
+                        <ListItemText primary="Your orders" />
+                      </StyledMenuItem>
+                      <StyledMenuItem>
+                        <ListItemIcon>
+                          <FeatherIcon.LogOut size={20} color="#000000"/>
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                      </StyledMenuItem>
+                    </StyledMenu>
+                  </div>
+                )}
+              {/* </div> */}
           </Toolbar>
         </AppBar>
       </HeaderContainer>

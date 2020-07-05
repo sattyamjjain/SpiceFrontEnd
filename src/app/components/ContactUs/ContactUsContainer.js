@@ -17,7 +17,7 @@ const HeadContainer = styled.div`
 
 const SubMainContainer = styled.div`
     width:100%;
-    padding-top:30px;
+    padding-top:40px;
     display:flex;
     justify-content:space-between;
 `;
@@ -196,7 +196,7 @@ class ContactUsContainer extends React.Component {
                                         />
                                     </div>
                                     <div style={{paddingTop:'20px'}}>
-                                        <Button variant="contained" type="submit" disabled={isSubmitting} style={{backgroundColor:'red'}}>
+                                        <Button variant="contained" type="submit" disabled={isSubmitting} style={{backgroundColor:'#EE6622',textTransform:'capitalize'}}>
                                             Submit
                                         </Button>
                                     </div>

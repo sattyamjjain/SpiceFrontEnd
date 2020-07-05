@@ -5,32 +5,32 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ProductImageMagnify from "./ProductImageMagnify";
 
 class ProductImageGallery extends Component {
-  myRenderItem() {
-    return <ProductImageMagnify {...this.props} />;
-  }
+  // myRenderItem() {
+  //   return <ProductImageMagnify {...this.props} />;
+  // }
 
   render() {
     const properties = {
-      thumbnailPosition: "right",
+      thumbnailPosition: "bottom",
       useBrowserFullscreen: false,
       showPlayButton: false,
       // disableArrowKeys:true,
       showIndex:true,
       showNav:false,
       showFullscreenButton:false,
-      renderItem: this.myRenderItem.bind(this),
+      // renderItem: this.myRenderItem.bind(this),
       items: [
         {
-          original: "https://placeimg.com/640/480/any/1",
-          thumbnail: "https://placeimg.com/250/150/any/1"
+          original: require('../images/haldi.jpg'),
+          thumbnail: require('../images/haldi.jpg')
         },
         {
-          original: "https://placeimg.com/640/480/any/2",
-          thumbnail: "https://placeimg.com/250/150/any/2"
+          original: require('../images/haldi.jpg'),
+          thumbnail: require('../images/haldi.jpg')
         },
         {
-          original: "https://placeimg.com/640/480/any/3",
-          thumbnail: "https://placeimg.com/250/150/any/3"
+          original: require('../images/haldi.jpg'),
+          thumbnail: require('../images/haldi.jpg')
         }
       ]
     };

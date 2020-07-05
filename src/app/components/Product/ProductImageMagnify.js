@@ -17,10 +17,10 @@ class ProductImageMagnify extends Component {
             isFluidWidth: true,
             // width: 400,
             // height: 400,
-            src: "https://placeimg.com/640/480/any"
+            src: require('../images/haldi.jpg')
           },
           largeImage: {
-            src: "https://placeimg.com/640/480/any",
+            src: require('../images/haldi.jpg'),
             width: 640,
             height: 480
           },

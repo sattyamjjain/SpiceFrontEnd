@@ -76,13 +76,13 @@ export default class WishListContainer extends React.Component {
                                             <Button>
                                                 <FeatherIcon.Trash2
                                                     color="#000000"
-                                                    size={28}
+                                                    size={24}
                                                 />
                                             </Button>
                                             <Button>
                                                 <FeatherIcon.Truck
                                                     color="#000000"
-                                                    size={28}
+                                                    size={24}
                                                 />
                                             </Button>
                                         </LinkContainer>

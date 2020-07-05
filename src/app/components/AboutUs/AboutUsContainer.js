@@ -1,16 +1,11 @@
 import React from "react";
-import {AppBar,Toolbar,TextField,Typography,Button,Breadcrumbs,NavigateNextIcon,Link, TableContainer} from '@material-ui/core';
-import { Formik } from 'formik';
+import {Table,TableBody,Paper,TableContainer,TableHead,Typography,TableCell,Breadcrumbs,TableRow,Link,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
+
 import styled from 'styled-components';
-import ImageContainer from './ImageContainer';
-import DescriptionContainer from './DescriptionContainer';
-import PriceContainer from './PriceContainer';
-import TabContainer from './TabContainer';
 
 const MainContainer = styled.div`
-    padding-left:40px;
-    padding-right:40px;
+    padding:40px;
     padding-top:30px;
 `;
 
@@ -25,7 +20,7 @@ const SubMainContainer = styled.div`
     justify-content:space-between;
 `;
 
-class ProductContainer extends React.Component {
+export default class AboutUsContainer extends React.Component {
     render() {
         return (
             <MainContainer>
@@ -45,21 +40,16 @@ class ProductContainer extends React.Component {
                         <Link color="inherit" href="/" onClick={this.handleClick}>
                             Home
                         </Link>
-                        <Typography color="textPrimary">Product</Typography>
+                        <Typography color="textPrimary">About Us</Typography>
                     </Breadcrumbs>
                     <Typography variant="h5">
-                        Haldi
+                        About Us
                     </Typography>
                 </HeadContainer>
                 <SubMainContainer>
-                    <ImageContainer style={{width:'40%'}}/>
-                    <DescriptionContainer style={{width:'30%'}}/>
-                    <PriceContainer style={{width:'30%'}}/>
+                    About Us Content
                 </SubMainContainer>
-                <TabContainer />
             </MainContainer>
         );
     }
 }
-
-export default ProductContainer;

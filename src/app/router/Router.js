@@ -3,11 +3,12 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { createBrowserHistory as createHistory } from "history";
 import HomePage  from "../pages/HomePage";
 import ContactUs from "../pages/ContactUs";
-// import AboutUs from "../pages/AboutUs";
+import AboutUs from "../pages/AboutUs";
 import Product from "../pages/Product";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import Admin from '../pages/Admin';
+import Profile from '../pages/Profile';
 import Dashboard from '../pages/Dashboard';
 const history = createHistory();
 
@@ -18,6 +19,9 @@ export default class Router extends React.Component {
         <Switch>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/profile">
+            <Profile />
           </Route>
           <Route path="/admin">
             <Admin />
@@ -32,9 +36,9 @@ export default class Router extends React.Component {
           {/*           <Route path="/product/:productId">   */}
             <Product />
           </Route>
-          {/* <Route path="/aboutUs">
+          <Route path="/aboutUs">
             <AboutUs />
-          </Route> */}                                                      
+          </Route>                                                
           <Route path="/contactUs">
             <ContactUs />
           </Route>

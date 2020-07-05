@@ -8,6 +8,7 @@ const MainComponent = styled.div`
 
 const WrappedContainer = styled.div`
   position:relative;
+  padding-top:12vh;
   overflow:auto;
   min-height:100%;
 `;

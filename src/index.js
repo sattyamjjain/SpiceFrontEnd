@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { RootStore } from './app/Store/RootStore';
+import { Provider } from 'mobx-react';
+import AuthStore from './app/Store/AuthStore'
+
+const store = {
+  AuthStore
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider {...store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
+  ,
   document.getElementById('root')
 );
 

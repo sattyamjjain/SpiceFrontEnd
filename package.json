@@ -8,9 +8,12 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.20.0",
     "bootstrap": "^4.5.0",
     "formik": "^2.1.4",
     "google-map-react": "^1.1.7",
+    "mobx": "^5.15.6",
+    "mobx-react": "^6.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
@@ -20,7 +23,7 @@
     "react-multi-carousel": "^2.5.5",
     "react-parallax": "^3.0.3",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
     "react-slideshow-image": "^1.5.3",
     "react-ticker": "^1.2.2",
     "semantic-ui-react": "^0.88.2",
@@ -31,6 +34,34 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "env": {
+      "production": {}
+    },
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "transform-inline-environment-variables",
+        {
+          "include": [
+            "NODE_ENV",
+            "API"
+          ]
+        }
+      ],
+      [
+        "@babel/plugin-proposal-optional-catch-binding"
+      ]
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,5 +77,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.10.5"
   }
 }

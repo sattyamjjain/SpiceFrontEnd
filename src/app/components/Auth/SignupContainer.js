@@ -1,4 +1,6 @@
 import React from "react";
+import { inject, observer } from 'mobx-react';
+import { AuthStore } from '../../Store/AuthStore';
 import {Button,TextField,Typography} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 import { Formik } from 'formik';
@@ -13,7 +15,24 @@ const MainContainer = styled.div`
 const FormContainer = styled.div`
 `;
 
-export default class SignupContainer extends React.Component {
+@inject('AuthStore')
+@observer
+class SignupContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
+    componentDidMount(){
+        console.log('signupPage')
+    }
+
+    handleSignup(formValues){
+        console.log('formvalues',formValues)
+    }
 
     goToPage(val){
         this.props.displayedComponent(val);
@@ -28,12 +47,7 @@ export default class SignupContainer extends React.Component {
                 <FormContainer>
                     <Formik
                         initialValues={{ username:'',email:'',password:'',confirmPassword:''}}
-                        onSubmit={(values, { setSubmitting }) => {
-                            setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                            setSubmitting(false);
-                            }, 400);
-                        }}
+                        onSubmit={this.handleSignup}
                         >
                         {({
                             values,
@@ -47,7 +61,6 @@ export default class SignupContainer extends React.Component {
                             <form onSubmit={handleSubmit}>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Username"
                                         type="username"
@@ -59,7 +72,6 @@ export default class SignupContainer extends React.Component {
                                 </div>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Email"
                                         type="email"
@@ -71,7 +83,6 @@ export default class SignupContainer extends React.Component {
                                 </div>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Password"
                                         type="password"
@@ -83,10 +94,9 @@ export default class SignupContainer extends React.Component {
                                 </div>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Confirm Password"
-                                        type="confirmPassword"
+                                        type="password"
                                         name="confirmPassword"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -116,3 +126,5 @@ export default class SignupContainer extends React.Component {
         );
     }
 }
+
+export default SignupContainer;

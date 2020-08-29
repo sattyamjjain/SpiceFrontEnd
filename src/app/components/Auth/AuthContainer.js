@@ -1,10 +1,10 @@
 import React from "react";
-import {Button,Toolbar,Typography} from '@material-ui/core';
+import {Button,Typography} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 
 import styled from 'styled-components';
-import LoginContainer from './LoginContainer';
-import SignupContainer from './SignupContainer';
+import {LoginContainer} from './LoginContainer';
+import {SignupContainer} from './SignupContainer';
 import ForgetPasswordContainer from './ForgetPasswordContainer';
 
 const MainContainer = styled.div`
@@ -71,9 +71,9 @@ export default class AuthContainer extends React.Component {
             </SocialLinkContainer>
             <SubAuthContainer>
                 {
-                    displayComponent==='login' ? <LoginContainer displayedComponent={this.selectedComponent.bind(this)}/> : (
+                    displayComponent==='login' ? <LoginContainer displayedComponent={this.selectedComponent.bind(this)} handleClose={this.props.handleClose} loginEnable={this.props.loginEnable}/> : (
                         displayComponent==='signup' ? <SignupContainer displayedComponent={this.selectedComponent.bind(this)}/>: (
-                            displayComponent==='forgotPassword' ? <ForgetPasswordContainer displayedComponent={this.selectedComponent.bind(this)}/> : null
+                            displayComponent==='forgotPassword' ? <ForgetPasswordContainer displayedComponent={this.selectedComponent.bind(this)} /> : null
                             )
                     )
                 }

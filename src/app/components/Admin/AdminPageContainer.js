@@ -2,7 +2,9 @@ import React from "react";
 import {FormControlLabel,Checkbox,TextField,Typography,Paper,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 import { Formik } from 'formik';
+import { userActions } from '../../_actions';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
   padding-top:30vh;
@@ -16,6 +18,17 @@ const FormContainer = styled.div`
 
 class AdminPageContainer extends React.Component {
 
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
+    handleAdminLogin(formValues){
+        this.props.login(formValues)
+    }
+
   render() {
     return (
         <MainContainer>
@@ -26,12 +39,7 @@ class AdminPageContainer extends React.Component {
               <FormContainer>
                 <Formik
                     initialValues={{ username:'',password:''}}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                        }, 400);
-                    }}
+                    onSubmit={this.handleAdminLogin}
                     >
                     {({
                         values,
@@ -45,7 +53,6 @@ class AdminPageContainer extends React.Component {
                         <form onSubmit={handleSubmit}>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Username"
                                     type="username"
@@ -58,7 +65,6 @@ class AdminPageContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Password"
                                     type="password"
@@ -81,7 +87,7 @@ class AdminPageContainer extends React.Component {
                                     }
                                     label="Remember me"
                                 />
-                                <Button variant="text" size="small">Forget Password</Button>
+                                <Button variant="text" size="small">Forget Username & Password</Button>
                             </div>
                             <div style={{paddingTop:'20px'}}>
                                 <Button variant="contained" fullWidth={true} type="submit" disabled={isSubmitting} color="primary">
@@ -98,4 +104,14 @@ class AdminPageContainer extends React.Component {
   }
 }
 
-export default AdminPageContainer;
+function mapState(state) {
+    const { loggingIn } = state.authentication;
+    return { loggingIn };
+}
+
+const actionCreators = {
+    login: userActions.login,
+};
+
+const connectedLoginPage = connect(mapState, actionCreators)(AdminPageContainer);
+export { connectedLoginPage as AdminPageContainer };

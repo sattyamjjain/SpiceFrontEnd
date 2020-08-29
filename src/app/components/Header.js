@@ -1,7 +1,9 @@
 /* eslint-disable no-sequences */
 import React from "react";
+import { productActions } from '../_actions';
 import styled from 'styled-components';
-import {AppBar,Modal,Toolbar,ListItemIcon,ListItemText,Button,Popper,Grow,Paper,ClickAwayListener,MenuList,MenuItem,Menu} from '@material-ui/core'
+import { connect } from 'react-redux';
+import {AppBar,Modal,Toolbar,ListItemIcon,ListItemText,Button,MenuItem,Menu} from '@material-ui/core'
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import {
   Link
@@ -83,13 +85,21 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function Header () {
+function Header (props) {
   const classes = useStyles();
+  const user = localStorage.getItem('user')
   const [modalStyle] = React.useState(getModalStyle);
   const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
   const [accountButton, setAccountButton] = React.useState(false);
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorAccount, setAnchorAccount] = React.useState(null);
+
+  React.useEffect(() => {
+    props.getAll()
+    if(localStorage.getItem('user')){
+      setAccountButton(true)
+    }
+  },[]);
 
   const handleProductClick = (event) => {
     setAnchorProduct(event.currentTarget);
@@ -107,25 +117,34 @@ export default function Header () {
     setAnchorAccount(null);
   };
 
+  const handleUserLogout = () =>{
+    localStorage.removeItem('user')
+    localStorage.setItem('isAuthenticated',false)
+    window.location.reload()
+  }
+
   const authBody = (
-    <div style={modalStyle} className={classes.paper}>
-      <AuthContainer/>
+    <div style={modalStyle} className={classes.paper} >
+      <AuthContainer handleClose={handleActionPopupClose} loginEnable={loginEnable}/>
     </div>
   );
+
+  function loginEnable(val){
+    setAccountButton(val)
+  }
 
   function onActionClickHandler(action) {
     switch (action) {
       case AUTH:
-        handleLoginAction();
+        handleAuthAction();
         break;
       default:
         break;
     }
   }
 
-  function handleLoginAction() {
+  function handleAuthAction() {
     setVisibleActionPopup(AUTH);
-    setAccountButton(true);
   }
 
   function handleActionPopupClose() {
@@ -146,10 +165,6 @@ export default function Header () {
       <HeaderContainer>
         <AppBar position="static">
           <Toolbar style={{backgroundColor:'#EE6622',justifyContent:'flex-end'}}>
-            {/* <div style={{width:'20%'}}>
-              <img src={require("./images/webLogo.png")}  alt="logo" style={{height:'100px',width:'100px'}}/>
-            </div>
-            <div style={{justifyContent:'flex-end',width:'50%'}}> */}
               <Button color="inherit" className={classes.button}><Link to="/" style={{color:'inherit'}}>Home</Link></Button>
               <Button color="inherit" className={classes.button}><Link to="/aboutUs" style={{color:'inherit'}}>About Us</Link></Button>
               <div>
@@ -161,28 +176,26 @@ export default function Header () {
                 >
                   Products
                 </Button>
-                <StyledMenu
-                  anchorEl={anchorProduct}
-                  keepMounted
-                  open={Boolean(anchorProduct)}
-                  onClose={handleProductClose}
-                  style={{zIndex:'999999999'}}
-                >
-                  <Link to="/product" style={{color:'inherit'}}>
-                    <StyledMenuItem>
-                      <ListItemText primary="Haldi" />
-                    </StyledMenuItem>
-                  </Link>
-                  <StyledMenuItem>
-                    <ListItemText primary="Mirchi" />
-                  </StyledMenuItem>
-                  <StyledMenuItem>
-                    <ListItemText primary="Khatai" />
-                  </StyledMenuItem>
-                  <StyledMenuItem>
-                    <ListItemText primary="Jeera" />
-                  </StyledMenuItem>
-                </StyledMenu>
+                {
+                  props.products && props.products.length !== 0 && (
+                  <StyledMenu
+                    anchorEl={anchorProduct}
+                    keepMounted
+                    open={Boolean(anchorProduct)}
+                    onClose={handleProductClose}
+                    style={{zIndex:'999999999'}}
+                  >
+                    {
+                      props.products.map(((product,index)=>(
+                        <Link to={`/product/${product.id}`} style={{color:'inherit'}} key={index}>
+                          <StyledMenuItem>
+                            <ListItemText primary={product.product.title} />
+                          </StyledMenuItem>
+                        </Link>
+                      )))
+                    }
+                  </StyledMenu>
+                )}
               </div>
               <Button color="inherit" className={classes.button}><Link to="/contactUs" style={{color:'inherit'}}>Contact Us</Link></Button>
               {
@@ -201,7 +214,7 @@ export default function Header () {
                       onClose={handleAccountClose}
                       style={{zIndex:'999999999'}}
                     >
-                      <Link to="/profile" style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/profile`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
@@ -209,7 +222,7 @@ export default function Header () {
                             <ListItemText primary="Profile" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to="/wishlist" style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/wishlist`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Heart size={20} color="#000000"/>
@@ -217,7 +230,7 @@ export default function Header () {
                             <ListItemText primary="Wishlist" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to="/cart" style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/cart`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Truck size={20} color="#000000"/>
@@ -231,7 +244,7 @@ export default function Header () {
                         </ListItemIcon>
                         <ListItemText primary="Your orders" />
                       </StyledMenuItem>
-                      <StyledMenuItem>
+                      <StyledMenuItem onClick={handleUserLogout}>
                         <ListItemIcon>
                           <FeatherIcon.LogOut size={20} color="#000000"/>
                         </ListItemIcon>
@@ -253,3 +266,15 @@ export default function Header () {
     </HeaderMainContainer>
   );
 };
+
+function mapState(state) {
+  const { products } = state.product;
+  return { products };
+}
+
+const actionCreators = {
+  getAll:productActions.getAll
+};
+
+const connectedHeader = connect(mapState, actionCreators)(Header);
+export { connectedHeader as Header };

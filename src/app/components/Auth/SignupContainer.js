@@ -1,11 +1,9 @@
 import React from "react";
-import { inject, observer } from 'mobx-react';
-import { AuthStore } from '../../Store/AuthStore';
 import {Button,TextField,Typography} from '@material-ui/core';
-import * as FeatherIcon from 'react-feather';
 import { Formik } from 'formik';
-
+import { userActions } from '../../_actions';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:100%;
@@ -15,15 +13,14 @@ const MainContainer = styled.div`
 const FormContainer = styled.div`
 `;
 
-@inject('AuthStore')
-@observer
 class SignupContainer extends React.Component {
 
     constructor(props){
         super(props)
         this.state={
-
+            registerResult:null
         }
+        this.handleSignup = this.handleSignup.bind(this)
     }
 
     componentDidMount(){
@@ -32,6 +29,13 @@ class SignupContainer extends React.Component {
 
     handleSignup(formValues){
         console.log('formvalues',formValues)
+        console.log('---',this.props.register(formValues))
+        this.handleLoginPage();
+        this.goToPage('login')
+    }
+
+    handleLoginPage(){
+        console.log('---',this.props.result)
     }
 
     goToPage(val){
@@ -39,6 +43,7 @@ class SignupContainer extends React.Component {
     }
 
     render() {
+        const { registering,result } = this.props;
         return (
             <MainContainer>
                 <Typography variant="h5" style={{textAlign:'center'}}>
@@ -127,4 +132,15 @@ class SignupContainer extends React.Component {
     }
 }
 
-export default SignupContainer;
+function mapState(state) {
+    const { registering } = state.registration;
+    const { result } = state.registration;
+    return { registering,result };
+}
+
+const actionCreators = {
+    register: userActions.register
+}
+
+const connectedRegisterPage = connect(mapState, actionCreators)(SignupContainer);
+export { connectedRegisterPage as SignupContainer };

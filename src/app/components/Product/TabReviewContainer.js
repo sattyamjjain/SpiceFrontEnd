@@ -1,10 +1,10 @@
 import React from "react";
-import {Paper,Divider,Button,TextField,Typography,Link} from '@material-ui/core';
+import {Paper,Divider,Button,TextField,Typography} from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Formik } from 'formik';
-import * as FeatherIcon from 'react-feather';
-
+import { productReviewActions } from '../../_actions';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     padding-top:20px;
@@ -14,7 +14,7 @@ const MainContainer = styled.div`
 `;
 
 const DividerContainer = styled.div`
-    padding-top:20px;
+    padding-top:30px;
     padding-bottom:20px;
 `;
 
@@ -25,28 +25,35 @@ const PaddingContainer = styled.div`
 const FormContainer = styled.div`
 `;
 
+const ReviewContainer = styled.div`
+    padding:2vh
+`;
+
 
 function ReviewForm(props) {
     const [value, setValue] = React.useState(1);
+
+    const handleReviewSubmit = (formValues) =>{
+        formValues.rating=value
+        console.log('reviews',formValues)
+        props.reviewSubmit(formValues)
+        props.displayReviewForm(false)
+    }
+
     return (
         <FormContainer>
         <Formik
-            initialValues={{ name:'',email:'',rating:'',reviewTitle:'',reviewMessage:''}}
+            initialValues={{ usersName:'',usersEmail:'',rating:'',title:'',message:''}}
             validate={values => {
                 const errors = {};
-                if (!values.email) {
-                    errors.email = 'Required';
-                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-                    errors.email = 'Invalid email address';
+                if (!values.usersEmail) {
+                    errors.usersEmail = 'Required';
+                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.usersEmail)) {
+                    errors.usersEmail = 'Invalid email address';
                 }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-                }, 400);
-            }}
+            onSubmit={handleReviewSubmit}
             >
             {({
                 values,
@@ -63,13 +70,12 @@ function ReviewForm(props) {
                             Name
                         </Typography>
                         <TextField 
-                            id="standard-basic" 
                             fullWidth
                             type="name"
-                            name="name"
+                            name="usersName"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.name}
+                            value={values.usersName}
                         />
                     </div>
                     <div style={{paddingTop:'10px'}}>
@@ -77,14 +83,13 @@ function ReviewForm(props) {
                             Email
                         </Typography>
                         <TextField 
-                            id="standard-basic" 
                             fullWidth
                             type="email"
-                            name="email"
+                            name="usersEmail"
                             required={true}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.email}
+                            value={values.usersEmail}
                         />
                     </div>
                     <div style={{paddingTop:'10px',display:'flex',justifyContent:'flex-start'}}>
@@ -107,13 +112,12 @@ function ReviewForm(props) {
                             Review Title
                         </Typography>
                         <TextField 
-                            id="standard-basic" 
                             fullWidth
-                            type="reviewTitle"
-                            name="reviewTitle"
+                            type="title"
+                            name="title"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.reviewTitle}
+                            value={values.title}
                         />
                     </div>
                     <div style={{paddingTop:'10px'}}>
@@ -121,16 +125,15 @@ function ReviewForm(props) {
                             Review Message
                         </Typography>
                         <TextField
-                            id="filled-multiline-static"
                             multiline
                             fullWidth
                             rows={3}
                             rowsMax={6}
-                            type="reviewMessage"
-                            name="reviewMessage"
+                            type="message"
+                            name="message"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.reviewMessage}
+                            value={values.message}
                             />
                     </div>
                     <div style={{paddingTop:'20px'}}>
@@ -145,22 +148,33 @@ function ReviewForm(props) {
     );
   }
 
-export default class TabReviewContainer extends React.Component {
+class TabReviewContainer extends React.Component {
 
     constructor(props){
         super(props);
         this.state={
-            displayReviewForm:0
+            displayReviewForm:false
         }
+        this.reviewSubmit=this.reviewSubmit.bind(this)
     }
 
-    openReviewForm(){
+    componentDidMount(){
+        this.props.getAllReview()
+    }
+
+    openReviewForm(val){
         this.setState({
-            displayReviewForm:1
+            displayReviewForm:val
         })
+    }
+
+    reviewSubmit(review){
+        this.props.postReview(review)
     }
     
     render() {
+        console.log('reviews',this.props.reviews)
+        const { reviews } = this.props;
         return (
             <MainContainer>
                 <Paper variant="outlined" style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'20px'}}>
@@ -168,16 +182,47 @@ export default class TabReviewContainer extends React.Component {
                         Customer Reviews
                     </Typography>
                     <PaddingContainer/>
-                    <Typography variant="paragraph" >
-                        No reviews yet
-                    </Typography>
-                    <Button color="secondary" onClick={this.openReviewForm.bind(this)} style={{float:'right'}}>Write a Review</Button>
+                    {
+                        reviews && reviews.length !==0 ? reviews.map((review,index)=>(
+                            <ReviewContainer key={index}>
+                                <div style={{display:'flex',justifyContent:'flex-start'}}>
+                                    <Typography variant="paragraph">
+                                        {review.title}
+                                    </Typography>
+                                    <Typography variant="paragraph">
+                                        {review.rating}
+                                    </Typography>
+                                </div>
+                                <Typography variant="caption">
+                                    {review.message}
+                                </Typography>
+                            </ReviewContainer>
+                        )):
+                        <Typography variant="paragraph" >
+                            No reviews yet
+                        </Typography>
+                    }
+                    <Button color="secondary" onClick={this.openReviewForm.bind(this,true)} style={{float:'right'}}>Write a Review</Button>
                     <DividerContainer>
                         <Divider />
                     </DividerContainer>
-                    {this.state.displayReviewForm ? (<ReviewForm/>):null}
+                    {this.state.displayReviewForm ? (<ReviewForm reviewSubmit={this.reviewSubmit} displayReviewForm={this.openReviewForm}/>):null}
                 </Paper>
             </MainContainer>
         );
     }
 }
+
+function mapState(state) {
+    const { reviews } = state.productReview;
+    return { reviews };
+  }
+  
+  const actionCreators = {
+    getAllReview:productReviewActions.getAllReview,
+    postReview:productReviewActions.postReview
+  };
+  
+  const connectedTabReviewContainer = connect(mapState, actionCreators)(TabReviewContainer);
+  export { connectedTabReviewContainer as TabReviewContainer };
+  

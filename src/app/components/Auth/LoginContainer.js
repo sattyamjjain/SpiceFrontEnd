@@ -2,8 +2,9 @@ import React from "react";
 import {Button,TextField,Typography,FormControlLabel,Checkbox} from '@material-ui/core';
 import { Formik } from 'formik';
 import * as FeatherIcon from 'react-feather';
-
+import { userActions } from '../../_actions';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:100%;
@@ -17,10 +18,25 @@ const PaddingContainer = styled.div`
     padding:5px;
 `;
 
-export default class LoginContainer extends React.Component {
+class LoginContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+        this.handleLogin = this.handleLogin.bind(this)
+    }
  
     goToPage(val){
         this.props.displayedComponent(val);
+    }
+
+    handleLogin(formValues){
+        console.log('formvalues',formValues)
+        this.props.login(formValues)
+        this.props.loginEnable(true)
+        this.props.handleClose()
     }
 
     render() {
@@ -36,12 +52,7 @@ export default class LoginContainer extends React.Component {
                 <FormContainer>
                     <Formik
                         initialValues={{ username:'',password:''}}
-                        onSubmit={(values, { setSubmitting }) => {
-                            setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                            setSubmitting(false);
-                            }, 400);
-                        }}
+                        onSubmit={this.handleLogin}
                         >
                         {({
                             values,
@@ -104,3 +115,15 @@ export default class LoginContainer extends React.Component {
         );
     }
 }
+
+function mapState(state) {
+    const { loggingIn } = state.authentication;
+    return { loggingIn };
+}
+
+const actionCreators = {
+    login: userActions.login,
+};
+
+const connectedLoginPage = connect(mapState, actionCreators)(LoginContainer);
+export { connectedLoginPage as LoginContainer };

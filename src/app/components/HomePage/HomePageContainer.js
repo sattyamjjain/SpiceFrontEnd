@@ -62,8 +62,9 @@ const responsive = {
   };
 
 class HomePageContainer extends React.Component {
-
+    
   render() {
+    console.log('user',localStorage.getItem('user'))
     return (
         <MainContainer>
             <SlideShowImage/>

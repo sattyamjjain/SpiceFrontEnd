@@ -1,6 +1,5 @@
 import React from "react";
-import {Divider,Toolbar,TextField,Typography,Button,Breadcrumbs,NavigateNextIcon,Link} from '@material-ui/core';
-import { Formik } from 'formik';
+import {Divider,Typography,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 
 import styled from 'styled-components';
@@ -44,12 +43,21 @@ const ItemField = styled.div`
 
 
 export default class DescriptionContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
     render() {
+        const { product } = this.props
         return (
             <MainContainer>
                 <HeadContainer>
                     <Typography variant="h6">
-                        Haldi
+                        {product === undefined ? '' : product.product.title}
                     </Typography>
                     <FeatherIcon.Heart 
                     color="#000000"
@@ -58,20 +66,12 @@ export default class DescriptionContainer extends React.Component {
                 </HeadContainer>
                 <DescripContainer>
                     <Typography variant="subtitle1" style={{paddingTop:'20px'}}>
-                        Add an extra dose of style with this raw look henley t-shirt from the house of Tinted. Team this T-shirt with distressed jeans and leather sandals for a relaxed and... 
+                        {product === undefined ? '' : product.product.description}
                     </Typography>
                     <DividerContainer>
                         <Divider />
                     </DividerContainer>
                     <BrandContainer>
-                        <ItemField>
-                            <Typography variant="subtitle1" style={{fontFamily:'bold'}}>
-                                Brand
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                XYZExample
-                            </Typography>
-                        </ItemField>
                         <ItemField>
                             <Typography variant="subtitle1">
                                 Availability

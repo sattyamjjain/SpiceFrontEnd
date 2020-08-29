@@ -10,6 +10,8 @@ import Cart from "../pages/Cart";
 import Admin from '../pages/Admin';
 import Profile from '../pages/Profile';
 import Dashboard from '../pages/Dashboard';
+import {PrivateRoute} from '../pages/PrivateRoute'
+import {PrivateAdminRoute} from '../pages/PrivateAdminRoute'
 const history = createHistory();
 
 export default class Router extends React.Component {
@@ -17,23 +19,22 @@ export default class Router extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/dashboard">
+          <PrivateAdminRoute path="/dashboard">
             <Dashboard />
-          </Route>
-          <Route path="/profile">
+          </PrivateAdminRoute>
+          <PrivateRoute path="/:username/profile">
             <Profile />
-          </Route>
+          </PrivateRoute>
           <Route path="/admin">
             <Admin />
           </Route>
-          <Route path="/cart">
+          <PrivateRoute path="/:username/cart">
             <Cart />
-          </Route>
-          <Route path="/wishlist">
+          </PrivateRoute>
+          <PrivateRoute path="/:username/wishlist">
             <Wishlist />
-          </Route>
-          <Route path="/product">  
-          {/*           <Route path="/product/:productId">   */}
+          </PrivateRoute>
+          <Route path="/product/:productId">  
             <Product />
           </Route>
           <Route path="/aboutUs">

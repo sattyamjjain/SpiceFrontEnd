@@ -2,14 +2,26 @@ import React, { Component } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-import ProductImageMagnify from "./ProductImageMagnify";
-
 class ProductImageGallery extends Component {
-  // myRenderItem() {
-  //   return <ProductImageMagnify {...this.props} />;
-  // }
+  constructor(props){
+    super(props)
+    this.state={
+
+    }
+  }
 
   render() {
+    const { product } = this.props;
+    const imgArray = []
+    if(product!==null){
+      product.productImages.map(prodImg=>{
+        imgArray.push({
+          original: prodImg.image,
+          thumbnail: prodImg.image
+        })
+      })
+    }
+    
     const properties = {
       thumbnailPosition: "bottom",
       useBrowserFullscreen: false,
@@ -19,20 +31,7 @@ class ProductImageGallery extends Component {
       showNav:false,
       showFullscreenButton:false,
       // renderItem: this.myRenderItem.bind(this),
-      items: [
-        {
-          original: require('../images/haldi.jpg'),
-          thumbnail: require('../images/haldi.jpg')
-        },
-        {
-          original: require('../images/haldi.jpg'),
-          thumbnail: require('../images/haldi.jpg')
-        },
-        {
-          original: require('../images/haldi.jpg'),
-          thumbnail: require('../images/haldi.jpg')
-        }
-      ]
+      items:imgArray
     };
 
     return <ImageGallery {...properties} />;

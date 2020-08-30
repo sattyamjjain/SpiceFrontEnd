@@ -1,8 +1,6 @@
 /* eslint-disable no-sequences */
 import React from "react";
-import { productActions } from '../_actions';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 import {AppBar,Modal,Toolbar,ListItemIcon,ListItemText,Button,MenuItem,Menu} from '@material-ui/core'
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import {
@@ -95,7 +93,7 @@ function Header (props) {
   const [anchorAccount, setAnchorAccount] = React.useState(null);
 
   React.useEffect(() => {
-    props.getAll()
+    //props.getAll()
     if(localStorage.getItem('user')){
       setAccountButton(true)
     }
@@ -176,7 +174,35 @@ function Header (props) {
                 >
                   Products
                 </Button>
-                {
+                <StyledMenu
+                    anchorEl={anchorProduct}
+                    keepMounted
+                    open={Boolean(anchorProduct)}
+                    onClose={handleProductClose}
+                    style={{zIndex:'999999999'}}
+                  >
+                    <Link to={`/product/1`} style={{color:'inherit'}} >
+                      <StyledMenuItem>
+                        <ListItemText primary='Haldi' />
+                      </StyledMenuItem>
+                    </Link>
+                    <Link to={`/product/2`} style={{color:'inherit'}} >
+                      <StyledMenuItem>
+                        <ListItemText primary='Mirchi' />
+                      </StyledMenuItem>
+                    </Link>
+                    <Link to={`/product/3`} style={{color:'inherit'}} >
+                      <StyledMenuItem>
+                        <ListItemText primary='Dhaniya' />
+                      </StyledMenuItem>
+                    </Link>
+                    <Link to={`/product/4`} style={{color:'inherit'}} >
+                      <StyledMenuItem>
+                        <ListItemText primary='Khatai' />
+                      </StyledMenuItem>
+                    </Link>
+                  </StyledMenu>
+                {/* {
                   props.products && props.products.length !== 0 && (
                   <StyledMenu
                     anchorEl={anchorProduct}
@@ -195,7 +221,7 @@ function Header (props) {
                       )))
                     }
                   </StyledMenu>
-                )}
+                )} */}
               </div>
               <Button color="inherit" className={classes.button}><Link to="/contactUs" style={{color:'inherit'}}>Contact Us</Link></Button>
               {
@@ -214,7 +240,7 @@ function Header (props) {
                       onClose={handleAccountClose}
                       style={{zIndex:'999999999'}}
                     >
-                      <Link to={`/${user.username}/profile`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null?'':user.username}/profile`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
@@ -222,7 +248,7 @@ function Header (props) {
                             <ListItemText primary="Profile" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user.username}/wishlist`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null?'':user.username}/wishlist`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Heart size={20} color="#000000"/>
@@ -230,7 +256,7 @@ function Header (props) {
                             <ListItemText primary="Wishlist" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user.username}/cart`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null?'':user.username}/cart`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Truck size={20} color="#000000"/>
@@ -267,14 +293,17 @@ function Header (props) {
   );
 };
 
-function mapState(state) {
-  const { products } = state.product;
-  return { products };
-}
+export {Header};
 
-const actionCreators = {
-  getAll:productActions.getAll
-};
+// function mapState(state) {
+//   const { products } = state.product;
+//   console.log('header product',products)
+//   return { products };
+// }
 
-const connectedHeader = connect(mapState, actionCreators)(Header);
-export { connectedHeader as Header };
+// const actionCreators = {
+//   getAll:productActions.getAll
+// };
+
+// const connectedHeader = connect(mapState, actionCreators)(Header);
+// export { connectedHeader as Header };

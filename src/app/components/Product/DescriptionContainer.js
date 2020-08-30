@@ -1,7 +1,7 @@
 import React from "react";
 import {Divider,Typography,Button} from '@material-ui/core';
-import * as FeatherIcon from 'react-feather';
-
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -47,26 +47,44 @@ export default class DescriptionContainer extends React.Component {
     constructor(props){
         super(props)
         this.state={
-
+            availability:null,
+            isLiked:true
         }
+        this.handleLike = this.handleLike.bind(this);
+    }
+
+    componentDidMount(){
+        this.setState({
+            availability:localStorage.getItem('availability')
+        })
+    }
+
+    handleLike(){
+        this.setState({
+            isLiked:!this.state.isLiked
+        })
     }
 
     render() {
+
         const { product } = this.props
         return (
             <MainContainer>
                 <HeadContainer>
                     <Typography variant="h6">
-                        {product === undefined ? '' : product.product.title}
+                        {product === null ? '' : product.product.title}
                     </Typography>
-                    <FeatherIcon.Heart 
-                    color="#000000"
-                    size={28}
-                    />
+                    <Button onClick={this.handleLike}>
+                        {
+                            this.state.isLiked?
+                            <FavoriteBorderIcon fontSize='default'/>:
+                            <FavoriteIcon fontSize='default' color='primary'/>
+                        }
+                    </Button>
                 </HeadContainer>
                 <DescripContainer>
                     <Typography variant="subtitle1" style={{paddingTop:'20px'}}>
-                        {product === undefined ? '' : product.product.description}
+                        {product === null ? '' : product.product.description}
                     </Typography>
                     <DividerContainer>
                         <Divider />
@@ -77,7 +95,7 @@ export default class DescriptionContainer extends React.Component {
                                 Availability
                             </Typography>
                             <Typography variant="subtitle1">
-                                In Stock
+                                {this.state.availability}
                             </Typography>
                         </ItemField>
                     </BrandContainer>

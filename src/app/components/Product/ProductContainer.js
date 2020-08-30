@@ -36,7 +36,7 @@ class ProductContainer extends React.Component {
     }
 
     componentDidMount(){
-        this.props.getProdById('c0eaac15-054c-44fa-ab50-e7886e88a23b')
+        this.props.getProdById('1aea731a-ea7a-4515-ab7d-4749948584da')
     }
 
     // componentDidMount(){
@@ -47,7 +47,6 @@ class ProductContainer extends React.Component {
     
     render() {
         const { product } = this.props;
-        console.log('product',JSON.stringify(product))
         return (
             <MainContainer>
                 <HeadContainer>
@@ -68,17 +67,17 @@ class ProductContainer extends React.Component {
                         </Link>
                         <Typography color="textPrimary">Product</Typography>
                         <Typography color="textPrimary">
-                            {product === undefined ? '' : product.product.title}
+                            {product === null ? '' : product.product.title}
                         </Typography>
                     </Breadcrumbs>
                     <Typography variant="h5">
-                        {product === undefined ? '' : product.product.title}
+                        {product === null ? '' : product.product.title}
                     </Typography>
                 </HeadContainer>
                 <SubMainContainer>
-                    <ImageContainer style={{width:'40%'}}/>
-                    <DescriptionContainer style={{width:'30%'}} product={product}/>
-                    <PriceContainer style={{width:'30%'}}/>
+                    <ImageContainer style={{width:'40%'}} product={product}/>
+                    <DescriptionContainer style={{width:'30%'}} product={product} />
+                    <PriceContainer style={{width:'30%'}} product={product}/>
                 </SubMainContainer>
                 <TabContainer />
             </MainContainer>
@@ -88,7 +87,7 @@ class ProductContainer extends React.Component {
 
 function mapState(state) {
     const { product } = state.product;
-    console.log('mapstate product',product)
+    console.log('product conatiner product',product)
     return { product };
 }
 

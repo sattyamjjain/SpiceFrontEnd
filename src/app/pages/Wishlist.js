@@ -1,17 +1,43 @@
 import * as React from "react";
-import ProductContainer from '../components/Product/ProductContainer'
-
 import withLayout from "../HOC/withLayout";
-import WishListContainer from './../components/wishlist/WishlistContainer';
+import {WishListContainer} from './../components/wishlist/WishlistContainer';
+import { wishlistActions} from '../_actions';
+import { connect } from 'react-redux';
 
 class Wishlist extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+
+    }
+  }
+
+  componentDidMount(){
+    this.props.getAll(4)
+  }
+
   render(){
+    const { wishlists } = this.props;
+    console.log(' wishlists page',wishlists)
     return (
       <div>
-        <WishListContainer/>
+        <WishListContainer wishlists={wishlists}/>
       </div>
     );
   }
 };
 
-export default withLayout(Wishlist);
+function mapState(state) {
+  const { wishlists } = state.wishlist;
+  console.log('conatiner wishlists',wishlists)
+  return { wishlists };
+}
+
+const actionCreators = {
+  getAll: wishlistActions.getAll,
+};
+
+const connectedWishList = connect(mapState, actionCreators)(Wishlist);
+// export { connectedWishList as Wishlist };
+
+export default withLayout(connectedWishList);

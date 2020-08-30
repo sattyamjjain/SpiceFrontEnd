@@ -1,22 +1,16 @@
-export const productService = {
-    getAll,
-    getProdById
+import { authHeader } from '../_helpers';
+
+export const profileService = {
+    getUser
 };
 
-function getAll() {
+function getUser(userId) {
     const requestOptions = {
         method: 'GET',
+        headers:authHeader()
     };
 
-    return fetch(`http://localhost:8080/api/product`, requestOptions).then(handleResponse);
-}
-
-function getProdById(productId) {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch(`http://localhost:8080/api/product/${productId}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:8080/api/users/${userId}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

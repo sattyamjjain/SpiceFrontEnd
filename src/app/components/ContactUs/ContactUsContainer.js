@@ -207,7 +207,7 @@ class ContactUsContainer extends React.Component {
                     <MapContactContainer>
                         <MapContainer>
                             <GoogleMapReact
-                            // bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
+                            bootstrapURLKeys={{ key: 'AIzaSyDg75kTvcQyGvZsv_FbOJHRb8kPinl7-a0' }}
                             defaultCenter={this.props.center}
                             defaultZoom={this.props.zoom}
                             >

@@ -1,22 +1,17 @@
-export const productService = {
-    getAll,
-    getProdById
+import { authHeader } from '../_helpers';
+import axios from 'axios'
+
+export const wishlistService = {
+    getAll
 };
 
-function getAll() {
+function getAll(userId) {
     const requestOptions = {
         method: 'GET',
+        headers:authHeader()
     };
 
-    return fetch(`http://localhost:8080/api/product`, requestOptions).then(handleResponse);
-}
-
-function getProdById(productId) {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch(`http://localhost:8080/api/product/${productId}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:8080/api/users/${userId}/wishlist`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

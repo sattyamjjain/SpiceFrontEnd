@@ -1,6 +1,3 @@
-import { authHeader } from '../_helpers';
-import axios from 'axios'
-
 export const productReviewService = {
     getAllReview,
     postReview

@@ -1,7 +1,4 @@
 import React from "react";
-import {Grid,Toolbar,TextField,Typography,Button,Breadcrumbs,NavigateNextIcon,Link} from '@material-ui/core';
-import { Formik } from 'formik';
-import * as FeatherIcon from 'react-feather';
 import "react-image-gallery/styles/css/image-gallery.css";
 import styled from 'styled-components';
 import ProductImageGallery from './ProductImageGallery';
@@ -13,19 +10,18 @@ const MainContainer = styled.div`
 `;
 
 export default class ImageContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
     render() {
         return (
             <MainContainer>
-                {/* <Grid container>
-                    <Grid item > */}
-                        <ProductImageGallery />
-                    {/* </Grid>
-                </Grid>
-                <Grid container item direction="column">
-                    <Grid item>
-                        <div id="myPortal" />
-                    </Grid>
-                </Grid> */}
+                <ProductImageGallery product={this.props.product}/>
             </MainContainer>
         );
     }

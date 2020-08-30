@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import { productReviewActions } from '../../_actions';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import ReactStars from "react-rating-stars-component";
 
 const MainContainer = styled.div`
     padding-top:20px;
@@ -175,6 +176,7 @@ class TabReviewContainer extends React.Component {
     render() {
         console.log('reviews',this.props.reviews)
         const { reviews } = this.props;
+
         return (
             <MainContainer>
                 <Paper variant="outlined" style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'20px'}}>
@@ -186,11 +188,9 @@ class TabReviewContainer extends React.Component {
                         reviews && reviews.length !==0 ? reviews.map((review,index)=>(
                             <ReviewContainer key={index}>
                                 <div style={{display:'flex',justifyContent:'flex-start'}}>
-                                    <Typography variant="paragraph">
+                                    <ReactStars size={20} value={review.rating} edit={false} />
+                                    <Typography variant="paragraph" style={{paddingLeft:'10px'}}>
                                         {review.title}
-                                    </Typography>
-                                    <Typography variant="paragraph">
-                                        {review.rating}
                                     </Typography>
                                 </div>
                                 <Typography variant="caption">

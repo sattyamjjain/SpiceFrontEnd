@@ -9,10 +9,6 @@ const MainContainer = styled.div`
     padding:15px;
 `;
 
-const PaddingContainer = styled.div`
-    padding:5px;
-`;
-
 const FormContainer = styled.div`
 `;
 

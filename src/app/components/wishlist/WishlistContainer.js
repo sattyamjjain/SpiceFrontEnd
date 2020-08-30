@@ -1,7 +1,6 @@
 import React from "react";
 import {Table,TableBody,Paper,TableContainer,TableHead,Typography,TableCell,Breadcrumbs,TableRow,Link,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
-
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -25,7 +24,23 @@ const LinkContainer = styled.div`
     justify-content:center;
 `;
 
-export default class WishListContainer extends React.Component {
+class WishListContainer extends React.Component {
+    constructor(props){
+        super(props)
+        this.state={
+            wishlists:[]
+        }
+    }
+
+    // static contextTypes = {
+    //     redux: React.PropTypes.object
+    //   }
+    
+    //   componentDidMount () {
+    //     this.context.redux.getState()
+    //     console.log('redux',this.context.redux.getState())
+    //   }
+
     render() {
         return (
             <MainContainer>
@@ -96,3 +111,5 @@ export default class WishListContainer extends React.Component {
         );
     }
 }
+
+export {WishListContainer}

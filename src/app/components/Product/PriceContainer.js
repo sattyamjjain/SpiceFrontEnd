@@ -1,5 +1,5 @@
 import React from "react";
-import {Paper,Fab,Divider,Typography,Button,ButtonGroup,NavigateNextIcon,Link} from '@material-ui/core';
+import {Paper,Fab,Divider,Typography,Button,ButtonGroup} from '@material-ui/core';
 import { Formik } from 'formik';
 import * as FeatherIcon from 'react-feather';
 
@@ -16,7 +16,6 @@ const MainContainer = styled.div`
     justify-content:center;
     align-items:center;
     text-align:center;
-    z-index:-1;
 `;
 
 const SizeContainer = styled.div`
@@ -51,7 +50,9 @@ export default class PriceContainer extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            counter:1
+            counter:1,
+            price:null,
+            mrpPrice:null
         }
     }
 
@@ -60,37 +61,48 @@ export default class PriceContainer extends React.Component {
     };
   
     handleDecrement = () => {
-      this.setState(state => ({ counter: state.counter - 1 }));
+        if(this.state.counter>1){
+            this.setState(state => ({ counter: state.counter - 1 }));
+        }
     };
+
+    handleProductSize = (id) =>{
+        this.props.product.productDescriptions.map((prodDesc)=>{
+            if(prodDesc.id === id){
+                this.setState({
+                    price:prodDesc.price,
+                    mrpPrice:prodDesc.mrp
+                })
+                localStorage.setItem('availability',prodDesc.availability)
+            }
+        })
+    }
+
     render() {
         const displayCounter = this.state.counter > 0;
+        const { product } = this.props;
         return (
             <MainContainer>
                 <Paper variant="elevation" elevation={15} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'30px'}}>
                     <Typography variant="h4">
-                        400 Rs.
+                        {this.state.price} Rs.
                     </Typography>
                     <Typography variant="subtitle2">
-                        MRP: &nbsp; 460.50 Rs.
+                        MRP: &nbsp; {this.state.mrpPrice} Rs.
                     </Typography>
                     <PaddingContainer/>
                     <Typography variant="h6">
                         Select Size
                     </Typography>
-                    <SizeContainer>
-                        <Fab variant="round" size="small" style={{fontSize:'10px'}}>
-                            500gm
-                        </Fab>
-                        <Fab variant="round" size="small" style={{fontSize:'10px'}}>
-                            1Kg
-                        </Fab>
-                        <Fab variant="round" size="small" style={{fontSize:'10px'}}>
-                            2Kg
-                        </Fab>
-                        <Fab variant="round" size="small" style={{fontSize:'10px'}}>
-                            5Kg
-                        </Fab>
-                    </SizeContainer>
+                    {product === null ? '' : product.productDescriptions && product.productDescriptions.length!==0 && (
+                        <SizeContainer>
+                            {product.productDescriptions.map((prodDesc,index)=>(
+                                <Fab variant="round" size="small" style={{fontSize:'10px',textTransform:'capitalize'}} key={index} onClick={this.handleProductSize.bind(this,prodDesc.id)}>
+                                    {prodDesc.size}
+                                </Fab>
+                            ))}
+                        </SizeContainer>
+                    )}
                     <DividerContainer>
                         <Divider />
                     </DividerContainer>

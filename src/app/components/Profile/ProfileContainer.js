@@ -64,11 +64,12 @@ function getModalStyle() {
     },
   }));
 
-export default function  ProfileContainer () {
+export default function  ProfileContainer (props) {
 
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
+    const { user } = props;
 
     function onActionClickHandler(action) {
         switch (action) {
@@ -102,6 +103,8 @@ export default function  ProfileContainer () {
         setVisibleActionPopup(null)
       }
 
+      console.log('user',user)
+
       const addressBody = (
         <div style={modalStyle} className={classes.paper}>
           <AddressFormContainer/>
@@ -113,7 +116,7 @@ export default function  ProfileContainer () {
                 <div style={{display:'flex',justifyContent:'center'}}>
                     <Avatar alt="Remy Sharp" src={require('../images/profilePic.jpg')} className={classes.large} />
                 </div>
-                <Typography variant="h6">Raman Agarwal</Typography>
+                <Typography variant="h6">Raman</Typography>
                 <Typography variant="subtitle1">ramankumar@gmail.com</Typography>
                 <PaddingContainer/>
                 <div style={{display:'flex',justifyContent:'space-between'}}>

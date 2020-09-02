@@ -43,7 +43,6 @@ export default class AddressFormContainer extends React.Component {
                         <form onSubmit={handleSubmit}>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Name"
                                     type="name"
@@ -56,7 +55,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Contact No."
                                     type="contactNo"
@@ -69,7 +67,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Pin Code"
                                     type="pincode"
@@ -82,7 +79,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Address"
                                     type="address"
@@ -95,7 +91,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Locality/Town"
                                     type="locality"

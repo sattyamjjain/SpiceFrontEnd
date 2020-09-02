@@ -9,25 +9,26 @@ import ReactStars from "react-rating-stars-component";
 
 const MainContainer = styled.div`
     padding-top:20px;
-    border-radius:2px;
-    border-color:#000000;
     width:100%;
+    display:flex;
+    justify-content:space-between
 `;
 
 const DividerContainer = styled.div`
-    padding-top:30px;
-    padding-bottom:20px;
+    padding-top:10px;
+    padding-bottom:10px
 `;
 
-const PaddingContainer = styled.div`
-    padding:5px;
+const DividerVerticalContainer = styled.div`
+    padding-left:10vh;
+    padding-right:5vh
 `;
 
 const FormContainer = styled.div`
+    width:50%
 `;
 
 const ReviewContainer = styled.div`
-    padding:2vh
 `;
 
 
@@ -43,7 +44,10 @@ function ReviewForm(props) {
 
     return (
         <FormContainer>
-        <Formik
+            <Typography variant="h6" >
+                Write a Review
+            </Typography>
+            <Formik
             initialValues={{ usersName:'',usersEmail:'',rating:'',title:'',message:''}}
             validate={values => {
                 const errors = {};
@@ -65,7 +69,7 @@ function ReviewForm(props) {
                 handleSubmit,
                 isSubmitting,
             }) => (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} style={{paddingLeft:'3vh',paddingTop:'3vh'}}>
                     <div style={{paddingTop:'10px'}}>
                         <Typography variant="subtitle1">
                             Name
@@ -144,8 +148,8 @@ function ReviewForm(props) {
                     </div>
                 </form>
             )}
-        </Formik>
-    </FormContainer>
+            </Formik>
+        </FormContainer>
     );
   }
 
@@ -179,35 +183,32 @@ class TabReviewContainer extends React.Component {
 
         return (
             <MainContainer>
-                <Paper variant="outlined" style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'20px'}}>
-                    <Typography variant="h6" >
-                        Customer Reviews
-                    </Typography>
-                    <PaddingContainer/>
+                <div style={{width:'50%'}}>
                     {
                         reviews && reviews.length !==0 ? reviews.map((review,index)=>(
                             <ReviewContainer key={index}>
-                                <div style={{display:'flex',justifyContent:'flex-start'}}>
-                                    <ReactStars size={20} value={review.rating} edit={false} />
-                                    <Typography variant="paragraph" style={{paddingLeft:'10px'}}>
-                                        {review.title}
-                                    </Typography>
-                                </div>
+                                <ReactStars size={20} value={review.rating} edit={false} />
+                                <Typography variant="paragraph">
+                                    {review.title}
+                                </Typography>
+                                <br/>
                                 <Typography variant="caption">
                                     {review.message}
                                 </Typography>
+                                <DividerContainer>
+                                    <Divider/>
+                                </DividerContainer>
                             </ReviewContainer>
                         )):
                         <Typography variant="paragraph" >
                             No reviews yet
                         </Typography>
                     }
-                    <Button color="secondary" onClick={this.openReviewForm.bind(this,true)} style={{float:'right'}}>Write a Review</Button>
-                    <DividerContainer>
-                        <Divider />
-                    </DividerContainer>
-                    {this.state.displayReviewForm ? (<ReviewForm reviewSubmit={this.reviewSubmit} displayReviewForm={this.openReviewForm}/>):null}
-                </Paper>
+                </div>
+                <DividerVerticalContainer>
+                    <Divider orientation='vertical'/>
+                </DividerVerticalContainer>
+                <ReviewForm reviewSubmit={this.reviewSubmit} displayReviewForm={this.openReviewForm}/>
             </MainContainer>
         );
     }

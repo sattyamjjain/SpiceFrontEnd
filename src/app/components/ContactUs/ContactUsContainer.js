@@ -17,17 +17,17 @@ const HeadContainer = styled.div`
 
 const SubMainContainer = styled.div`
     width:100%;
-    padding-top:40px;
+    padding:40px;
     display:flex;
     justify-content:space-between;
 `;
 
 const FormContainer = styled.div`
-    width:45%;
+    width:40%;
 `;
 
 const MapContactContainer = styled.div`
-    width:55%;
+    width:50%;
     padding-left:40px;
 `;
 
@@ -84,7 +84,7 @@ class ContactUsContainer extends React.Component {
                         </Link>
                         <Typography color="textPrimary">Contact Us</Typography>
                     </Breadcrumbs>
-                    <Typography variant="h5">
+                    <Typography variant="h5" style={{padding:'30px'}}>
                         Contact Us
                     </Typography>
                 </HeadContainer>

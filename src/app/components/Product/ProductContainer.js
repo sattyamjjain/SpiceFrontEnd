@@ -22,9 +22,9 @@ const HeadContainer = styled.div`
 
 const SubMainContainer = styled.div`
     width:100%;
-    padding-top:30px;
-    display:flex;
-    justify-content:space-between;
+    padding:30px;
+    // display:flex;
+    // justify-content:space-between;
 `;
 
 class ProductContainer extends React.Component {
@@ -70,16 +70,18 @@ class ProductContainer extends React.Component {
                             {product === null ? '' : product.product.title}
                         </Typography>
                     </Breadcrumbs>
+                </HeadContainer>
+                <SubMainContainer>
                     <Typography variant="h5">
                         {product === null ? '' : product.product.title}
                     </Typography>
-                </HeadContainer>
-                <SubMainContainer>
-                    <ImageContainer style={{width:'40%'}} product={product}/>
-                    <DescriptionContainer style={{width:'30%'}} product={product} />
-                    <PriceContainer style={{width:'30%'}} product={product}/>
+                    <div style={{display:'flex',justifyContent:'space-between'}}>
+                        <ImageContainer style={{width:'40%'}} product={product}/>
+                        <DescriptionContainer style={{width:'30%'}} product={product} />
+                        <PriceContainer style={{width:'30%'}} product={product}/>
+                    </div>
+                    <TabContainer/>
                 </SubMainContainer>
-                <TabContainer />
             </MainContainer>
         );
     }

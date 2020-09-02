@@ -83,7 +83,7 @@ export default class PriceContainer extends React.Component {
         const { product } = this.props;
         return (
             <MainContainer>
-                <Paper variant="elevation" elevation={15} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'30px'}}>
+                <Paper variant="elevation" elevation={15} style={{borderStyle:'solid',borderColor:'#F6F2F1',borderRadius:'2px',borderWidth:'1px',padding:'30px'}}>
                     <Typography variant="h4">
                         {this.state.price} Rs.
                     </Typography>
@@ -120,8 +120,8 @@ export default class PriceContainer extends React.Component {
                         <Divider />
                     </DividerContainer>
                     <ButtonContainer>
-                        <Button variant="contained">Add to Cart</Button>
-                        <Button variant="contained">Buy it Now</Button>
+                        <Button variant="contained" style={{textTransform:'capitalize'}}>Add to Cart</Button>
+                        <Button variant="contained" style={{textTransform:'capitalize'}}>Buy it Now</Button>
                     </ButtonContainer>
                 </Paper>
             </MainContainer>

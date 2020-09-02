@@ -169,7 +169,7 @@ function Header (props) {
                 <Button
                   variant="text"
                   color="inherit"
-                  onClick={handleProductClick}
+                  onMouseOver={handleProductClick}
                   className={classes.button}
                 >
                   Products
@@ -229,7 +229,7 @@ function Header (props) {
                   <div>
                     <Button
                       variant="text"
-                      onClick={handleAccountClick}
+                      onMouseOver={handleAccountClick}
                     >
                       <FeatherIcon.User size={24} color="#FFFFFF"/>
                     </Button>
@@ -241,7 +241,7 @@ function Header (props) {
                       style={{zIndex:'999999999'}}
                     >
                       <Link to={`/${user === null?'':user.username}/profile`} style={{color:'inherit'}}>
-                        <StyledMenuItem>
+                        <StyledMenuItem >
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
                             </ListItemIcon>
@@ -264,12 +264,14 @@ function Header (props) {
                             <ListItemText primary="Your Cart" />
                         </StyledMenuItem>
                       </Link>
-                      <StyledMenuItem>
-                        <ListItemIcon>
-                          <FeatherIcon.Truck size={20} color="#000000"/>
-                        </ListItemIcon>
-                        <ListItemText primary="Your orders" />
-                      </StyledMenuItem>
+                      <Link to={`/${user === null?'':user.username}/orders`} style={{color:'inherit'}}>
+                        <StyledMenuItem>
+                          <ListItemIcon>
+                            <FeatherIcon.Truck size={20} color="#000000"/>
+                          </ListItemIcon>
+                          <ListItemText primary="Your orders" />
+                        </StyledMenuItem>
+                      </Link>
                       <StyledMenuItem onClick={handleUserLogout}>
                         <ListItemIcon>
                           <FeatherIcon.LogOut size={20} color="#000000"/>

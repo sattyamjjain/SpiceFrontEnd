@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { createBrowserHistory as createHistory } from "history";
 import HomePage  from "../pages/HomePage";
 import ContactUs from "../pages/ContactUs";
 import AboutUs from "../pages/AboutUs";
@@ -9,10 +8,10 @@ import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import Admin from '../pages/Admin';
 import Profile from '../pages/Profile';
+import Orders from '../pages/Orders';
 import Dashboard from '../pages/Dashboard';
 import {PrivateRoute} from '../pages/PrivateRoute'
 import {PrivateAdminRoute} from '../pages/PrivateAdminRoute'
-const history = createHistory();
 
 export default class Router extends React.Component {
   render() {
@@ -24,6 +23,9 @@ export default class Router extends React.Component {
           </PrivateAdminRoute>
           <PrivateRoute path="/:username/profile">
             <Profile />
+          </PrivateRoute>
+          <PrivateRoute path="/:username/orders">
+            <Orders />
           </PrivateRoute>
           <Route path="/admin">
             <Admin />

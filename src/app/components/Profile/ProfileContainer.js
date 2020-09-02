@@ -1,13 +1,15 @@
 import React from "react";
-import {Divider,makeStyles,Paper,Modal,Avatar,Typography,TableCell,Breadcrumbs,TableRow,Link,Button} from '@material-ui/core';
+import {makeStyles,Paper,Modal,Avatar,Typography,Fab,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 import "react-multi-carousel/lib/styles.css";
 import styled from 'styled-components';
 import AddressFormContainer from './AddressFormContainer';
+import EditProfileContainer from './EditProfileContainer';
 
 const ADD_ADDRESS = 'add';
 const EDIT_ADDRESS = 'edit';
 const DELETE_ADDRESS = 'delete';
+const EDIT_PROFILE = 'edit_profile';
 
 const MainContainer = styled.div`
     display:flex;
@@ -26,25 +28,14 @@ const RightSideContainer = styled.div`
     padding:5vh;
 `;
 
-const ProfileDataContainer = styled.div`
-    width:25%;
-    padding:5vh;
-`;
-
 const PaddingContainer = styled.div`
     padding:5px;
 `;
 
-const DividerContainer = styled.div`
-    padding-top:5px;
-    padding-bottom:5px;
-`;
-
 function getModalStyle() {
     return {
-      top: '55%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
+        top: `25%`,
+        margin:'auto'
     };
   }
   
@@ -79,6 +70,9 @@ export default function  ProfileContainer (props) {
         case EDIT_ADDRESS:
             handleEditAddressAction();
             break;
+        case EDIT_PROFILE:
+            handleEditProfileAction();
+            break;
         case DELETE_ADDRESS:
             handleDeleteAddressAction();
             break;
@@ -93,6 +87,10 @@ export default function  ProfileContainer (props) {
 
       function handleEditAddressAction() {
         setVisibleActionPopup(EDIT_ADDRESS)
+      }
+
+      function handleEditProfileAction() {
+        setVisibleActionPopup(EDIT_PROFILE)
       }
 
       function handleDeleteAddressAction() {
@@ -110,71 +108,64 @@ export default function  ProfileContainer (props) {
           <AddressFormContainer/>
         </div>
       );
+
+      const editProfileBody = (
+        <div style={modalStyle} className={classes.paper}>
+          <EditProfileContainer/>
+        </div>
+      );
     return (
         <MainContainer>
+            <Fab variant="round" size="small" style={{fontSize:'10px',textTransform:'capitalize',float:'right'}} onClick={()=>onActionClickHandler(EDIT_PROFILE)}>
+                <FeatherIcon.Edit/>
+            </Fab>
             <ProfilePicContainer>
                 <div style={{display:'flex',justifyContent:'center'}}>
                     <Avatar alt="Remy Sharp" src={require('../images/profilePic.jpg')} className={classes.large} />
                 </div>
                 <Typography variant="h6">Raman</Typography>
                 <Typography variant="subtitle1">ramankumar@gmail.com</Typography>
-                <PaddingContainer/>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
-                    <Button variant="contained" color="secondary" className={classes.button}>Change Profile Pic</Button>
-                    <PaddingContainer/>
-                    <Button variant="contained" color="secondary" className={classes.button}>Edit Profile</Button>
+                    <Typography variant="subtitle2">
+                        Mobile No.  : 
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        +91 9876543210
+                    </Typography>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <Typography variant="subtitle2">
+                        Gender  :
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        Male
+                    </Typography>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <Typography variant="subtitle2">
+                        Date of Birth  :
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        20/08/1997
+                    </Typography>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <Typography variant="subtitle2">
+                        Location  :
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        Jhansi
+                    </Typography>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <Typography variant="subtitle2">
+                        Alternate Mobile  :
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        9876543210
+                    </Typography>
                 </div>
             </ProfilePicContainer>
-            <ProfileDataContainer>
-                <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'1vh',width:'100%'}}>
-                    <div style={{padding:'30px'}}>
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
-                            <Typography variant="subtitle2">
-                                Mobile No.  : 
-                            </Typography>
-                            <Typography variant="subtitle2" >
-                                +91 9876543210
-                            </Typography>
-                        </div>
-                        <PaddingContainer/>
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
-                            <Typography variant="subtitle2">
-                                Gender  :
-                            </Typography>
-                            <Typography variant="subtitle2" >
-                                Male
-                            </Typography>
-                        </div>
-                        <PaddingContainer/>
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
-                            <Typography variant="subtitle2">
-                                Date of Birth  :
-                            </Typography>
-                            <Typography variant="subtitle2" >
-                                - not added -
-                            </Typography>
-                        </div>
-                        <PaddingContainer/>
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
-                            <Typography variant="subtitle2">
-                                Location  :
-                            </Typography>
-                            <Typography variant="subtitle2" >
-                                - not added -
-                            </Typography>
-                        </div>
-                        <PaddingContainer/>
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
-                            <Typography variant="subtitle2">
-                                Alternate Mobile  :
-                            </Typography>
-                            <Typography variant="subtitle2" >
-                                - not added -
-                            </Typography>
-                        </div>
-                    </div>
-                </Paper>
-            </ProfileDataContainer>
             <RightSideContainer>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
                     <Typography variant="h6">
@@ -183,37 +174,43 @@ export default function  ProfileContainer (props) {
                     <Button variant="outlined" onClick={()=>onActionClickHandler(ADD_ADDRESS)} className={classes.button}>Add delivery address</Button>
                 </div>
                 <PaddingContainer/>
-                <Button style={{width:'100%'}}>
-                    <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'10px',width:'100%'}}>
-                        <Typography variant="subtitle2">
-                            Sattyam Jain
-                        </Typography>
-                        <Typography variant="caption">
-                            79, Sadar Bazar - Jhansi Rd, Jhansi Cantt.
-                        </Typography>
-                        <PaddingContainer/>
-                        <Typography  variant="caption">
-                            Jhansi, Uttar Pradesh - 284001
-                        </Typography>
-                        <PaddingContainer/>
-                        <div style={{display:'flex',justifyContent:'space-between'}}>
-                            <Button variant="outlined" className={classes.button}>Remove</Button>
-                            <Button variant="outlined" onClick={()=>onActionClickHandler(EDIT_ADDRESS)} className={classes.button}>Edit</Button>
-                        </div>
-                    </Paper>
-                </Button>
+                <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#F6F2F1',borderRadius:'2px',borderWidth:'1px',padding:'10px',width:'100%',textAlign:'center'}}>
+                    <Typography variant="subtitle2">
+                        Sattyam Jain
+                    </Typography>
+                    <Typography variant="caption">
+                        79, Sadar Bazar - Jhansi Rd, Jhansi Cantt.
+                    </Typography>
+                    <br/>
+                    <Typography  variant="caption">
+                        Jhansi, Uttar Pradesh - 284001
+                    </Typography>
+                    <div style={{display:'flex',justifyContent:'space-between'}}>
+                        <Button variant="outlined" className={classes.button}>Remove</Button>
+                        <Button variant="outlined" onClick={()=>onActionClickHandler(EDIT_ADDRESS)} className={classes.button}>Edit</Button>
+                    </div>
+                </Paper>
             </RightSideContainer>
             <Modal
                 open={visibleActionPopup===ADD_ADDRESS}
                 onClose={handleActionPopupClose}
+                style={{display:'flex',alignItems:'center',justifyContent:'center'}}
             >
                 {addressBody}
             </Modal>
             <Modal
                 open={visibleActionPopup===EDIT_ADDRESS}
                 onClose={handleActionPopupClose}
+                style={{display:'flex',alignItems:'center',justifyContent:'center'}}
             >
                 {addressBody}
+            </Modal>
+            <Modal
+                open={visibleActionPopup===EDIT_PROFILE}
+                onClose={handleActionPopupClose}
+                style={{display:'flex',alignItems:'center',justifyContent:'center'}}
+            >
+                {editProfileBody}
             </Modal>
         </MainContainer>
     );

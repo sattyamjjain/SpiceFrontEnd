@@ -9,7 +9,6 @@ const initialState={
 }
 
 export function wishlist(state = initialState, action) {
-    console.log('actions',action)
     switch (action.type) {
         case wishlistConstants.GETALL_REQUEST:
             return Object.assign({}, state, {
@@ -23,6 +22,18 @@ export function wishlist(state = initialState, action) {
             return Object.assign({}, state, {
                 error:action.error
               });
+        case wishlistConstants.POST_WISHLIST_REQUEST:
+            return {
+                loading: true
+            };
+        case wishlistConstants.POST_WISHLIST_SUCCESS:
+            return {
+                success:true
+            };
+        case wishlistConstants.POST_WISHLIST_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

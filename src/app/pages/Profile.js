@@ -1,7 +1,7 @@
 import * as React from "react";
-import ProfileContainer from '../components/Profile/ProfileContainer'
+import {ProfileContainer} from '../components/Profile/ProfileContainer'
 import withLayout from "../HOC/withLayout";
-import { profileActions} from '../_actions';
+import { userActions } from '../_actions';
 import { connect } from 'react-redux';
 
 class Profile extends React.Component{
@@ -27,18 +27,13 @@ class Profile extends React.Component{
 };
 
 function mapState(state) {
-
-  console.log('state profile',state.profile)
-  // const { user } = state.profile;
-  // console.log('conatiner user',user)
-  // return { user };
+  const { user } = state.users;
+  return { user };
 }
 
 const actionCreators = {
-  getUser: profileActions.getUser,
+  getUser: userActions.getUser,
 };
-
-// const mapStateToProps  = { getUser: profileActions.getUser };
 
 const connectedProfile = connect(mapState,actionCreators)(Profile);
 

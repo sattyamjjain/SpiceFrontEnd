@@ -18,10 +18,10 @@ class Wishlist extends React.Component{
 
   render(){
     const { wishlists } = this.props;
-    console.log(' wishlists page',wishlists)
+    console.log('wishlists',wishlists)
     return (
       <div>
-        <WishListContainer wishlists={wishlists}/>
+        <WishListContainer wishlists={wishlists} />
       </div>
     );
   }
@@ -29,7 +29,6 @@ class Wishlist extends React.Component{
 
 function mapState(state) {
   const { wishlists } = state.wishlist;
-  console.log('conatiner wishlists',wishlists)
   return { wishlists };
 }
 
@@ -38,6 +37,5 @@ const actionCreators = {
 };
 
 const connectedWishList = connect(mapState, actionCreators)(Wishlist);
-// export { connectedWishList as Wishlist };
 
 export default withLayout(connectedWishList);

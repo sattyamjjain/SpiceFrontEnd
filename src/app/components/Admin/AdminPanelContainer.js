@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,7 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ProductContainer from './ProductContainer';
-import UserContainer from './UserContainer';
+import {UserContainer} from './UserContainer';
 import DashboardContainer from './DashboardContainer';
 import OrderContainer from './OrderContainer';
 import ReviewContainer from './ReviewContainer';

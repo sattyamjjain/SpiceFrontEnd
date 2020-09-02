@@ -8,42 +8,72 @@ export function users(state = {}, action) {
       };
     case userConstants.GETALL_SUCCESS:
       return {
-        items: action.users
+        users: action.users
       };
     case userConstants.GETALL_FAILURE:
       return { 
         error: action.error
       };
-    case userConstants.DELETE_REQUEST:
-      // add 'deleting:true' property to user being deleted
+    case userConstants.GETUSER_REQUEST:
       return {
-        ...state,
-        items: state.items.map(user =>
-          user.id === action.id
-            ? { ...user, deleting: true }
-            : user
-        )
+        loading: true
       };
-    case userConstants.DELETE_SUCCESS:
-      // remove deleted user from state
+    case userConstants.GETUSER_SUCCESS:
       return {
-        items: state.items.filter(user => user.id !== action.id)
+        user: action.user
       };
-    case userConstants.DELETE_FAILURE:
-      // remove 'deleting:true' property and add 'deleteError:[error]' property to user 
+    case userConstants.GETUSER_FAILURE:
+      return { 
+        error: action.error
+      };
+    case userConstants.EDIT_PROFILE_REQUEST:
       return {
-        ...state,
-        items: state.items.map(user => {
-          if (user.id === action.id) {
-            // make copy of user without 'deleting:true' property
-            const { deleting, ...userCopy } = user;
-            // return copy of user with 'deleteError:[error]' property
-            return { ...userCopy, deleteError: action.error };
-          }
-
-          return user;
-        })
+          loading: true
       };
+    case userConstants.EDIT_PROFILE_SUCCESS:
+        return {
+            success:true
+        };
+    case userConstants.EDIT_PROFILE_FAILURE:
+        return {
+            error: action.error
+        };
+    case userConstants.POST_ADDRESS_REQUEST:
+        return {
+            loading: true
+        };
+    case userConstants.POST_ADDRESS_SUCCESS:
+        return {
+            success:true
+        };
+    case userConstants.POST_ADDRESS_FAILURE:
+        return {
+            error: action.error
+        };
+    case userConstants.EDIT_ADDRESS_REQUEST:
+        return {
+            loading: true
+        };
+    case userConstants.EDIT_ADDRESS_SUCCESS:
+        return {
+            success:true
+        };
+    case userConstants.EDIT_ADDRESS_FAILURE:
+        return {
+            error: action.error
+        };
+    case userConstants.DELETE_ADDRESS_REQUEST:
+        return {
+            loading: true
+        };
+    case userConstants.DELETE_ADDRESS_SUCCESS:
+        return {
+            success:true,
+        };
+    case userConstants.DELETE_ADDRESS_FAILURE:
+        return {
+            error: action.error
+        };
     default:
       return state
   }

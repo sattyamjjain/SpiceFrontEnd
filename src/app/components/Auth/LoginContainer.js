@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Button,TextField,Typography,FormControlLabel,Checkbox} from '@material-ui/core';
 import { Formik } from 'formik';
@@ -66,7 +67,6 @@ class LoginContainer extends React.Component {
                             <form onSubmit={handleSubmit}>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Username or Email"
                                         type="username"
@@ -78,7 +78,6 @@ class LoginContainer extends React.Component {
                                 </div>
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         label="Password"
                                         type="password"

@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {Table,TableCell,TableHead,TableRow,Paper,Button,TableContainer,TableBody,Typography} from '@material-ui/core';
-import * as FeatherIcon from 'react-feather';
+import {Table,TableCell,TableHead,TableRow,Paper,TableContainer,TableBody,Typography} from '@material-ui/core';
 import styled from 'styled-components';
+import { userActions } from '../../_actions';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:100%;
@@ -11,9 +13,22 @@ const HeadContainer = styled.div`
     padding-bottom:5vh;
 `;
 
-export default  class UserContainer extends React.Component {
+class UserContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
+    componentDidMount(){
+        this.props.getAll()
+    }
 
   render() {
+      const { users } = this.props
+      console.log('users',this.props.users)
     return (
         <MainContainer>
             <HeadContainer>
@@ -22,24 +37,42 @@ export default  class UserContainer extends React.Component {
             <TableContainer component={Paper}>
                 <Table  aria-label="simple table">
                     <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Email</TableCell>
-                        <TableCell align="center">Name</TableCell>
-                        <TableCell align="center">Orders</TableCell>
-                        <TableCell align="center">Address</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow >
-                            <TableCell align="center">ratanji@gmail.com</TableCell>
-                            <TableCell align="center">Raman Kumar</TableCell>
-                            <TableCell align="center">4</TableCell>
-                            <TableCell align="center">Example demo locality, XYZ</TableCell>
+                        <TableRow>
+                            <TableCell align="center">Username</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Name</TableCell>
+                            <TableCell align="center">Orders</TableCell>
+                            <TableCell align="center">Mobile</TableCell>
                         </TableRow>
-                    </TableBody>
+                    </TableHead>
+                    {users && users.length !== 0 && (
+                        <TableBody>
+                            {users.map((user,index)=>(
+                                <TableRow key={index}>
+                                    <TableCell align="center">{user===null?'':user.user.username}</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.email}</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.firstName }</TableCell>
+                                    <TableCell align="center">4</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.mobile}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    )}
                 </Table>
             </TableContainer>
         </MainContainer>
     );
   }
 }
+
+function mapState(state) {
+    const { users } = state.users;
+    return { users };
+}
+
+const actionCreators = {
+    getAll: userActions.getAll,
+};
+
+const connectedLoginPage = connect(mapState, actionCreators)(UserContainer);
+export { connectedLoginPage as UserContainer };

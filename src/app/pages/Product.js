@@ -1,7 +1,9 @@
 import * as React from "react";
-import {ProductContainer} from '../components/Product/ProductContainer'
-import queryString from 'query-string'
+import ProductContainer from '../components/Product/ProductContainer'
+// import queryString from 'query-string'
 import withLayout from "../HOC/withLayout";
+import { productActions } from '../_actions';
+import { connect } from 'react-redux';
 
 class Product extends React.Component{
   constructor(props){
@@ -11,20 +13,32 @@ class Product extends React.Component{
     }
   }
 
-  // componentDidMount(){
-  //   console.log(this.props.location.search);
-  //   const parsed = queryString.parse(this.props.location.search);
-  //   console.log('parsed',parsed);
-  // }
+  componentDidMount(){
+    let url = this.props.location.pathname;
+    // let params = queryString.parse(url);
+    const productId = url.split('/')[2]
+    this.props.getProdById(productId)
+  }
 
   render(){
-    // console.log(this.props.history);
+    const { product } = this.props
     return (
       <div>
-        <ProductContainer/>
+        <ProductContainer product={product}/>
       </div>
     );
   }
 };
 
-export default withLayout(Product);
+function mapState(state) {
+  const { product } = state.product;
+  return { product };
+}
+
+const actionCreators = {
+  getProdById: productActions.getProdById,
+};
+
+const connectedProduct = connect(mapState, actionCreators)(Product);
+
+export default withLayout(connectedProduct);

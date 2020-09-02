@@ -1,12 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Typography,Breadcrumbs,Link} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
-import { productActions } from '../../_actions';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 import ImageContainer from './ImageContainer';
-import queryString from 'query-string'
-import DescriptionContainer from './DescriptionContainer';
+import {DescriptionContainer} from './DescriptionContainer';
 import PriceContainer from './PriceContainer';
 import TabContainer from './TabContainer';
 
@@ -27,23 +25,13 @@ const SubMainContainer = styled.div`
     // justify-content:space-between;
 `;
 
-class ProductContainer extends React.Component {
+export default class ProductContainer extends React.Component {
     constructor(props){
         super(props)
         this.state={
 
         }
     }
-
-    componentDidMount(){
-        this.props.getProdById('1aea731a-ea7a-4515-ab7d-4749948584da')
-    }
-
-    // componentDidMount(){
-    //     console.log(this.props.location.search);
-    //     const parsed = queryString.parse(this.props.location.search);
-    //     console.log('parsed',parsed);
-    //   }
     
     render() {
         const { product } = this.props;
@@ -87,15 +75,3 @@ class ProductContainer extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { product } = state.product;
-    console.log('product conatiner product',product)
-    return { product };
-}
-
-const actionCreators = {
-    getProdById: productActions.getProdById,
-};
-
-const connectedProductContainer = connect(mapState, actionCreators)(ProductContainer);
-export { connectedProductContainer as ProductContainer };

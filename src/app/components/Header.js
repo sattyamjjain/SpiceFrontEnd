@@ -1,4 +1,4 @@
-/* eslint-disable no-sequences */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import styled from 'styled-components';
 import {AppBar,Modal,Toolbar,ListItemIcon,ListItemText,Button,MenuItem,Menu} from '@material-ui/core'
@@ -181,7 +181,7 @@ function Header (props) {
                     onClose={handleProductClose}
                     style={{zIndex:'999999999'}}
                   >
-                    <Link to={`/product/1`} style={{color:'inherit'}} >
+                    <Link to={`/product/1aea731a-ea7a-4515-ab7d-4749948584da`} style={{color:'inherit'}} >
                       <StyledMenuItem>
                         <ListItemText primary='Haldi' />
                       </StyledMenuItem>
@@ -240,7 +240,7 @@ function Header (props) {
                       onClose={handleAccountClose}
                       style={{zIndex:'999999999'}}
                     >
-                      <Link to={`/${user === null?'':user.username}/profile`} style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/profile`} style={{color:'inherit'}}>
                         <StyledMenuItem >
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
@@ -248,7 +248,7 @@ function Header (props) {
                             <ListItemText primary="Profile" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null?'':user.username}/wishlist`} style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/wishlist`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Heart size={20} color="#000000"/>
@@ -256,7 +256,7 @@ function Header (props) {
                             <ListItemText primary="Wishlist" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null?'':user.username}/cart`} style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/cart`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Truck size={20} color="#000000"/>
@@ -264,7 +264,7 @@ function Header (props) {
                             <ListItemText primary="Your Cart" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null?'':user.username}/orders`} style={{color:'inherit'}}>
+                      <Link to={`/${user.username}/orders`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                           <ListItemIcon>
                             <FeatherIcon.Truck size={20} color="#000000"/>

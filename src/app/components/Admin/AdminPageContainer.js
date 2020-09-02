@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {FormControlLabel,Checkbox,TextField,Typography,Paper,Button} from '@material-ui/core';
-import * as FeatherIcon from 'react-feather';
 import { Formik } from 'formik';
 import { userActions } from '../../_actions';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { history } from '../../_helpers';
 
 const MainContainer = styled.div`
   padding-top:30vh;
@@ -23,10 +24,15 @@ class AdminPageContainer extends React.Component {
         this.state={
 
         }
+        this.handleAdminLogin = this.handleAdminLogin.bind(this)
     }
 
     handleAdminLogin(formValues){
+        console.log('formvalues',formValues)
         this.props.login(formValues)
+        localStorage.setItem('adminLogin','admin')
+        history.push('/dashboard')
+        window.location.reload()
     }
 
   render() {
@@ -106,6 +112,7 @@ class AdminPageContainer extends React.Component {
 
 function mapState(state) {
     const { loggingIn } = state.authentication;
+    console.log('')
     return { loggingIn };
 }
 

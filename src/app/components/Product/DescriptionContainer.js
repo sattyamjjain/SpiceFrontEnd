@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Divider,Typography,Button} from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import styled from 'styled-components';
+import { wishlistActions} from '../../_actions';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     padding:30px;
@@ -42,7 +45,7 @@ const ItemField = styled.div`
 `;
 
 
-export default class DescriptionContainer extends React.Component {
+class DescriptionContainer extends React.Component {
 
     constructor(props){
         super(props)
@@ -50,7 +53,6 @@ export default class DescriptionContainer extends React.Component {
             availability:null,
             isLiked:true
         }
-        this.handleLike = this.handleLike.bind(this);
     }
 
     componentDidMount(){
@@ -59,10 +61,20 @@ export default class DescriptionContainer extends React.Component {
         })
     }
 
-    handleLike(){
+    handleLike(product){
+        console.log('product',product)
         this.setState({
             isLiked:!this.state.isLiked
+        },()=>{
+            console.log('isliked',this.state.isLiked)
         })
+        const wishlistProduct ={
+            usersId:4,
+            productId:product.product.id,
+            quantity:10
+        }
+        console.log('wishlist product',wishlistProduct)
+        this.props.postWishlist(wishlistProduct)
     }
 
     render() {
@@ -74,7 +86,7 @@ export default class DescriptionContainer extends React.Component {
                     <Typography variant="h6">
                         {product === null ? '' : product.product.title}
                     </Typography>
-                    <Button onClick={this.handleLike}>
+                    <Button onClick={this.handleLike.bind(this,product)}>
                         {
                             this.state.isLiked?
                             <FavoriteBorderIcon fontSize='default'/>:
@@ -127,3 +139,16 @@ export default class DescriptionContainer extends React.Component {
         );
     }
 }
+
+function mapState(state) {
+    const { wishlists } = state.wishlist;
+    return { wishlists };
+  }
+  
+  const actionCreators = {
+    postWishlist: wishlistActions.postWishlist,
+  };
+  
+  const connectedWishList = connect(mapState, actionCreators)(DescriptionContainer);
+  
+  export {connectedWishList as DescriptionContainer};

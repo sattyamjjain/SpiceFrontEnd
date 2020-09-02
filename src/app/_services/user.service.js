@@ -1,10 +1,14 @@
+import { authHeader } from '../_helpers';
+
 export const userService = {
     login,
     register,
-    // getAll,
-    // getById,
-    // update,
-    // delete: _delete
+    getAll,
+    getUser,
+    postAddress,
+    editAddress,
+    editProfile,
+    deleteAddress
 };
 
 function login(username, password) {
@@ -17,31 +21,77 @@ function login(username, password) {
     return fetch(`http://localhost:8080/api/auth/signin`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            console.log('user',user)
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('isAuthenticated',true)
+            console.log('user',user);
+            if(localStorage.getItem('adminLogin') === 'admin'){
+                console.log('localstorage user',user);
+                localStorage.setItem('admin', JSON.stringify(user));
+                localStorage.setItem('isAuthenticated',true)
+            }else{
+                console.log('localstorage admin',user);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('isAuthenticated',true)
+            }
             return user;
         });
 }
 
-// function getAll() {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
+function getAll() {
+    const requestOptions = {
+        method: 'GET',
+        // headers: authHeader()
+    };
 
-//     return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
-// }
+    return fetch(`http://localhost:8080/api/users`, requestOptions).then(handleResponse);
+}
 
-// function getById(id) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
+function getUser(id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
 
-//     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
-// }
+    return fetch(`http://localhost:8080/api/users/${id}`, requestOptions).then(handleResponse);
+}
+
+function postAddress(address) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(address)
+    };
+
+    return fetch(`http://localhost:8080/api/users/address`, requestOptions).then(handleResponse);
+}
+
+function editAddress(address,addressId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(address)
+    };
+
+    return fetch(`http://localhost:8080/api/users/address/${addressId}`, requestOptions).then(handleResponse);
+}
+
+function deleteAddress(addressId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {...authHeader(), 'Content-Type': 'application/json' }
+    };
+
+    return fetch(`http://localhost:8080/api/users/address/${addressId}`, requestOptions).then(handleResponse);
+}
+
+function editProfile(user,userId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    return fetch(`http://localhost:8080/api/users/${userId}`, requestOptions).then(handleResponse);
+}
+
 
 function register(user) {
     console.log('user service',user)
@@ -53,26 +103,6 @@ function register(user) {
 
     return fetch(`http://localhost:8080/api/auth/signup`, requestOptions).then(handleResponse);
 }
-
-// function update(user) {
-//     const requestOptions = {
-//         method: 'PUT',
-//         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-//         body: JSON.stringify(user)
-//     };
-
-//     return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
-// }
-
-// // prefixed function name with underscore because delete is a reserved word in javascript
-// function _delete(id) {
-//     const requestOptions = {
-//         method: 'DELETE',
-//         headers: authHeader()
-//     };
-
-//     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
-// }
 
 function handleResponse(response) {
     return response.text().then(text => {

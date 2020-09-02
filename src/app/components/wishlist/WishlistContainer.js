@@ -28,18 +28,20 @@ class WishListContainer extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            wishlists:[]
         }
     }
 
-    // static contextTypes = {
-    //     redux: React.PropTypes.object
-    //   }
-    
-    //   componentDidMount () {
-    //     this.context.redux.getState()
-    //     console.log('redux',this.context.redux.getState())
-    //   }
+    componentDidMount () {
+        const { wishlists } = this.props
+        if(wishlists!==null){
+            wishlists.forEach((wishlist)=>{
+                console.log('wishlist---',wishlist)
+                console.log('product id',wishlist.productId)
+            })
+        }else{
+            console.log('else')
+        }
+    }
 
     render() {
         return (

@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {Button,Divider,Typography,Paper} from '@material-ui/core';
+import {Button,Divider,Typography} from '@material-ui/core';
 
 import styled from 'styled-components';
 

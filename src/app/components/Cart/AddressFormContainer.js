@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Button,TextField,Typography} from '@material-ui/core';
 import { Formik } from 'formik';
@@ -43,7 +44,6 @@ export default class AddressFormContainer extends React.Component {
                         <form onSubmit={handleSubmit}>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Name"
                                     type="name"
@@ -56,7 +56,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Contact No."
                                     type="contactNo"
@@ -69,7 +68,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Pin Code"
                                     type="pincode"
@@ -82,7 +80,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Address"
                                     type="address"
@@ -95,7 +92,6 @@ export default class AddressFormContainer extends React.Component {
                             </div>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Locality/Town"
                                     type="locality"
@@ -109,7 +105,6 @@ export default class AddressFormContainer extends React.Component {
                             <div style={{display:'flex',justifyContent:'space-between',paddingTop:'10px'}}>
                                 <div style={{width:'45%'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         label="City/District"
                                         type="city"
                                         name="city"
@@ -121,7 +116,6 @@ export default class AddressFormContainer extends React.Component {
                                 </div>
                                 <div style={{width:'45%'}}>
                                     <TextField 
-                                        id="standard-basic" 
                                         label="State"
                                         type="state"
                                         name="state"

@@ -1,8 +1,7 @@
-/* eslint-disable no-sequences */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import styled from 'styled-components';
 import {AppBar,Toolbar} from '@material-ui/core'
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import FooterDescriptionContainer from './FooterDescriptionContainer';
 
 const FooterMainContainer = styled.div`

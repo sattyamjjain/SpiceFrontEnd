@@ -13,43 +13,21 @@ import Dashboard from '../pages/Dashboard';
 import {PrivateRoute} from '../pages/PrivateRoute'
 import {PrivateAdminRoute} from '../pages/PrivateAdminRoute'
 
-export default class Router extends React.Component {
-  render() {
+export default function Router (){
     return (
       <BrowserRouter>
         <Switch>
-          <PrivateAdminRoute path="/dashboard">
-            <Dashboard />
-          </PrivateAdminRoute>
-          <PrivateRoute path="/:username/profile">
-            <Profile />
-          </PrivateRoute>
-          <PrivateRoute path="/:username/orders">
-            <Orders />
-          </PrivateRoute>
-          <Route path="/admin">
-            <Admin />
-          </Route>
-          <PrivateRoute path="/:username/cart">
-            <Cart />
-          </PrivateRoute>
-          <PrivateRoute path="/:username/wishlist">
-            <Wishlist />
-          </PrivateRoute>
-          <Route path="/product/:productId">  
-            <Product />
-          </Route>
-          <Route path="/aboutUs">
-            <AboutUs />
-          </Route>                                                
-          <Route path="/contactUs">
-            <ContactUs />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
+          <PrivateAdminRoute path="/dashboard" comp={Dashboard} />
+          <Route path="/admin" component={Admin} />
+          <PrivateRoute path="/:username/profile" comp={Profile}/>
+          <PrivateRoute path="/:username/orders" comp={Orders} />
+          <PrivateRoute path="/:username/cart" comp={Cart} />
+          <PrivateRoute path="/:username/wishlist" comp={Wishlist} />
+          <Route path="/product/:productId" component={Product} />  
+          <Route path="/aboutUs" component={AboutUs} />                                             
+          <Route path="/contactUs" component={ContactUs} />
+          <Route path="/" component={HomePage} />
         </Switch>
       </BrowserRouter>
     );
-  }
 }

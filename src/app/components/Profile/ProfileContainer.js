@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {makeStyles,Paper,Modal,Avatar,Typography,Fab,Button} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 import "react-multi-carousel/lib/styles.css";
 import styled from 'styled-components';
-import AddressFormContainer from './AddressFormContainer';
-import EditProfileContainer from './EditProfileContainer';
+import {AddressFormContainer} from './AddressFormContainer';
+import {DeleteAddressContainer} from './DeleteAddressContainer';
+import {EditProfileContainer} from './EditProfileContainer';
 
 const ADD_ADDRESS = 'add';
 const EDIT_ADDRESS = 'edit';
@@ -35,11 +37,10 @@ const PaddingContainer = styled.div`
 function getModalStyle() {
     return {
         top: `25%`,
-        margin:'auto'
     };
-  }
+}
   
-  const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     paper: {
       position: 'absolute',
       width:'60vh',
@@ -53,28 +54,30 @@ function getModalStyle() {
         width: '30vh',
         height: '30vh',
     },
-  }));
+}));
 
-export default function  ProfileContainer (props) {
+export function  ProfileContainer (props) {
 
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
+    const [userData, setUserData] = React.useState('')
+    const [userAddress,setUserAddress] = React.useState('');
     const { user } = props;
 
-    function onActionClickHandler(action) {
+    function onActionClickHandler(action,data) {
         switch (action) {
           case ADD_ADDRESS:
             handleAddAddressAction();
             break;
         case EDIT_ADDRESS:
-            handleEditAddressAction();
+            handleEditAddressAction(data);
             break;
         case EDIT_PROFILE:
-            handleEditProfileAction();
+            handleEditProfileAction(data);
             break;
         case DELETE_ADDRESS:
-            handleDeleteAddressAction();
+            handleDeleteAddressAction(data);
             break;
           default:
             break;
@@ -85,15 +88,18 @@ export default function  ProfileContainer (props) {
         setVisibleActionPopup(ADD_ADDRESS)
       }
 
-      function handleEditAddressAction() {
+      function handleEditAddressAction(data) {
+        setUserAddress(data)
         setVisibleActionPopup(EDIT_ADDRESS)
       }
 
-      function handleEditProfileAction() {
+      function handleEditProfileAction(data) {
+        setUserData(data)
         setVisibleActionPopup(EDIT_PROFILE)
       }
 
-      function handleDeleteAddressAction() {
+      function handleDeleteAddressAction(data) {
+        setUserAddress(data)
         setVisibleActionPopup(DELETE_ADDRESS)
       }
     
@@ -101,36 +107,54 @@ export default function  ProfileContainer (props) {
         setVisibleActionPopup(null)
       }
 
-      console.log('user',user)
+      const addAddressBody = (
+        <div style={modalStyle} className={classes.paper} >
+          <AddressFormContainer />
+        </div>
+      );
 
-      const addressBody = (
-        <div style={modalStyle} className={classes.paper}>
-          <AddressFormContainer/>
+      const editAddressBody = (
+        <div style={modalStyle} className={classes.paper} >
+          <AddressFormContainer userAddress={userAddress} isEdit={true} handleActionPopupClose={handleActionPopupClose}/>
+        </div>
+      );
+
+      const deleteAddressBody = (
+        <div style={modalStyle} className={classes.paper} >
+          <DeleteAddressContainer userAddress={userAddress}/>
         </div>
       );
 
       const editProfileBody = (
         <div style={modalStyle} className={classes.paper}>
-          <EditProfileContainer/>
+          <EditProfileContainer userData={userData}/>
         </div>
       );
     return (
         <MainContainer>
-            <Fab variant="round" size="small" style={{fontSize:'10px',textTransform:'capitalize',float:'right'}} onClick={()=>onActionClickHandler(EDIT_PROFILE)}>
+            <Fab variant="round" size="small" style={{fontSize:'10px',textTransform:'capitalize',float:'right'}} onClick={()=>onActionClickHandler(EDIT_PROFILE,user)}>
                 <FeatherIcon.Edit/>
             </Fab>
             <ProfilePicContainer>
                 <div style={{display:'flex',justifyContent:'center'}}>
                     <Avatar alt="Remy Sharp" src={require('../images/profilePic.jpg')} className={classes.large} />
                 </div>
-                <Typography variant="h6">Raman</Typography>
-                <Typography variant="subtitle1">ramankumar@gmail.com</Typography>
+                <Typography variant="h6">{typeof user==="undefined" ? '' : user.user.username}</Typography>
+                <Typography variant="subtitle1">{typeof user==="undefined" ? '' : user.user.email}</Typography>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <Typography variant="subtitle2">
+                        Full Name  : 
+                    </Typography>
+                    <Typography variant="subtitle2" >
+                        {typeof user==="undefined" ? '' : user.user.fullName}
+                    </Typography>
+                </div>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
                     <Typography variant="subtitle2">
                         Mobile No.  : 
                     </Typography>
                     <Typography variant="subtitle2" >
-                        +91 9876543210
+                        {typeof user==="undefined" ? '' : user.user.mobile}
                     </Typography>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
@@ -138,7 +162,7 @@ export default function  ProfileContainer (props) {
                         Gender  :
                     </Typography>
                     <Typography variant="subtitle2" >
-                        Male
+                        {typeof user==="undefined" ? '' : user.user.firstName}
                     </Typography>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
@@ -146,7 +170,7 @@ export default function  ProfileContainer (props) {
                         Date of Birth  :
                     </Typography>
                     <Typography variant="subtitle2" >
-                        20/08/1997
+                        {typeof user==="undefined" ? '' : user.user.firstName}
                     </Typography>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
@@ -154,7 +178,7 @@ export default function  ProfileContainer (props) {
                         Location  :
                     </Typography>
                     <Typography variant="subtitle2" >
-                        Jhansi
+                        {typeof user==="undefined" ? '' : user.user.location}
                     </Typography>
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between'}}>
@@ -162,7 +186,7 @@ export default function  ProfileContainer (props) {
                         Alternate Mobile  :
                     </Typography>
                     <Typography variant="subtitle2" >
-                        9876543210
+                        {typeof user==="undefined" ? '' : user.user.alternateMobile}
                     </Typography>
                 </div>
             </ProfilePicContainer>
@@ -173,37 +197,53 @@ export default function  ProfileContainer (props) {
                     </Typography>
                     <Button variant="outlined" onClick={()=>onActionClickHandler(ADD_ADDRESS)} className={classes.button}>Add delivery address</Button>
                 </div>
-                <PaddingContainer/>
-                <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#F6F2F1',borderRadius:'2px',borderWidth:'1px',padding:'10px',width:'100%',textAlign:'center'}}>
-                    <Typography variant="subtitle2">
-                        Sattyam Jain
-                    </Typography>
-                    <Typography variant="caption">
-                        79, Sadar Bazar - Jhansi Rd, Jhansi Cantt.
-                    </Typography>
-                    <br/>
-                    <Typography  variant="caption">
-                        Jhansi, Uttar Pradesh - 284001
-                    </Typography>
-                    <div style={{display:'flex',justifyContent:'space-between'}}>
-                        <Button variant="outlined" className={classes.button}>Remove</Button>
-                        <Button variant="outlined" onClick={()=>onActionClickHandler(EDIT_ADDRESS)} className={classes.button}>Edit</Button>
+                {
+                    typeof user==="undefined" ? null : user.address && user.address.length!==0 && user.address.map((userAddress,index)=>(
+                    <div key={index}>
+                        <PaddingContainer/>
+                        <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#F6F2F1',borderRadius:'2px',borderWidth:'1px',padding:'10px',width:'100%',textAlign:'center'}}>
+                            <Typography variant="subtitle1">
+                                {typeof user==="undefined" ? '' : userAddress.name}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                                {typeof user==="undefined" ? '' : userAddress.mobile}
+                            </Typography>
+                            <Typography variant="caption">
+                                {userAddress === null ? '' : userAddress.address}
+                            </Typography>
+                            <br/>
+                            <Typography  variant="caption">
+                                {userAddress === null ? '' : userAddress.city + ' ' + userAddress.state + ' , ' + userAddress.pincode}
+                            </Typography>
+                            <div style={{display:'flex',justifyContent:'space-between'}}>
+                                <Button variant="outlined" onClick={()=>onActionClickHandler(DELETE_ADDRESS,userAddress)} className={classes.button}>Remove</Button>
+                                <Button variant="outlined" onClick={()=>onActionClickHandler(EDIT_ADDRESS,userAddress)} className={classes.button}>Edit</Button>
+                            </div>
+                        </Paper>
                     </div>
-                </Paper>
+                    ))
+                }
             </RightSideContainer>
             <Modal
                 open={visibleActionPopup===ADD_ADDRESS}
                 onClose={handleActionPopupClose}
                 style={{display:'flex',alignItems:'center',justifyContent:'center'}}
             >
-                {addressBody}
+                {addAddressBody}
             </Modal>
             <Modal
                 open={visibleActionPopup===EDIT_ADDRESS}
                 onClose={handleActionPopupClose}
                 style={{display:'flex',alignItems:'center',justifyContent:'center'}}
             >
-                {addressBody}
+                {editAddressBody}
+            </Modal>
+            <Modal
+                open={visibleActionPopup===DELETE_ADDRESS}
+                onClose={handleActionPopupClose}
+                style={{display:'flex',alignItems:'center',justifyContent:'center'}}
+            >
+                {deleteAddressBody}
             </Modal>
             <Modal
                 open={visibleActionPopup===EDIT_PROFILE}

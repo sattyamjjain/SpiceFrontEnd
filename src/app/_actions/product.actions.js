@@ -1,6 +1,5 @@
 import { productConstants } from '../_constants';
 import { productService } from '../_services';
-import { history } from '../_helpers';
 
 export const productActions = {
     getAll,

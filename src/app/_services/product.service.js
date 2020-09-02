@@ -22,7 +22,6 @@ function getProdById(productId) {
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        console.log('handleresponse',data)
         if (!response.ok) {
             if (response.status === 401) {
                 // location.reload(true);

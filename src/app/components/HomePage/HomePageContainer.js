@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {AppBar,Toolbar,Typography,Paper,Button} from '@material-ui/core';
 import SlideShowImage from './SlideShowImage';
@@ -6,6 +7,8 @@ import { Parallax } from "react-parallax";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import styled from 'styled-components';
+import { productActions } from '../../_actions';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:100%;
@@ -62,9 +65,22 @@ const responsive = {
   };
 
 class HomePageContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
+    componentDidMount(){
+        console.log('componentDidMount 2')
+        console.log('componentDidMount product--',this.props.product)
+        this.props.getAll()
+      }
     
   render() {
-    console.log('user',localStorage.getItem('user'))
+    console.log('product--',this.props.product)
     return (
         <MainContainer>
             <SlideShowImage/>
@@ -147,71 +163,61 @@ class HomePageContainer extends React.Component {
                             dotListClass="custom-dot-list-style"
                             itemClass="carousel-item-padding-40-px"
                             >
-                                <Button style={{width:'100%'}}>
-                                    <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                        <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                        <div style={{padding:'5px',textAlign:'center'}}>
-                                            <Typography variant="h6">
-                                                Haldi
-                                            </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                                Buy it now
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Button>
-                                <Button style={{width:'100%'}}>
-                                    <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                        <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                        <div style={{padding:'5px',textAlign:'center'}}>
-                                            <Typography variant="h6">
-                                                Haldi
-                                            </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                                Buy it now
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Button>
-                                <Button style={{width:'100%'}}>
-                                    <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                        <img src={require('../images/haldi3.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                        <div style={{padding:'5px',textAlign:'center'}}>
-                                            <Typography variant="h6">
-                                                Haldi
-                                            </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                                Buy it now
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Button>
-                                <Button style={{width:'100%'}}>
-                                    <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                        <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                        <div style={{padding:'5px',textAlign:'center'}}>
-                                            <Typography variant="h6">
-                                                Haldi
-                                            </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                                Buy it now
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Button>
-                                <Button style={{width:'100%'}}>
-                                    <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                        <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                        <div style={{padding:'5px',textAlign:'center'}}>
-                                            <Typography variant="h6">
-                                                Haldi
-                                            </Typography>
-                                            <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                                Buy it now
-                                            </Button>
-                                        </div>
-                                    </Paper>
-                                </Button>
+                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
+                                    <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
+                                    <div style={{padding:'5px',textAlign:'center'}}>
+                                        <Typography variant="h6">
+                                            Haldi
+                                        </Typography>
+                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                            Buy it now
+                                        </Button>
+                                    </div>
+                                </Paper>
+                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
+                                    <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
+                                    <div style={{padding:'5px',textAlign:'center'}}>
+                                        <Typography variant="h6">
+                                            Haldi
+                                        </Typography>
+                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                            Buy it now
+                                        </Button>
+                                    </div>
+                                </Paper>
+                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
+                                    <img src={require('../images/haldi3.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
+                                    <div style={{padding:'5px',textAlign:'center'}}>
+                                        <Typography variant="h6">
+                                            Haldi
+                                        </Typography>
+                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                            Buy it now
+                                        </Button>
+                                    </div>
+                                </Paper>
+                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
+                                    <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
+                                    <div style={{padding:'5px',textAlign:'center'}}>
+                                        <Typography variant="h6">
+                                            Haldi
+                                        </Typography>
+                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                            Buy it now
+                                        </Button>
+                                    </div>
+                                </Paper>
+                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
+                                    <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
+                                    <div style={{padding:'5px',textAlign:'center'}}>
+                                        <Typography variant="h6">
+                                            Haldi
+                                        </Typography>
+                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                            Buy it now
+                                        </Button>
+                                    </div>
+                                </Paper>
                             </Carousel>
                         </ProductContent>
                     </div>
@@ -231,4 +237,15 @@ class HomePageContainer extends React.Component {
   }
 }
 
-export default HomePageContainer;
+function mapState(state) {
+    const { product } = state.product;
+    return { product };
+}
+
+const actionCreators = {
+    getAll: productActions.getAll,
+};
+
+const connectedProduct = connect(mapState, actionCreators)(HomePageContainer);
+
+export { connectedProduct as HomePageContainer };

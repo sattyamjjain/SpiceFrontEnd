@@ -1,6 +1,5 @@
 import { productReviewConstants } from '../_constants';
 import { productReviewService } from '../_services';
-import { history } from '../_helpers';
 
 export const productReviewActions = {
     getAllReview,

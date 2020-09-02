@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Paper,Fab,Divider,Typography,Button,ButtonGroup} from '@material-ui/core';
 import { Formik } from 'formik';
@@ -67,7 +68,7 @@ export default class PriceContainer extends React.Component {
     };
 
     handleProductSize = (id) =>{
-        this.props.product.productDescriptions.map((prodDesc)=>{
+        this.props.product.productDescriptions.forEach((prodDesc)=>{
             if(prodDesc.id === id){
                 this.setState({
                     price:prodDesc.price,

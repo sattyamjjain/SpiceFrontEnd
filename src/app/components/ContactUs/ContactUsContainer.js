@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {AppBar,Toolbar,TextField,Typography,Button,Breadcrumbs,NavigateNextIcon,Link} from '@material-ui/core';
 import { Formik } from 'formik';
@@ -125,7 +126,6 @@ class ContactUsContainer extends React.Component {
                                                 First Name
                                             </Typography>
                                             <TextField 
-                                                id="standard-basic" 
                                                 type="firstname"
                                                 name="firstname"
                                                 required={true}
@@ -139,7 +139,6 @@ class ContactUsContainer extends React.Component {
                                                 Last Name
                                             </Typography>
                                             <TextField 
-                                                id="standard-basic" 
                                                 type="lastname"
                                                 name="lastname"
                                                 required={true}
@@ -154,7 +153,6 @@ class ContactUsContainer extends React.Component {
                                         Email
                                     </Typography>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         type="email"
                                         name="email"
@@ -169,7 +167,6 @@ class ContactUsContainer extends React.Component {
                                         Phone No.
                                     </Typography>
                                     <TextField 
-                                        id="standard-basic" 
                                         fullWidth
                                         type="phoneNumber"
                                         name="phoneNumber"

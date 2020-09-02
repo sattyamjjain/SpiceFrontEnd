@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {Button,TextField,Typography} from '@material-ui/core';
+import {Button,TextField,Typography,FormControlLabel,Radio,RadioGroup} from '@material-ui/core';
 import { Formik } from 'formik';
 import * as FeatherIcon from 'react-feather';
 import { useDropzone } from 'react-dropzone';
-
+import { userActions } from '../../_actions';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:auto;
@@ -50,7 +52,34 @@ const PicUploader = (props) => {
     )
 }
 
-export default class EditProfileContainer extends React.Component {
+class EditProfileContainer extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state={
+            gender:''
+        }
+        this.handleGenderChange = this.handleGenderChange.bind(this)
+        this.handleProfileSubmit = this.handleProfileSubmit.bind(this)
+    }
+
+    componentDidMount(){
+        console.log('userData',this.props.userData)
+    }
+
+    handleGenderChange = (event) => {
+        this.setState({
+            gender:event.target.value
+        })
+      };
+
+    handleProfileSubmit = (formValues) =>{
+        formValues.gender = this.state.gender
+        console.log('formValues',formValues)
+        this.props.editProfile(formValues,this.props.userData.user.id)
+        //window.location.reload(true)
+    }
+
   render() {
     return (
         <MainContainer>
@@ -59,13 +88,17 @@ export default class EditProfileContainer extends React.Component {
             </Typography>
             <FormContainer>
                 <Formik
-                    initialValues={{ profilePic:'',name:'',contactNo:'',pincode:'',address:'',locality:'',city:'',state:''}}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                        }, 400);
+                    initialValues={{ 
+                        name:this.props.userData ? this.props.userData.user.fullName : '',
+                        username:this.props.userData ? this.props.userData.user.username :'',
+                        dob:this.props.userData ? this.props.userData.user.dob :'',
+                        profilePic:this.props.userData ? this.props.userData.user.profilePic :'',
+                        email:this.props.userData ? this.props.userData.user.email :'',
+                        mobile:this.props.userData ? this.props.userData.user.mobile :'',
+                        alternateMobile:this.props.userData ? this.props.userData.user.alternateMobile :'',
+                        location:this.props.userData ? this.props.userData.user.location :''
                     }}
+                    onSubmit={this.handleProfileSubmit}
                     >
                     {({
                         values,
@@ -105,8 +138,26 @@ export default class EditProfileContainer extends React.Component {
                                             value={values.username}
                                         />
                                     </div>
+                                    <div style={{paddingTop:'10px'}}>
+                                        <RadioGroup name="gender" onChange={this.handleGenderChange}>
+                                            <FormControlLabel value="female" control={<Radio size='small'/>} label="Female"/>
+                                            <FormControlLabel value="male" control={<Radio size='small'/>} label="Male"/>
+                                            <FormControlLabel value="other" control={<Radio size='small'/>} label="Other" />
+                                        </RadioGroup>
+                                    </div>
                                 </div>
                                 <div>
+                                    <div style={{paddingTop:'10px'}}>
+                                        <TextField 
+                                            fullWidth
+                                            type="date"
+                                            name="dob"
+                                            placeholder="Date of Birth"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.dob}
+                                        />
+                                    </div>
                                     <div style={{paddingTop:'10px'}}>
                                         <TextField 
                                             fullWidth
@@ -122,11 +173,11 @@ export default class EditProfileContainer extends React.Component {
                                         <TextField 
                                             fullWidth
                                             placeholder="Mobile No."
-                                            type="mobileNo"
-                                            name="mobileNo"
+                                            type="mobile"
+                                            name="mobile"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.mobileNo}
+                                            value={values.mobile}
                                         />
                                     </div>
                                     <div style={{paddingTop:'10px'}}>
@@ -134,10 +185,10 @@ export default class EditProfileContainer extends React.Component {
                                             fullWidth
                                             type="mobileNo"
                                             placeholder="Alternate Mobile No."
-                                            name="alternateMobileNo"
+                                            name="alternateMobile"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.alternateMobileNo}
+                                            value={values.alternateMobile}
                                         />
                                     </div>
                                     <div style={{paddingTop:'10px'}}>
@@ -169,3 +220,15 @@ export default class EditProfileContainer extends React.Component {
     );
   }
 }
+
+function mapState(state) {
+    const { success } = state.users;
+    return { success };
+  }
+  
+const actionCreators = {
+    editProfile:userActions.editProfile
+};
+
+const connectedEditProfileContainer = connect(mapState, actionCreators)(EditProfileContainer);
+export { connectedEditProfileContainer as EditProfileContainer };

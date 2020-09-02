@@ -1,9 +1,10 @@
-/* eslint-disable no-sequences */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import styled from 'styled-components';
 import {Divider,Typography,TextField} from '@material-ui/core'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import * as FeatherIcon from 'react-feather';
+import { Link } from "react-router-dom";
 
 const MainContainer = styled.div`
     width:100%;
@@ -68,7 +69,7 @@ export default function FooterDescriptionContainer () {
                     Subscribe us to get best offers <br/>for our products
                 </Typography>
                 <InputContainer>
-                    <TextField id="standard-basic" label="Enter your email" />
+                    <TextField label="Enter your email" />
                     <div style={{padding:'15px'}}>
                         <FeatherIcon.ArrowRightCircle
                             color="#000000"
@@ -122,19 +123,25 @@ export default function FooterDescriptionContainer () {
         <Divider />
         <LinkContainer>
             <LinkText>
-                <Typography variant="h6">
-                    Home
-                </Typography>
+                <Link to='/' style={{color:'inherit'}}>
+                    <Typography variant="subtitle1">
+                        Home
+                    </Typography>
+                </Link>
             </LinkText>
             <LinkText>
-                <Typography variant="h6">
-                    About Us
-                </Typography>
+                <Link to='/aboutUs' style={{color:'inherit'}}>
+                    <Typography variant="subtitle1">
+                        About us
+                    </Typography>
+                </Link>
             </LinkText>
             <LinkText>
-                <Typography variant="h6">
-                    Contact Us
-                </Typography>
+                <Link to='/contactUs' style={{color:'inherit'}}>
+                    <Typography variant="subtitle1">
+                        Contact Us
+                    </Typography>
+                </Link>
             </LinkText>
         </LinkContainer>
     </MainContainer>

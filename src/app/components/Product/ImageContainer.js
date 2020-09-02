@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import "react-image-gallery/styles/css/image-gallery.css";
 import styled from 'styled-components';

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {Button,MenuItem,Typography,TextField} from '@material-ui/core';
 import { Formik } from 'formik';
@@ -66,7 +67,6 @@ export default class EditProductSize extends React.Component {
                         <form onSubmit={handleSubmit}>
                             <div style={{paddingTop:'10px'}}>
                                 <TextField 
-                                    id="standard-basic" 
                                     fullWidth
                                     label="Size"
                                     type="size"
@@ -78,8 +78,7 @@ export default class EditProductSize extends React.Component {
                                 />
                             </div>
                             <div style={{paddingTop:'10px'}}>
-                                <TextField 
-                                    id="standard-basic" 
+                                <TextField  
                                     fullWidth
                                     label="Price"
                                     type="price"

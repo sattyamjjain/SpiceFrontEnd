@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 import * as FeatherIcon from 'react-feather';

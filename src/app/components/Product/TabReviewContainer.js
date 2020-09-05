@@ -38,7 +38,6 @@ function ReviewForm(props) {
 
     const handleReviewSubmit = (formValues) =>{
         formValues.rating=value
-        console.log('reviews',formValues)
         props.reviewSubmit(formValues)
         props.displayReviewForm(false)
     }
@@ -179,7 +178,6 @@ class TabReviewContainer extends React.Component {
     }
     
     render() {
-        console.log('reviews',this.props.reviews)
         const { reviews } = this.props;
 
         return (

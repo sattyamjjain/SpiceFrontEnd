@@ -1,34 +1,34 @@
 import React from "react";
-import {Button,Typography,MenuItem,TextField} from '@material-ui/core';
+import {Button,Typography,TextField} from '@material-ui/core';
 import { Formik } from 'formik';
-
+import { productActions } from '../../../_actions';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
-    width:100%;
+    width:auto;
     padding:15px;
-`;
-
-const PaddingContainer = styled.div`
-    padding:5px;
 `;
 
 const FormContainer = styled.div`
 `;
 
-const stockValues = [
-  {
-    value: 'In Stock',
-    label: 'In Stock',
-  },
-  {
-    value: 'Out of Stock',
-    label: 'Out of Stock',
-  },
-];
+class AddEditProduct extends React.Component {
+    constructor(props){
+        super(props)
+        this.state={
+            
+        }
+        this.handleProductSubmit =  this.handleProductSubmit.bind(this)
+    }
 
-
-export default class AddEditProduct extends React.Component {
+    handleProductSubmit = (formValues)=>{
+        if(this.props.isEdit === true){
+            this.props.editProduct(formValues,this.props.product.product.id)
+        }else{
+            this.props.addProduct(formValues)
+        }
+    }
   render() {
     return (
         <MainContainer>
@@ -37,13 +37,11 @@ export default class AddEditProduct extends React.Component {
             </Typography>
             <FormContainer>
                 <Formik
-                    initialValues={{ size:'',price:'',availability:''}}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                        }, 400);
+                    initialValues={{ 
+                        title:this.props.product ? this.props.product.product.title : '',
+                        description:this.props.product ? this.props.product.product.description : ''
                     }}
+                    onSubmit={this.handleProductSubmit}
                     >
                     {({
                         values,
@@ -58,182 +56,29 @@ export default class AddEditProduct extends React.Component {
                             <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
                                 <Typography variant="subtitle1" style={{padding:'2vh'}}>Product Name :</Typography>
                                 <TextField 
-                                    type="name"
-                                    name="name"
-                                    variant="outlined"
+                                    type="title"
+                                    name="title"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.name}
+                                    value={values.title}
+                                    style={{width:'65%'}}
                                 />
                             </div>
                             <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <Typography variant="subtitle1" style={{padding:'2vh'}}>Short Description :</Typography>
+                                <Typography variant="subtitle1" style={{padding:'2vh'}}>Description :</Typography>
                                 <TextField 
-                                    type="shortDescrip"
-                                    name="shortDescrip"
-                                    variant="outlined"
+                                    multiline
+                                    rows={3}
+                                    type="description"
+                                    name="description"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.shortDescrip}
+                                    value={values.description}
+                                    style={{width:'65%'}}
                                 />
-                            </div>
-                            <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <Typography variant="subtitle1" style={{padding:'2vh'}}>Long Description :</Typography>
-                                <TextField 
-                                    type="longDescrip"
-                                    name="longDescrip"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.longDescrip}
-                                />
-                            </div>
-                            <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <TextField 
-                                    label="Size"
-                                    type="size"
-                                    name="size"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.size}
-                                />
-                                <PaddingContainer/>
-                                <TextField 
-                                    label="Price"
-                                    type="price"
-                                    name="price"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.price}
-                                />
-                                <PaddingContainer/>
-                                <TextField
-                                  select
-                                  fullWidth
-                                  label="Select"
-                                  value={values.availability}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  >
-                                  {stockValues.map((option) => (
-                                      <MenuItem key={option.value} value={option.value}>
-                                      {option.label}
-                                      </MenuItem>
-                                  ))}
-                                </TextField>
-                            </div>
-                            <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <TextField 
-                                    label="Size"
-                                    type="size"
-                                    name="size"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.size}
-                                />
-                                <PaddingContainer/>
-                                <TextField 
-                                    label="Price"
-                                    type="price"
-                                    name="price"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.price}
-                                />
-                                <PaddingContainer/>
-                                <TextField
-                                  select
-                                  fullWidth
-                                  label="Select"
-                                  value={values.availability}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  >
-                                  {stockValues.map((option) => (
-                                      <MenuItem key={option.value} value={option.value}>
-                                      {option.label}
-                                      </MenuItem>
-                                  ))}
-                                </TextField>
-                            </div>
-                            <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <TextField 
-                                    label="Size"
-                                    type="size"
-                                    name="size"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.size}
-                                />
-                                <PaddingContainer/>
-                                <TextField 
-                                    label="Price"
-                                    type="price"
-                                    name="price"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.price}
-                                />
-                                <PaddingContainer/>
-                                <TextField
-                                  select
-                                  fullWidth
-                                  label="Select"
-                                  value={values.availability}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  >
-                                  {stockValues.map((option) => (
-                                      <MenuItem key={option.value} value={option.value}>
-                                      {option.label}
-                                      </MenuItem>
-                                  ))}
-                                </TextField>
-                            </div>
-                            <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                <TextField 
-                                    label="Size"
-                                    type="size"
-                                    name="size"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.size}
-                                />
-                                <PaddingContainer/>
-                                <TextField 
-                                    label="Price"
-                                    type="price"
-                                    name="price"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.price}
-                                />
-                                <PaddingContainer/>
-                                <TextField
-                                  select
-                                  fullWidth
-                                  label="Select"
-                                  value={values.availability}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  >
-                                  {stockValues.map((option) => (
-                                      <MenuItem key={option.value} value={option.value}>
-                                      {option.label}
-                                      </MenuItem>
-                                  ))}
-                                </TextField>
                             </div>
                             <div style={{paddingTop:'20px'}}>
-                                <Button variant="contained" fullWidth={true} type="submit" disabled={isSubmitting} color="primary">
+                                <Button variant="contained" fullWidth={true} type="submit" disabled={isSubmitting} color="primary" style={{textTransform:'capitalize'}}>
                                     Submit
                                 </Button>
                             </div>
@@ -245,3 +90,16 @@ export default class AddEditProduct extends React.Component {
     );
   }
 }
+
+function mapState(state) {
+    const { products } = state.product;
+    return { products };
+}
+
+const actionCreators = {
+    addProduct: productActions.addProduct,
+    editProduct: productActions.editProduct,
+};
+
+const connectedProductContainer = connect(mapState, actionCreators)(AddEditProduct);
+export { connectedProductContainer as AddEditProduct };

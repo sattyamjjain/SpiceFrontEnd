@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import {Button,Divider,Typography} from '@material-ui/core';
-
+import { productActions } from '../../../_actions';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -13,7 +14,18 @@ const PaddingContainer = styled.div`
     padding:5px;
 `;
 
-export default class DeleteProductSize extends React.Component {
+export default class DeleteProductSizeContainer extends React.Component {
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+        this.handleDelete = this.handleDelete.bind(this)
+    }
+
+    handleDelete = () =>{
+        this.props.deleteProductSize(this.props.productDesc.id)
+    }
   render() {
     return (
         <MainContainer>
@@ -27,9 +39,21 @@ export default class DeleteProductSize extends React.Component {
             <div style={{display:'flex',justifyContent:'flex-end',paddingTop:'10px'}}>
                 <Button variant="contained">Close</Button>
                 <PaddingContainer/>
-                <Button variant="contained" color="primary">Delete</Button>
+                <Button variant="contained" color="primary" onClick={this.handleDelete}>Delete</Button>
             </div>
         </MainContainer>
     );
   }
 }
+
+function mapState(state) {
+    const { products } = state.product;
+    return { products };
+}
+
+const actionCreators = {
+    deleteProductSize: productActions.deleteProductSize,
+};
+
+const connectedProductContainer = connect(mapState, actionCreators)(DeleteProductSizeContainer);
+export { connectedProductContainer as DeleteProductSizeContainer };

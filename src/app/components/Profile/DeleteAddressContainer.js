@@ -23,7 +23,6 @@ class DeleteAddressContainer extends React.Component {
     }
 
     handleDelete = () =>{
-        console.log('delete data',this.props.userAddress)
         this.props.deleteAddress(this.props.userAddress.id)
     }
 

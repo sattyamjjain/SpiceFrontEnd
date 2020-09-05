@@ -1,6 +1,7 @@
 export const productReviewService = {
     getAllReview,
-    postReview
+    postReview,
+    deleteReview
 };
 
 function getAllReview() {
@@ -12,7 +13,6 @@ function getAllReview() {
 }
 
 function postReview(review) {
-    console.log('review service',review)
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -22,10 +22,19 @@ function postReview(review) {
     return fetch(`http://localhost:8080/api/review`, requestOptions).then(handleResponse);
 }
 
+function deleteReview(reviewId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json' }
+    };
+
+    return fetch(`http://localhost:8080/api/review/${reviewId}`, requestOptions).then(handleResponse);
+}
+
+
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        console.log('handleresponse',data)
         if (!response.ok) {
             if (response.status === 401) {
                 // location.reload(true);

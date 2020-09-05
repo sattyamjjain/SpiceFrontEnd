@@ -3,7 +3,13 @@ import { productService } from '../_services';
 
 export const productActions = {
     getAll,
-    getProdById
+    getProdById,
+    addProduct,
+    editProduct,
+    deleteProduct,
+    addProductSize,
+    editProductSize,
+    deleteProductSize
 };
 
 function getAll() {
@@ -35,3 +41,94 @@ function getProdById(id) {
     function success(product) { return { type: productConstants.GET_BY_ID_SUCCESS, product } }
     function failure(error) { return { type: productConstants.GET_BY_ID_FAILURE, error } }
 }
+
+function addProduct(product) {
+    return dispatch => {
+        dispatch(request());
+        productService.addProduct(product)
+            .then(
+                product => dispatch(success(product)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.POST_PRODUCT_REQUEST } }
+    function success(product) { return { type: productConstants.POST_PRODUCT_SUCCESS, product } }
+    function failure(error) { return { type: productConstants.POST_PRODUCT_FAILURE, error } }
+}
+
+function editProduct(product,productId) {
+    return dispatch => {
+        dispatch(request());
+        productService.editProduct(product,productId)
+            .then(
+                product => dispatch(success(product)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.EDIT_PRODUCT_REQUEST } }
+    function success(product) { return { type: productConstants.EDIT_PRODUCT_SUCCESS, product } }
+    function failure(error) { return { type: productConstants.EDIT_PRODUCT_FAILURE, error } }
+}
+
+function deleteProduct(productId) {
+    return dispatch => {
+        dispatch(request());
+        productService.deleteProduct(productId)
+            .then(
+                product => dispatch(success(product)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.DELETE_PRODUCT_REQUEST } }
+    function success(product) { return { type: productConstants.DELETE_PRODUCT_SUCCESS, product } }
+    function failure(error) { return { type: productConstants.DELETE_PRODUCT_FAILURE, error } }
+}
+
+function addProductSize(productSize) {
+    return dispatch => {
+        dispatch(request());
+        productService.addProductSize(productSize)
+            .then(
+                productSize => dispatch(success(productSize)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.POST_PRODUCT_SIZE_REQUEST } }
+    function success(productSize) { return { type: productConstants.POST_PRODUCT_SIZE_SUCCESS, productSize } }
+    function failure(error) { return { type: productConstants.POST_PRODUCT_SIZE_FAILURE, error } }
+}
+
+function editProductSize(productSize,productSizeId) {
+    return dispatch => {
+        dispatch(request());
+        productService.editProductSize(productSize,productSizeId)
+            .then(
+                productSize => dispatch(success(productSize)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.EDIT_PRODUCT_SIZE_REQUEST } }
+    function success(productSize) { return { type: productConstants.EDIT_PRODUCT_SIZE_SUCCESS, productSize } }
+    function failure(error) { return { type: productConstants.EDIT_PRODUCT_SIZE_FAILURE, error } }
+}
+
+function deleteProductSize(productSizeId) {
+    return dispatch => {
+        dispatch(request());
+        productService.deleteProductSize(productSizeId)
+            .then(
+                productSize => dispatch(success(productSize)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.DELETE_PRODUCT_SIZE_REQUEST } }
+    function success(productSize) { return { type: productConstants.DELETE_PRODUCT_SIZE_SUCCESS, productSize } }
+    function failure(error) { return { type: productConstants.DELETE_PRODUCT_SIZE_FAILURE, error } }
+}
+

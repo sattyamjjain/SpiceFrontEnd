@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 const MainContainer = styled.div`
     width:100%;
+    padding:5vh
 `;
 
 const HeadContainer = styled.div`
@@ -28,7 +29,6 @@ class UserContainer extends React.Component {
 
   render() {
       const { users } = this.props
-      console.log('users',this.props.users)
     return (
         <MainContainer>
             <HeadContainer>

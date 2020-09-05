@@ -92,6 +92,8 @@ function Header (props) {
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorAccount, setAnchorAccount] = React.useState(null);
 
+  console.log('user',user)
+
   React.useEffect(() => {
     //props.getAll()
     if(localStorage.getItem('user')){
@@ -240,7 +242,7 @@ function Header (props) {
                       onClose={handleAccountClose}
                       style={{zIndex:'999999999'}}
                     >
-                      <Link to={`/${user.username}/profile`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.username}/profile`} style={{color:'inherit'}}>
                         <StyledMenuItem >
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
@@ -248,7 +250,7 @@ function Header (props) {
                             <ListItemText primary="Profile" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user.username}/wishlist`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.username}/wishlist`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Heart size={20} color="#000000"/>
@@ -256,7 +258,7 @@ function Header (props) {
                             <ListItemText primary="Wishlist" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user.username}/cart`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.username}/cart`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Truck size={20} color="#000000"/>
@@ -264,7 +266,7 @@ function Header (props) {
                             <ListItemText primary="Your Cart" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user.username}/orders`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.username}/orders`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                           <ListItemIcon>
                             <FeatherIcon.Truck size={20} color="#000000"/>

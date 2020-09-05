@@ -31,18 +31,6 @@ class WishListContainer extends React.Component {
         }
     }
 
-    componentDidMount () {
-        const { wishlists } = this.props
-        if(wishlists!==null){
-            wishlists.forEach((wishlist)=>{
-                console.log('wishlist---',wishlist)
-                console.log('product id',wishlist.productId)
-            })
-        }else{
-            console.log('else')
-        }
-    }
-
     render() {
         return (
             <MainContainer>

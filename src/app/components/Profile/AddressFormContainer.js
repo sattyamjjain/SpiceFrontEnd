@@ -26,14 +26,8 @@ class AddressFormContainer extends React.Component {
         this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
-    componentDidMount(){
-        console.log('address',this.props.userAddress)
-    }
-
     handleAddressSubmit=(formValues) =>{
-        console.log('values',formValues)
         if(this.props.isEdit === true){
-            console.log('userid',this.props.userAddress.id)
             this.props.editAddress(formValues,this.props.userAddress.id)
             window.location.reload(true)
         }else{

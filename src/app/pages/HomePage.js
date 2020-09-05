@@ -13,24 +13,22 @@ class HomePage extends React.Component{
   }
   
   componentDidMount(){
-    console.log('componentDidMount 1')
     this.props.getAll()
   }
 
   render(){
-    const { product } = this.props
-    console.log('product',product)
+    const { products } = this.props
     return (
       <div>
-        <HomePageContainer product={product}/>
+        <HomePageContainer products={products}/>
       </div>
     );
   }
 };
 
 function mapState(state) {
-  const { product } = state.product;
-  return { product };
+  const { products } = state.product;
+  return { products };
 }
 
 const actionCreators = {

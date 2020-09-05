@@ -63,10 +63,6 @@ class EditProfileContainer extends React.Component {
         this.handleProfileSubmit = this.handleProfileSubmit.bind(this)
     }
 
-    componentDidMount(){
-        console.log('userData',this.props.userData)
-    }
-
     handleGenderChange = (event) => {
         this.setState({
             gender:event.target.value
@@ -75,7 +71,6 @@ class EditProfileContainer extends React.Component {
 
     handleProfileSubmit = (formValues) =>{
         formValues.gender = this.state.gender
-        console.log('formValues',formValues)
         this.props.editProfile(formValues,this.props.userData.user.id)
         //window.location.reload(true)
     }

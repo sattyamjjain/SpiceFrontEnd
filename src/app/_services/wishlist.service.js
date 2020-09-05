@@ -2,7 +2,7 @@ import { authHeader } from '../_helpers';
 
 export const wishlistService = {
     getAll,
-    postWishlist
+    postWishlist,
 };
 
 function getAll(userId) {
@@ -15,7 +15,6 @@ function getAll(userId) {
 }
 
 function postWishlist(wishlist) {
-    console.log('review service',wishlist)
     const requestOptions = {
         method: 'POST',
         headers: {...authHeader(),  'Content-Type': 'application/json' },

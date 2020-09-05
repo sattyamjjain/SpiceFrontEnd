@@ -5,13 +5,14 @@ import styled from 'styled-components';
 
 const MainContainer = styled.div`
     width:100%;
+    padding:5vh
 `;
 
 const HeadContainer = styled.div`
     padding-bottom:5vh;
 `;
 
-export default  class PaymentContainer extends React.Component {
+export class PaymentContainer extends React.Component {
 
   render() {
     return (

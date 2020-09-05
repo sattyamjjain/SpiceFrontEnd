@@ -62,10 +62,6 @@ export default class AuthContainer extends React.Component {
                     Signin with facebook
                 </Button>
                 <PaddingContainer/>
-                <Button variant="contained" color="default" size="small" fullWidth={true} startIcon={<FeatherIcon.Twitter size={18} color="#000000"/>} style={{textTransform:'capitalize'}}>
-                    Signin with twitter
-                </Button>
-                <PaddingContainer/>
                 <Button variant="contained" color="secondary" size="small"  fullWidth={true} startIcon={<FeatherIcon.Facebook size={18} color="#FFFFFF" />} style={{textTransform:'capitalize'}}>
                     Signin with google
                 </Button>

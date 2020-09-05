@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import {Button,TextField,Typography,FormControlLabel,Checkbox} from '@material-ui/core';
+import {Button,TextField,Typography,FormControlLabel,Checkbox,Snackbar} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import { Formik } from 'formik';
-import * as FeatherIcon from 'react-feather';
 import { userActions } from '../../_actions';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -19,12 +19,17 @@ const PaddingContainer = styled.div`
     padding:5px;
 `;
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 class LoginContainer extends React.Component {
 
     constructor(props){
         super(props)
         this.state={
-
+            successSnackBar:false,
+            failureSnackBar:false
         }
         this.handleLogin = this.handleLogin.bind(this)
     }
@@ -34,11 +39,40 @@ class LoginContainer extends React.Component {
     }
 
     handleLogin(formValues){
-        console.log('formvalues',formValues)
         this.props.login(formValues)
-        this.props.loginEnable(true)
-        this.props.handleClose()
+            .then(res=>{
+                console.log('res',res)
+                this.setState({
+                    successSnackBar:true
+                })
+                this.props.loginEnable(true)
+                //this.props.handleClose()
+            })
+            .catch(err=>{
+                console.log('err',err)
+                this.setState({
+                    failureSnackBar:true
+                })
+            })
     }
+
+    handleSuccessClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({
+            successSnackBar:false
+        })
+    };
+
+    handleFailureClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({
+            failureSnackBar:false
+        })
+    };
 
     render() {
         return (
@@ -87,18 +121,7 @@ class LoginContainer extends React.Component {
                                         value={values.password}
                                     />
                                 </div>
-                                <div style={{paddingTop:'10px',display:'flex',justifyContent:'space-between'}}>
-                                    <FormControlLabel
-                                        control={
-                                        <Checkbox
-                                            checked={true}
-                                            onChange={handleChange}
-                                            name="rememberMe"
-                                            color="primary"
-                                        />
-                                        }
-                                        label="Remember me"
-                                    />
+                                <div style={{paddingTop:'10px',display:'flex',justifyContent:'flex-end'}}>
                                     <Button variant="text" size="small" onClick={this.goToPage.bind(this,'forgotPassword')} style={{textTransform:'capitalize'}}>Forget Password</Button>
                                 </div>
                                 <div style={{paddingTop:'20px'}}>
@@ -110,14 +133,24 @@ class LoginContainer extends React.Component {
                         )}
                     </Formik>
                 </FormContainer>
+                <Snackbar open={this.state.successSnackBar} autoHideDuration={6000} onClose={this.handleSuccessClose}>
+                    <Alert onClose={this.handleSuccessClose} severity="success">
+                        Login Successful
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.failureSnackBar} autoHideDuration={6000} onClose={this.handleFailureClose}>
+                    <Alert onClose={this.handleFailureClose} severity="error">
+                        Username or Password is incorrect.
+                    </Alert>
+                </Snackbar>
             </MainContainer>
         );
     }
 }
 
 function mapState(state) {
-    const { loggingIn } = state.authentication;
-    return { loggingIn };
+    const { error } = state.authentication;
+    return { error };
 }
 
 const actionCreators = {

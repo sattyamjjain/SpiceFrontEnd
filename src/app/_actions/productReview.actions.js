@@ -3,7 +3,8 @@ import { productReviewService } from '../_services';
 
 export const productReviewActions = {
     getAllReview,
-    postReview
+    postReview,
+    deleteReview
 };
 
 function getAllReview() {
@@ -34,4 +35,19 @@ function postReview(review) {
     function request() { return { type: productReviewConstants.POST_REQUEST } }
     function success(reviews) { return { type: productReviewConstants.POST_SUCCESS, reviews } }
     function failure(error) { return { type: productReviewConstants.POST_FAILURE, error } }
+}
+
+function deleteReview(reviewId) {
+    return dispatch => {
+        dispatch(request());
+        productReviewService.deleteReview(reviewId)
+            .then(
+                review => dispatch(success(review)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productReviewConstants.DELETE_REVIEW_REQUEST } }
+    function success(review) { return { type: productReviewConstants.DELETE_REVIEW_SUCCESS, review } }
+    function failure(error) { return { type: productReviewConstants.DELETE_REVIEW_FAILURE, error } }
 }

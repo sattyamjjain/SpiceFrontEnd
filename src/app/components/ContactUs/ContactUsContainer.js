@@ -62,7 +62,6 @@ class ContactUsContainer extends React.Component {
 
     handleClick(event) {
         event.preventDefault();
-        console.info('You clicked a breadcrumb.');
     }
     render() {
         return (

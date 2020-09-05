@@ -32,7 +32,7 @@ export default class ProductContainer extends React.Component {
 
         }
     }
-    
+
     render() {
         const { product } = this.props;
         return (
@@ -55,18 +55,18 @@ export default class ProductContainer extends React.Component {
                         </Link>
                         <Typography color="textPrimary">Product</Typography>
                         <Typography color="textPrimary">
-                            {product === null ? '' : product.product.title}
+                            {product === null || typeof product==="undefined" ? '' : product.product.title}
                         </Typography>
                     </Breadcrumbs>
                 </HeadContainer>
                 <SubMainContainer>
                     <Typography variant="h5">
-                        {product === null ? '' : product.product.title}
+                        {product === null || typeof product==="undefined" ? '' : product.product.title}
                     </Typography>
                     <div style={{display:'flex',justifyContent:'space-between'}}>
-                        <ImageContainer style={{width:'40%'}} product={product}/>
-                        <DescriptionContainer style={{width:'30%'}} product={product} />
-                        <PriceContainer style={{width:'30%'}} product={product}/>
+                        <ImageContainer style={{width:'40%'}} product={product === null || typeof product==="undefined" ? null : product}/>
+                        <DescriptionContainer style={{width:'30%'}} product={product === null || typeof product==="undefined" ? null : product} />
+                        <PriceContainer style={{width:'30%'}} product={product === null || typeof product==="undefined" ? null : product}/>
                     </div>
                     <TabContainer/>
                 </SubMainContainer>

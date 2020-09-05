@@ -3,19 +3,26 @@ import React from "react";
 import {Table,TableCell,TableHead,TableRow,Paper,Button,TableContainer,TableBody,Typography,Modal,ExpansionPanel,ExpansionPanelDetails,ExpansionPanelSummary} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
 import styled from 'styled-components';
-import DeleteProduct from './ProductActions/DeleteProduct';
-import DeleteProductSize from './ProductActions/DeleteProductSize';
-import EditProductSize from './ProductActions/EditProductSize';
-import AddEditProduct from './ProductActions/AddEditProduct';
+import {DeleteProduct} from './ProductActions/DeleteProduct';
+import DeleteProductSizeContainer from './ProductActions/DeleteProductSizeContainer';
+import {AddEditProductSize} from './ProductActions/AddEditProductSize';
+import {AddEditProduct} from './ProductActions/AddEditProduct';
+import ImageUploaderContainer from './ProductActions/ImageUploaderContainer';
+import withStyles from "@material-ui/core/styles/withStyles";
+import { productActions } from '../../_actions';
+import { connect } from 'react-redux';
 
 const DELETE = 'delete';
 const DELETE_PRODUCT_SIZE = 'delete_product_size';
 const EDIT_PRODUCT_SIZE = 'edit_product_size';
 const EDIT_PRODUCT = 'edit_product';
 const ADD_PRODUCT = 'add_product';
+const ADD_PRODUCT_SIZE = 'ADD_PRODUCT_SIZE'
+const UPLOAD_IMAGE = 'UPLOAD_IMAGE'
 
 const MainContainer = styled.div`
     width:100%;
+    padding:5vh
 `;
 
 const HeadContainer = styled.div`
@@ -37,64 +44,102 @@ const LinkContainer = styled.div`
     justify-content:center;
 `;
 
-export default  class ProductContainer extends React.Component {
+const ExpansionContainer = styled.div`
+`;
+
+const IconLeftExpansionPanelSummary = withStyles({
+    expandIcon: {
+        order: -1
+    }
+})(ExpansionPanelSummary);
+
+class ProductContainer extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            visibleActionPopup:null
+            visibleActionPopup:null,
+            product:null,
+            productDesc:null
         }
         this.handleActionPopupClose = this.handleActionPopupClose.bind(this);
     }
 
-    onActionClickHandler(action) {
-    switch (action) {
-        case DELETE:
-            this.handleDeleteAction();
-            break;
-        case DELETE_PRODUCT_SIZE:
-            this.handleDeleteProductSizeAction();
-            break;
-        case EDIT_PRODUCT:
-            this.handleEditAction();
-            break;
-        case EDIT_PRODUCT_SIZE:
-            this.handleEditProductSizeAction();
-            break;
-        case ADD_PRODUCT:
-            this.handleAddAction();
-            break;
-        default:
-            break;
-        }
+    componentDidMount(){
+        this.props.getAll()
     }
 
-    handleDeleteAction() {
+    onActionClickHandler(action,data) {
+        switch (action) {
+            case DELETE:
+                this.handleDeleteAction(data);
+                break;
+            case DELETE_PRODUCT_SIZE:
+                this.handleDeleteProductSizeAction(data);
+                break;
+            case EDIT_PRODUCT:
+                this.handleEditAction(data);
+                break;
+            case EDIT_PRODUCT_SIZE:
+                this.handleEditProductSizeAction(data);
+                break;
+            case ADD_PRODUCT_SIZE:
+                this.handleAddProductSizeAction(data);
+                break;
+            case ADD_PRODUCT:
+                this.handleAddAction();
+                break;
+            case UPLOAD_IMAGE:
+                this.handleUploadImage();
+                break;
+            default:
+                break;
+            }
+    }
+
+    handleDeleteAction(data) {
         this.setState({
-            visibleActionPopup:DELETE
+            visibleActionPopup:DELETE,
+            product:data
         })
     }
 
-    handleDeleteProductSizeAction() {
+    handleDeleteProductSizeAction(data) {
         this.setState({
-            visibleActionPopup:DELETE_PRODUCT_SIZE
+            visibleActionPopup:DELETE_PRODUCT_SIZE,
+            productDesc:data
         })
     }
 
-    handleEditAction() {
+    handleEditAction(data) {
         this.setState({
-            visibleActionPopup:EDIT_PRODUCT
+            visibleActionPopup:EDIT_PRODUCT,
+            product:data
         })
     }
 
-    handleEditProductSizeAction() {
+    handleEditProductSizeAction(data) {
         this.setState({
-            visibleActionPopup:EDIT_PRODUCT_SIZE
+            visibleActionPopup:EDIT_PRODUCT_SIZE,
+            productDesc:data
+        })
+    }
+
+    handleAddProductSizeAction(data) {
+        this.setState({
+            visibleActionPopup:ADD_PRODUCT_SIZE,
+            product:data
         })
     }
 
     handleAddAction() {
         this.setState({
             visibleActionPopup:ADD_PRODUCT
+        })
+    }
+
+    handleUploadImage() {
+        this.setState({
+            visibleActionPopup:UPLOAD_IMAGE
         })
     }
 
@@ -105,27 +150,47 @@ export default  class ProductContainer extends React.Component {
     }
 
   render() {
+    const { products } = this.props;
+
     const deleteBody = (
         <Paper style={{width:'80vh',height:'25vh'}}>
-            <DeleteProduct/>
+            <DeleteProduct product={this.state.product}/>
         </Paper>
     );
 
     const deleteProductSizeBody = (
         <Paper style={{width:'80vh',height:'25vh'}}>
-            <DeleteProductSize/>
+            <DeleteProductSizeContainer productDesc={this.state.productDesc}/>
         </Paper>
     );
 
     const editProductSizeBody = (
-        <Paper style={{width:'45vh',height:'50vh'}}>
-            <EditProductSize/>
+        <Paper style={{width:'45vh',height:'60vh'}}>
+            <AddEditProductSize isEdit={true} productDesc={this.state.productDesc} />
         </Paper>
     );
 
-    const addEditProductBody = (
-        <Paper style={{width:'80vh',height:'90vh'}}>
+    const addProductSizeBody = (
+        <Paper style={{width:'45vh',height:'60vh'}}>
+            <AddEditProductSize product={this.state.product}/>
+        </Paper>
+    );
+
+    const addProductBody = (
+        <Paper style={{width:'70vh',height:'40vh'}}>
             <AddEditProduct/>
+        </Paper>
+    );
+
+    const editProductBody = (
+        <Paper style={{width:'70vh',height:'40vh'}}>
+            <AddEditProduct isEdit={true} product={this.state.product}/>
+        </Paper>
+    );
+
+    const uploadImageBody = (
+        <Paper style={{width:'40vh',height:'40vh'}}>
+            <ImageUploaderContainer/>
         </Paper>
     );
 
@@ -136,62 +201,96 @@ export default  class ProductContainer extends React.Component {
                 <Button variant="contained" color="primary" onClick={this.onActionClickHandler.bind(this,ADD_PRODUCT)}>Add New Product</Button>
             </HeadContainer>
             <ProductListContainer>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary
-                    expandIcon={<FeatherIcon.ChevronDown />}
-                    id="panel1a-header"
-                    style={{paddingLeft:'5vh'}}
-                    >
-                    <div style={{display:'flex',justifyContent:'flex-start'}}>
-                        <Typography variant="h6">
-                            1. Haldi
-                        </Typography>
-                        <Button variant="text">
-                            <FeatherIcon.Edit size={20} onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT)}/>
-                        </Button>
-                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,DELETE)}>
-                            <FeatherIcon.Trash2 size={20}/>
-                        </Button>
-                    </div>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <TableContainer>
-                            <Table  aria-label="simple table">
-                                <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">Size</TableCell>
-                                    <TableCell align="center">Price</TableCell>
-                                    <TableCell align="center">Availability</TableCell>
-                                    <TableCell align="center">Actions</TableCell>
-                                </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
-                                        <TableCell align="center">500gm</TableCell>
-                                        <TableCell align="center">400 Rs.</TableCell>
-                                        <TableCell align="center">In Stock</TableCell>
-                                        <TableCell align="center">
-                                            <LinkContainer>
-                                                <Button onClick={this.onActionClickHandler.bind(this,DELETE_PRODUCT_SIZE)}>
-                                                    <FeatherIcon.Trash2
-                                                        color="#000000"
-                                                        size={20}
-                                                    />
-                                                </Button>
-                                                <Button onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT_SIZE)}>
-                                                    <FeatherIcon.Edit
-                                                        color="#000000"
-                                                        size={20}
-                                                    />
-                                                </Button>
-                                            </LinkContainer>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                {
+                    products !== null && typeof products !== "undefined" && products.length !== 0 && products.map((product,index)=>(
+                        <ExpansionContainer key={index}>
+                            <ExpansionPanel>
+                                <IconLeftExpansionPanelSummary
+                                expandIcon={<FeatherIcon.ChevronDown />}
+                                style={{paddingLeft:'2vh'}}
+                                >
+                                    <Typography variant="h6" style={{paddingLeft:'1vh'}}>
+                                        {product === null ? '' : product.product.title}
+                                    </Typography>
+                                    <div style={{marginLeft:'auto'}}>
+                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,ADD_PRODUCT_SIZE,product)}>
+                                            <FeatherIcon.PlusCircle size={20}/>
+                                        </Button>
+                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,UPLOAD_IMAGE)}>
+                                            <FeatherIcon.Upload size={20}/>
+                                        </Button>
+                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT,product)}>
+                                            <FeatherIcon.Edit size={20} />
+                                        </Button>
+                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,DELETE,product)}>
+                                            <FeatherIcon.Trash2 size={20}/>
+                                        </Button>
+                                    </div>
+                                </IconLeftExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <TableContainer>
+                                        <Table  aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="center">Size</TableCell>
+                                                    <TableCell align="center">Price</TableCell>
+                                                    <TableCell align="center">MRP</TableCell>
+                                                    <TableCell align="center">Discount</TableCell>
+                                                    <TableCell align="center">Availability</TableCell>
+                                                    <TableCell align="center">Actions</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            {
+                                                product !== null && product.productDescriptions.length !== 0 && (
+                                                <TableBody>
+                                                    {
+                                                        product.productDescriptions.map((productDesc,i)=>(
+                                                        <TableRow key={i}>
+                                                            <TableCell align="center">
+                                                                {productDesc === null ? '' : productDesc.size}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                {productDesc === null ? '' : productDesc.price}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                {productDesc === null ? '' : productDesc.mrp}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                {productDesc === null ? '' : productDesc.discount}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                {productDesc === null ? '' : productDesc.availability}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <LinkContainer>
+                                                                    <Button onClick={this.onActionClickHandler.bind(this,DELETE_PRODUCT_SIZE,productDesc)}>
+                                                                        <FeatherIcon.Trash2
+                                                                            color="#000000"
+                                                                            size={20}
+                                                                        />
+                                                                    </Button>
+                                                                    <Button onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT_SIZE,productDesc)}>
+                                                                        <FeatherIcon.Edit
+                                                                            color="#000000"
+                                                                            size={20}
+                                                                        />
+                                                                    </Button>
+                                                                </LinkContainer>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                        ))
+                                                    }
+                                                </TableBody>
+                                                )
+                                            }
+                                        </Table>
+                                    </TableContainer>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                            <PaddingContainer/>
+                        </ExpansionContainer>
+                    )) 
+                }
             </ProductListContainer>
             <Modal
                 open={this.state.visibleActionPopup===DELETE}
@@ -215,20 +314,46 @@ export default  class ProductContainer extends React.Component {
                 {editProductSizeBody}
             </Modal>
             <Modal
+                open={this.state.visibleActionPopup===ADD_PRODUCT_SIZE}
+                onClose={this.handleActionPopupClose}
+                style={{display:'flex',justifyContent:'center',top:'30%',bottom:'30%'}}
+            >
+                {addProductSizeBody}
+            </Modal>
+            <Modal
                 open={this.state.visibleActionPopup===EDIT_PRODUCT}
                 onClose={this.handleActionPopupClose}
-                style={{display:'flex',justifyContent:'center',top:'8%'}}
+                style={{display:'flex',justifyContent:'center',top:'25%'}}
             >
-                {addEditProductBody}
+                {editProductBody}
             </Modal>
             <Modal
                 open={this.state.visibleActionPopup===ADD_PRODUCT}
                 onClose={this.handleActionPopupClose}
-                style={{display:'flex',justifyContent:'center',top:'8%'}}
+                style={{display:'flex',justifyContent:'center',top:'25%'}}
             >
-                {addEditProductBody}
+                {addProductBody}
+            </Modal>
+            <Modal
+                open={this.state.visibleActionPopup===UPLOAD_IMAGE}
+                onClose={this.handleActionPopupClose}
+                style={{display:'flex',justifyContent:'center',top:'25%'}}
+            >
+                {uploadImageBody}
             </Modal>
         </MainContainer>
     );
   }
 }
+
+function mapState(state) {
+    const { products } = state.product;
+    return { products };
+}
+
+const actionCreators = {
+    getAll: productActions.getAll,
+};
+
+const connectedProductContainer = connect(mapState, actionCreators)(ProductContainer);
+export { connectedProductContainer as ProductContainer };

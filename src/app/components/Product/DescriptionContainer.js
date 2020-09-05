@@ -62,18 +62,14 @@ class DescriptionContainer extends React.Component {
     }
 
     handleLike(product){
-        console.log('product',product)
         this.setState({
             isLiked:!this.state.isLiked
-        },()=>{
-            console.log('isliked',this.state.isLiked)
         })
         const wishlistProduct ={
             usersId:4,
             productId:product.product.id,
             quantity:10
         }
-        console.log('wishlist product',wishlistProduct)
         this.props.postWishlist(wishlistProduct)
     }
 

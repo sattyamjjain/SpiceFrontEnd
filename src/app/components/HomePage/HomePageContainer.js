@@ -66,21 +66,8 @@ const responsive = {
 
 class HomePageContainer extends React.Component {
 
-    constructor(props){
-        super(props)
-        this.state={
-
-        }
-    }
-
-    componentDidMount(){
-        console.log('componentDidMount 2')
-        console.log('componentDidMount product--',this.props.product)
-        this.props.getAll()
-      }
-    
   render() {
-    console.log('product--',this.props.product)
+    const { products } = this.props
     return (
         <MainContainer>
             <SlideShowImage/>
@@ -145,80 +132,44 @@ class HomePageContainer extends React.Component {
                 <Parallax bgImage={require('../images/HomeImage2.jpg')} strength={500} blur={5}>
                     <div style={{ height: 500 }}>
                         <ProductContent style={insideStyles}>
-                            <Carousel
-                            swipeable={false}
-                            draggable={false}
-                            showDots={false}
-                            responsive={responsive}
-                            ssr={true} // means to render carousel on server-side.
-                            infinite={true}
-                            autoPlay={true}
-                            autoPlaySpeed={1000}
-                            keyBoardControl={true}
-                            customTransition="all .5"
-                            transitionDuration={500}
-                            containerClass="carousel-container"
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                            deviceType={this.props.deviceType}
-                            dotListClass="custom-dot-list-style"
-                            itemClass="carousel-item-padding-40-px"
-                            >
-                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                    <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                    <div style={{padding:'5px',textAlign:'center'}}>
-                                        <Typography variant="h6">
-                                            Haldi
-                                        </Typography>
-                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                            Buy it now
-                                        </Button>
-                                    </div>
-                                </Paper>
-                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                    <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                    <div style={{padding:'5px',textAlign:'center'}}>
-                                        <Typography variant="h6">
-                                            Haldi
-                                        </Typography>
-                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                            Buy it now
-                                        </Button>
-                                    </div>
-                                </Paper>
-                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                    <img src={require('../images/haldi3.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                    <div style={{padding:'5px',textAlign:'center'}}>
-                                        <Typography variant="h6">
-                                            Haldi
-                                        </Typography>
-                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                            Buy it now
-                                        </Button>
-                                    </div>
-                                </Paper>
-                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                    <img src={require('../images/haldi.jpg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                    <div style={{padding:'5px',textAlign:'center'}}>
-                                        <Typography variant="h6">
-                                            Haldi
-                                        </Typography>
-                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                            Buy it now
-                                        </Button>
-                                    </div>
-                                </Paper>
-                                <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}}>
-                                    <img src={require('../images/haldi2.jpeg')} alt="haldi" style={{width:'200px',height:'200px'}}/>
-                                    <div style={{padding:'5px',textAlign:'center'}}>
-                                        <Typography variant="h6">
-                                            Haldi
-                                        </Typography>
-                                        <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
-                                            Buy it now
-                                        </Button>
-                                    </div>
-                                </Paper>
-                            </Carousel>
+                            {
+                                products !== null && typeof products !=="undefined" && products.length !== 0 && (
+                                    <Carousel
+                                    swipeable={false}
+                                    draggable={false}
+                                    showDots={false}
+                                    responsive={responsive}
+                                    ssr={true} // means to render carousel on server-side.
+                                    infinite={true}
+                                    autoPlay={true}
+                                    autoPlaySpeed={1000}
+                                    keyBoardControl={true}
+                                    customTransition="all .5"
+                                    transitionDuration={500}
+                                    containerClass="carousel-container"
+                                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                                    deviceType={this.props.deviceType}
+                                    dotListClass="custom-dot-list-style"
+                                    itemClass="carousel-item-padding-40-px"
+                                    >
+                                        {
+                                            products.map((productItem,index)=>(
+                                            <Paper variant="elevation" elevation={10} style={{padding:'10px',width:'100%'}} key={index}>
+                                                <img src={productItem === null ? '' : productItem.productImages[0].image} alt={productItem === null ? '' : productItem.product.title} style={{width:'200px',height:'200px'}}/>
+                                                <div style={{padding:'5px',textAlign:'center'}}>
+                                                    <Typography variant="h6">
+                                                        {productItem === null ? '' : productItem.product.title}
+                                                    </Typography>
+                                                    <Button variant="contained" style={{paddingTop:'5px',backgroundColor:"#EE6622",textTransform:'capitalize'}}>
+                                                        Buy it now
+                                                    </Button>
+                                                </div>
+                                            </Paper>
+                                            ))
+                                        }
+                                    </Carousel>
+                                )
+                            }
                         </ProductContent>
                     </div>
                 </Parallax>
@@ -237,15 +188,17 @@ class HomePageContainer extends React.Component {
   }
 }
 
-function mapState(state) {
-    const { product } = state.product;
-    return { product };
-}
+export {HomePageContainer}
 
-const actionCreators = {
-    getAll: productActions.getAll,
-};
+// function mapState(state) {
+//     const { product } = state.product;
+//     return { product };
+// }
 
-const connectedProduct = connect(mapState, actionCreators)(HomePageContainer);
+// const actionCreators = {
+//     getAll: productActions.getAll,
+// };
 
-export { connectedProduct as HomePageContainer };
+// const connectedProduct = connect(mapState, actionCreators)(HomePageContainer);
+
+// export { connectedProduct as HomePageContainer };

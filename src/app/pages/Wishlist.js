@@ -18,7 +18,6 @@ class Wishlist extends React.Component{
 
   render(){
     const { wishlists } = this.props;
-    console.log('wishlists',wishlists)
     return (
       <div>
         <WishListContainer wishlists={wishlists} />

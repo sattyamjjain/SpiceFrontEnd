@@ -21,16 +21,8 @@ function login(username, password) {
     return fetch(`http://localhost:8080/api/auth/signin`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            console.log('user',user);
-            if(localStorage.getItem('adminLogin') === 'admin'){
-                console.log('localstorage user',user);
-                localStorage.setItem('admin', JSON.stringify(user));
-                localStorage.setItem('isAuthenticated',true)
-            }else{
-                console.log('localstorage admin',user);
-                localStorage.setItem('user', JSON.stringify(user));
-                localStorage.setItem('isAuthenticated',true)
-            }
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('isAuthenticated',true)
             return user;
         });
 }
@@ -94,7 +86,6 @@ function editProfile(user,userId) {
 
 
 function register(user) {
-    console.log('user service',user)
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

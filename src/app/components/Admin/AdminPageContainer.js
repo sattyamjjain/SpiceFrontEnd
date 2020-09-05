@@ -28,11 +28,10 @@ class AdminPageContainer extends React.Component {
     }
 
     handleAdminLogin(formValues){
-        console.log('formvalues',formValues)
         this.props.login(formValues)
         localStorage.setItem('adminLogin','admin')
         history.push('/dashboard')
-        window.location.reload()
+        //window.location.reload()
     }
 
   render() {
@@ -112,7 +111,6 @@ class AdminPageContainer extends React.Component {
 
 function mapState(state) {
     const { loggingIn } = state.authentication;
-    console.log('')
     return { loggingIn };
 }
 

@@ -9,6 +9,7 @@ const DELETE = 'delete';
 
 const MainContainer = styled.div`
     width:100%;
+    padding:5vh
 `;
 
 const HeadContainer = styled.div`
@@ -20,7 +21,7 @@ const LinkContainer = styled.div`
     justify-content:center;
 `;
 
-export default class OrderContainer extends React.Component {
+export class OrderContainer extends React.Component {
     constructor(props){
         super(props);
         this.state={

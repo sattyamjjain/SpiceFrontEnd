@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import {Button,TextField,Typography} from '@material-ui/core';
+import {Button,TextField,Typography,Snackbar} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import { Formik } from 'formik';
 import { userActions } from '../../_actions';
 import styled from 'styled-components';
@@ -14,29 +15,48 @@ const MainContainer = styled.div`
 const FormContainer = styled.div`
 `;
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 class SignupContainer extends React.Component {
 
     constructor(props){
         super(props)
         this.state={
-            registerResult:null
+            registerResult:null,
+            successSnackBar:false,
+            failureSnackBar:false,
+            failureMessage:''
         }
         this.handleSignup = this.handleSignup.bind(this)
     }
 
-    componentDidMount(){
-        console.log('signupPage')
-    }
-
     handleSignup(formValues){
-        console.log('formvalues',formValues)
-        console.log('---',this.props.register(formValues))
-        this.handleLoginPage();
-        this.goToPage('login')
-    }
-
-    handleLoginPage(){
-        console.log('---',this.props.result)
+        console.log('formValues',formValues)
+        if(formValues.password === formValues.confirmPassword){
+            this.props.register(formValues)
+            .then(res=>{
+                console.log('res',res)
+                this.setState({
+                    successSnackBar:true
+                })
+                //this.goToPage('login')
+            })
+            .catch(err=>{
+                const errMessage = err.split('Error: ')[1]
+                console.log('err',errMessage)
+                this.setState({
+                    failureSnackBar:true,
+                    failureMessage:errMessage
+                })
+            })
+        }else{
+            this.setState({
+                failureSnackBar:true,
+                failureMessage:'Password doesn\'t match'
+            })
+        }
     }
 
     goToPage(val){
@@ -44,7 +64,6 @@ class SignupContainer extends React.Component {
     }
 
     render() {
-        const { registering,result } = this.props;
         return (
             <MainContainer>
                 <Typography variant="h5" style={{textAlign:'center'}}>
@@ -68,7 +87,7 @@ class SignupContainer extends React.Component {
                                 <div style={{paddingTop:'10px'}}>
                                     <TextField 
                                         fullWidth
-                                        label="Username"
+                                        label="Username or Mobile No."
                                         type="username"
                                         name="username"
                                         onChange={handleChange}
@@ -128,6 +147,16 @@ class SignupContainer extends React.Component {
                         )}
                     </Formik>
                 </FormContainer>
+                <Snackbar open={this.state.successSnackBar} autoHideDuration={6000} onClose={this.handleSuccessClose}>
+                    <Alert onClose={this.handleSuccessClose} severity="success">
+                        Signup Successful
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.failureSnackBar} autoHideDuration={6000} onClose={this.handleFailureClose}>
+                    <Alert onClose={this.handleFailureClose} severity="error">
+                        {this.state.failureMessage}
+                    </Alert>
+                </Snackbar>
             </MainContainer>
         );
     }

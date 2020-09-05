@@ -28,6 +28,19 @@ export function productReview(state = {}, action) {
             return {
                 error: action.error
             };
+        case productReviewConstants.DELETE_REVIEW_REQUEST:
+            return {
+                loading: true
+            };
+        case productReviewConstants.DELETE_REVIEW_SUCCESS:
+            return {
+                ...state,
+                success:true,
+            };
+        case productReviewConstants.DELETE_REVIEW_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

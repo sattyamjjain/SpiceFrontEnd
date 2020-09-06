@@ -13,10 +13,13 @@ class Profile extends React.Component{
   }
 
   componentDidMount(){
-    this.props.getUser(4)
+    let url = this.props.location.pathname;
+    const userId = url.split('/')[1]
+    this.props.getUser(userId)
   }
 
   render(){
+    console.log('user',this.props.user)
     return (
       <div>
         <ProfileContainer user={this.props.user}/>

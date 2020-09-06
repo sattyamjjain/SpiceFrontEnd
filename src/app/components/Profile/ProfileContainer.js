@@ -109,7 +109,7 @@ export function  ProfileContainer (props) {
 
       const addAddressBody = (
         <div style={modalStyle} className={classes.paper} >
-          <AddressFormContainer />
+          <AddressFormContainer handleActionPopupClose={handleActionPopupClose}/>
         </div>
       );
 
@@ -121,13 +121,13 @@ export function  ProfileContainer (props) {
 
       const deleteAddressBody = (
         <div style={modalStyle} className={classes.paper} >
-          <DeleteAddressContainer userAddress={userAddress}/>
+          <DeleteAddressContainer userAddress={userAddress} handleActionPopupClose={handleActionPopupClose}/>
         </div>
       );
 
       const editProfileBody = (
         <div style={modalStyle} className={classes.paper}>
-          <EditProfileContainer userData={userData}/>
+          <EditProfileContainer userData={userData} handleActionPopupClose={handleActionPopupClose}/>
         </div>
       );
     return (

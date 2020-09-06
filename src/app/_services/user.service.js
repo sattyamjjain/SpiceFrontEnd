@@ -2,6 +2,7 @@ import { authHeader } from '../_helpers';
 
 export const userService = {
     login,
+    adminLogin,
     register,
     getAll,
     getUser,
@@ -23,6 +24,22 @@ function login(username, password) {
         .then(user => {
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('isAuthenticated',true)
+            return user;
+        });
+}
+
+function adminLogin(username, password) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    };
+
+    return fetch(`http://localhost:8080/api/auth/signin`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            localStorage.setItem('admin', JSON.stringify(user));
+            localStorage.setItem('isAdminAuthenticated',true)
             return user;
         });
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import ProductContainer from '../components/Product/ProductContainer'
-// import queryString from 'query-string'
 import withLayout from "../HOC/withLayout";
 import { productActions } from '../_actions';
 import { connect } from 'react-redux';
@@ -15,7 +14,6 @@ class Product extends React.Component{
 
   componentDidMount(){
     let url = this.props.location.pathname;
-    // let params = queryString.parse(url);
     const productId = url.split('/')[2]
     this.props.getProdById(productId)
   }

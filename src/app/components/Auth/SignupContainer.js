@@ -41,7 +41,7 @@ class SignupContainer extends React.Component {
                 this.setState({
                     successSnackBar:true
                 })
-                //this.goToPage('login')
+                this.goToPage('login')
             })
             .catch(err=>{
                 const errMessage = err.split('Error: ')[1]

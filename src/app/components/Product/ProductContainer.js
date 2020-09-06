@@ -5,7 +5,7 @@ import * as FeatherIcon from 'react-feather';
 import styled from 'styled-components';
 import ImageContainer from './ImageContainer';
 import {DescriptionContainer} from './DescriptionContainer';
-import PriceContainer from './PriceContainer';
+import {PriceContainer} from './PriceContainer';
 import TabContainer from './TabContainer';
 
 const MainContainer = styled.div`

@@ -28,14 +28,17 @@ function getAll() {
 }
 
 function getProdById(id) {
-    return dispatch => {
+    return dispatch => new Promise(function(resolve, reject){
         dispatch(request());
         productService.getProdById(id)
-            .then(
-                product => dispatch(success(product)),
-                error => dispatch(failure(error.toString()))
-            );
-    };
+            .then(product => { 
+                dispatch(success(product));
+                resolve(product);
+            }).catch(error=>{
+                dispatch(failure(error.toString()))
+                reject(error);
+            })
+    });
 
     function request() { return { type: productConstants.GET_BY_ID_REQUEST } }
     function success(product) { return { type: productConstants.GET_BY_ID_SUCCESS, product } }

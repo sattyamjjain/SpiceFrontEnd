@@ -13,7 +13,9 @@ class Wishlist extends React.Component{
   }
 
   componentDidMount(){
-    this.props.getAll(4)
+    let url = this.props.location.pathname;
+    const userId = url.split('/')[1]
+    this.props.getAllById(userId)
   }
 
   render(){
@@ -32,7 +34,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  getAll: wishlistActions.getAll,
+  getAllById: wishlistActions.getAllById,
 };
 
 const connectedWishList = connect(mapState, actionCreators)(Wishlist);

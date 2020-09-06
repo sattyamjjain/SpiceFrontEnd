@@ -3,6 +3,7 @@ import { userService } from '../_services';
 
 export const userActions = {
     login,
+    adminLogin,
     register,
     getAll,
     getUser,
@@ -17,6 +18,25 @@ function login(values) {
         dispatch(request({ values}));
 
         userService.login(values.username, values.password)
+            .then(user => { 
+                dispatch(success(user));
+                resolve(user);
+            }).catch(error=>{
+                dispatch(failure(error.toString()))
+                reject(error);
+            })
+    });
+
+    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
+    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function adminLogin(values) {
+    return dispatch => new Promise(function(resolve, reject) {
+        dispatch(request({ values}));
+
+        userService.adminLogin(values.username, values.password)
             .then(user => { 
                 dispatch(success(user));
                 resolve(user);

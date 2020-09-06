@@ -61,6 +61,7 @@ class EditProfileContainer extends React.Component {
         }
         this.handleGenderChange = this.handleGenderChange.bind(this)
         this.handleProfileSubmit = this.handleProfileSubmit.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleGenderChange = (event) => {
@@ -71,8 +72,13 @@ class EditProfileContainer extends React.Component {
 
     handleProfileSubmit = (formValues) =>{
         formValues.gender = this.state.gender
+        console.log('user profile',formValues)
         this.props.editProfile(formValues,this.props.userData.user.id)
         //window.location.reload(true)
+    }
+
+    handlePopupClose(){
+        this.props.handleActionPopupClose();
     }
 
   render() {
@@ -84,7 +90,7 @@ class EditProfileContainer extends React.Component {
             <FormContainer>
                 <Formik
                     initialValues={{ 
-                        name:this.props.userData ? this.props.userData.user.fullName : '',
+                        fullName:this.props.userData ? this.props.userData.user.fullName : '',
                         username:this.props.userData ? this.props.userData.user.username :'',
                         dob:this.props.userData ? this.props.userData.user.dob :'',
                         profilePic:this.props.userData ? this.props.userData.user.profilePic :'',
@@ -114,12 +120,12 @@ class EditProfileContainer extends React.Component {
                                     <div style={{paddingTop:'10px'}}>
                                         <TextField 
                                             fullWidth
-                                            type="name"
-                                            name="name"
+                                            type="fullName"
+                                            name="fullName"
                                             placeholder="Full Name"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.name}
+                                            value={values.fullName}
                                         />
                                     </div>
                                     <div style={{paddingTop:'10px'}}>
@@ -198,7 +204,7 @@ class EditProfileContainer extends React.Component {
                                         />
                                     </div>
                                     <div style={{paddingTop:'20px',display:'flex',justifyContent:'space-between'}}>
-                                        <Button variant="contained" disabled={isSubmitting} color="default" style={{textTransform:'capitalize'}}>
+                                        <Button variant="contained" disabled={isSubmitting} color="default" style={{textTransform:'capitalize'}} onClick={this.handlePopupClose}>
                                             Close
                                         </Button>
                                         <Button variant="contained" type="submit" disabled={isSubmitting} color="primary" style={{textTransform:'capitalize'}}>

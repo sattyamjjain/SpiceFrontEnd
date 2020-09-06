@@ -28,10 +28,21 @@ class AdminPageContainer extends React.Component {
     }
 
     handleAdminLogin(formValues){
-        this.props.login(formValues)
-        localStorage.setItem('adminLogin','admin')
-        history.push('/dashboard')
-        //window.location.reload()
+        this.props.adminLogin(formValues)
+        .then(res=>{
+            console.log('res',res)
+            this.setState({
+                successSnackBar:true
+            })
+            history.push('/shuklamasala/dashboard')
+            history.go(0)
+        })
+        .catch(err=>{
+            console.log('err',err)
+            this.setState({
+                failureSnackBar:true
+            })
+        })
     }
 
   render() {
@@ -115,7 +126,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    login: userActions.login,
+    adminLogin: userActions.adminLogin,
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(AdminPageContainer);

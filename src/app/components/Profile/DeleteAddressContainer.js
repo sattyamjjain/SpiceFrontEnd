@@ -20,10 +20,16 @@ class DeleteAddressContainer extends React.Component {
 
         }
         this.handleDelete = this.handleDelete.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleDelete = () =>{
         this.props.deleteAddress(this.props.userAddress.id)
+    }
+
+    handlePopupClose(){
+        console.log('clicked')
+        this.props.handleActionPopupClose();
     }
 
   render() {
@@ -37,7 +43,7 @@ class DeleteAddressContainer extends React.Component {
                 Are you sure you want to delete this address?
             </Typography>
             <div style={{display:'flex',justifyContent:'flex-end',paddingTop:'10px'}}>
-                <Button variant="contained">Close</Button>
+                <Button variant="contained" onClick={this.handlePopupClose}>Close</Button>
                 <PaddingContainer/>
                 <Button variant="contained" color="primary" onClick={this.handleDelete}>Delete</Button>
             </div> 

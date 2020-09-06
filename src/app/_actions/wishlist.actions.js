@@ -2,19 +2,22 @@ import { wishlistConstants } from '../_constants';
 import { wishlistService } from '../_services';
 
 export const wishlistActions = {
-    getAll,
+    getAllById,
     postWishlist
 };
 
-function getAll(id) {
-    return dispatch => {
+function getAllById(id) {
+    return dispatch => new Promise(function(resolve, reject){
         dispatch(request());
-        wishlistService.getAll(id)
-            .then(
-                wishlists => dispatch(success(wishlists)),
-                error => dispatch(failure(error.toString()))
-            );
-    };
+        wishlistService.getAllById(id)
+            .then(wishlists => { 
+                dispatch(success(wishlists));
+                resolve(wishlists);
+            }).catch(error=>{
+                dispatch(failure(error.toString()))
+                reject(error);
+            })
+    });
 
     function request() { return { type: wishlistConstants.GETALL_REQUEST } }
     function success(wishlists) { return { type: wishlistConstants.GETALL_SUCCESS, wishlists } }

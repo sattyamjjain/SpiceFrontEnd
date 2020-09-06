@@ -1,8 +1,8 @@
 import { authHeader } from '../_helpers';
 
-export const wishlistService = {
+export const cartService = {
     getAllById,
-    postWishlist,
+    postCart,
 };
 
 function getAllById(userId) {
@@ -11,17 +11,17 @@ function getAllById(userId) {
         headers:authHeader()
     };
 
-    return fetch(`http://localhost:8080/api/users/${userId}/wishlist`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:8080/api/users/${userId}/cart`, requestOptions).then(handleResponse);
 }
 
-function postWishlist(wishlist) {
+function postCart(cart) {
     const requestOptions = {
         method: 'POST',
         headers: {...authHeader(),  'Content-Type': 'application/json' },
-        body: JSON.stringify(wishlist)
+        body: JSON.stringify(cart)
     };
 
-    return fetch(`http://localhost:8080/api/users/wishlist`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:8080/api/users/cart`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

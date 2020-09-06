@@ -10,6 +10,7 @@ import Ticker from 'react-ticker'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AuthContainer from './Auth/AuthContainer';
 import * as FeatherIcon from 'react-feather';
+import {history} from '../_helpers'
 
 const AUTH = 'auth';
 
@@ -85,17 +86,17 @@ const StyledMenuItem = withStyles((theme) => ({
 
 function Header (props) {
   const classes = useStyles();
-  const user = localStorage.getItem('user')
+  // const productList = JSON.parse(localStorage.getItem('productList'))
+  const user = JSON.parse(localStorage.getItem('user'))
   const [modalStyle] = React.useState(getModalStyle);
   const [visibleActionPopup, setVisibleActionPopup] = React.useState(null);
   const [accountButton, setAccountButton] = React.useState(false);
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorAccount, setAnchorAccount] = React.useState(null);
 
-  console.log('user',user)
+  //console.log('productList',JSON.parse(localStorage.getItem('productList')))
 
   React.useEffect(() => {
-    //props.getAll()
     if(localStorage.getItem('user')){
       setAccountButton(true)
     }
@@ -120,7 +121,7 @@ function Header (props) {
   const handleUserLogout = () =>{
     localStorage.removeItem('user')
     localStorage.setItem('isAuthenticated',false)
-    window.location.reload()
+    history.go(0)
   }
 
   const authBody = (
@@ -242,7 +243,7 @@ function Header (props) {
                       onClose={handleAccountClose}
                       style={{zIndex:'999999999'}}
                     >
-                      <Link to={`/${user === null? '' : user.username}/profile`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.id}/profile`} style={{color:'inherit'}}>
                         <StyledMenuItem >
                             <ListItemIcon>
                               <FeatherIcon.User size={20} color="#000000"/>
@@ -250,7 +251,7 @@ function Header (props) {
                             <ListItemText primary="Profile" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null? '' : user.username}/wishlist`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.id}/wishlist`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Heart size={20} color="#000000"/>
@@ -258,7 +259,7 @@ function Header (props) {
                             <ListItemText primary="Wishlist" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null? '' : user.username}/cart`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.id}/cart`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                             <ListItemIcon>
                               <FeatherIcon.Truck size={20} color="#000000"/>
@@ -266,7 +267,7 @@ function Header (props) {
                             <ListItemText primary="Your Cart" />
                         </StyledMenuItem>
                       </Link>
-                      <Link to={`/${user === null? '' : user.username}/orders`} style={{color:'inherit'}}>
+                      <Link to={`/${user === null? '' : user.id}/orders`} style={{color:'inherit'}}>
                         <StyledMenuItem>
                           <ListItemIcon>
                             <FeatherIcon.Truck size={20} color="#000000"/>

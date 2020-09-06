@@ -3,8 +3,11 @@ import React from "react";
 import {Paper,Fab,Divider,Typography,Button,ButtonGroup} from '@material-ui/core';
 import { Formik } from 'formik';
 import * as FeatherIcon from 'react-feather';
-
 import styled from 'styled-components';
+import { cartActions} from '../../_actions';
+import { connect } from 'react-redux';
+
+const user=JSON.parse(localStorage.getItem('user'))
 
 const MainContainer = styled.div`
     padding:40px;
@@ -46,16 +49,37 @@ const ButtonContainer = styled.div`
     justify-content:space-between;
 `;
 
+const BrandContainer = styled.div`
+    align-items:center;
+`;
 
-export default class PriceContainer extends React.Component {
+const ItemField = styled.div`
+    display:flex;
+    justify-content:space-between;
+`;
+
+
+class PriceContainer extends React.Component {
     constructor(props){
         super(props);
         this.state={
             counter:1,
             price:null,
-            mrpPrice:null
+            mrpPrice:null,
+            availability:null
         }
+        this.handleCart = this.handleCart.bind(this)
     }
+
+    // componentDidUpdate(){
+    //     if(this.props.product !== null){
+    //         this.setState({
+    //             price: this.props.product.productDescriptions[0].price,
+    //             mrpPrice: this.props.product.productDescriptions[0].mrp,
+    //             availability:this.props.product.productDescriptions[0].availability
+    //         })
+    //     }
+    // }
 
     handleIncrement = () => {
       this.setState(state => ({ counter: state.counter + 1 }));
@@ -72,11 +96,24 @@ export default class PriceContainer extends React.Component {
             if(prodDesc.id === id){
                 this.setState({
                     price:prodDesc.price,
-                    mrpPrice:prodDesc.mrp
+                    mrpPrice:prodDesc.mrp,
+                    availability:prodDesc.availability
                 })
-                localStorage.setItem('availability',prodDesc.availability)
             }
         })
+    }
+
+    handleCart (){
+        console.log('state',this.state)
+        console.log('product',this.props.product.product.id)
+        console.log('userid',user.id)
+        const formValue = {
+            userId:user.id,
+            productId:this.props.product.product.id,
+            size:this.state.size,
+            quantity:this.state.counter
+        }
+        this.props.postCart(formValue)
     }
 
     render() {
@@ -107,6 +144,19 @@ export default class PriceContainer extends React.Component {
                     <DividerContainer>
                         <Divider />
                     </DividerContainer>
+                    <BrandContainer>
+                        <ItemField>
+                            <Typography variant="subtitle1">
+                                Availability
+                            </Typography>
+                            <Typography variant="subtitle1">
+                                {this.state.availability}
+                            </Typography>
+                        </ItemField>
+                    </BrandContainer>
+                    <DividerContainer>
+                        <Divider />
+                    </DividerContainer>
                     <Typography variant="h6">
                         Quantity
                     </Typography>
@@ -121,7 +171,7 @@ export default class PriceContainer extends React.Component {
                         <Divider />
                     </DividerContainer>
                     <ButtonContainer>
-                        <Button variant="contained" style={{textTransform:'capitalize'}}>Add to Cart</Button>
+                        <Button variant="contained" style={{textTransform:'capitalize'}} onClick={this.handleCart}>Add to Cart</Button>
                         <Button variant="contained" style={{textTransform:'capitalize'}}>Buy it Now</Button>
                     </ButtonContainer>
                 </Paper>
@@ -129,3 +179,16 @@ export default class PriceContainer extends React.Component {
         );
     }
 }
+
+function mapState(state) {
+    const { carts } = state.cart;
+    return { carts };
+  }
+  
+  const actionCreators = {
+    postCart: cartActions.postCart,
+  };
+  
+  const connectedWishList = connect(mapState, actionCreators)(PriceContainer);
+  
+  export {connectedWishList as PriceContainer};

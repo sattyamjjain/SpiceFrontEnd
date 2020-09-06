@@ -6,6 +6,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import styled from 'styled-components';
 import { wishlistActions} from '../../_actions';
 import { connect } from 'react-redux';
+import {history} from '../../_helpers'
+
+const user = JSON.parse(localStorage.getItem('user'));
 
 const MainContainer = styled.div`
     padding:30px;
@@ -50,27 +53,58 @@ class DescriptionContainer extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            availability:null,
-            isLiked:true
+            isLiked:false,
+            wishlistRes:null
         }
     }
 
+    // static getDerivedStateFromProps(props, state){
+    //     console.log('state getDerivedStateFromProps',state)
+    //     if(props.product!=null && state.wishlistRes !== null){
+    //         state.wishlistRes.map((wishlistItem)=>{
+    //             if(wishlistItem.productId === props.product.product.id){
+    //                 console.log('match')
+    //                 return {
+    //                     isLiked : true
+    //                 }
+    //             }
+    //         })
+    //     }
+    // }
+
     componentDidMount(){
-        this.setState({
-            availability:localStorage.getItem('availability')
-        })
+        console.log('state componentDidMount',this.state.isLiked)
+        if(user !== null){
+            const userId = user.id;
+            this.props.getAllById(userId)
+            .then(res=>{
+                this.setState({
+                    wishlistRes:res
+                })
+            })
+            .catch(err=>console.log('err',err))
+        }
     }
 
     handleLike(product){
-        this.setState({
-            isLiked:!this.state.isLiked
-        })
-        const wishlistProduct ={
-            usersId:4,
-            productId:product.product.id,
-            quantity:10
+        if(user !== null){
+            this.setState({
+                isLiked:!this.state.isLiked
+            })
+            const wishlistProduct ={
+                usersId:4,
+                productId:product.product.id,
+                quantity:10
+            }
+            if(this.state.isLiked !== true){
+                this.props.postWishlist(wishlistProduct)
+            }else{
+                console.log('else')
+            }
+        }else{
+            history.push('/')
+            history.go(0)
         }
-        this.props.postWishlist(wishlistProduct)
     }
 
     render() {
@@ -84,7 +118,7 @@ class DescriptionContainer extends React.Component {
                     </Typography>
                     <Button onClick={this.handleLike.bind(this,product)}>
                         {
-                            this.state.isLiked?
+                            !this.state.isLiked?
                             <FavoriteBorderIcon fontSize='default'/>:
                             <FavoriteIcon fontSize='default' color='primary'/>
                         }
@@ -94,19 +128,6 @@ class DescriptionContainer extends React.Component {
                     <Typography variant="subtitle1" style={{paddingTop:'20px'}}>
                         {product === null ? '' : product.product.description}
                     </Typography>
-                    <DividerContainer>
-                        <Divider />
-                    </DividerContainer>
-                    <BrandContainer>
-                        <ItemField>
-                            <Typography variant="subtitle1">
-                                Availability
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                {this.state.availability}
-                            </Typography>
-                        </ItemField>
-                    </BrandContainer>
                     <DividerContainer>
                         <Divider />
                     </DividerContainer>
@@ -143,6 +164,7 @@ function mapState(state) {
   
   const actionCreators = {
     postWishlist: wishlistActions.postWishlist,
+    getAllById: wishlistActions.getAllById,
   };
   
   const connectedWishList = connect(mapState, actionCreators)(DescriptionContainer);

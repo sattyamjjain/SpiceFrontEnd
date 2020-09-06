@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { userActions } from '../../_actions';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { history } from '../../_helpers';
 
 const MainContainer = styled.div`
     width:100%;
@@ -46,6 +47,7 @@ class LoginContainer extends React.Component {
                     successSnackBar:true
                 })
                 this.props.loginEnable(true)
+                history.go(0)
                 //this.props.handleClose()
             })
             .catch(err=>{

@@ -175,6 +175,7 @@ class TabReviewContainer extends React.Component {
 
     reviewSubmit(review){
         this.props.postReview(review)
+        window.location.reload()
     }
     
     render() {
@@ -184,7 +185,7 @@ class TabReviewContainer extends React.Component {
             <MainContainer>
                 <div style={{width:'50%'}}>
                     {
-                        reviews && reviews.length !==0 ? reviews.map((review,index)=>(
+                        reviews && reviews.length !==0 && reviews.map((review,index)=>(
                             <ReviewContainer key={index}>
                                 <ReactStars size={20} value={review.rating} edit={false} />
                                 <Typography variant="paragraph">
@@ -198,10 +199,7 @@ class TabReviewContainer extends React.Component {
                                     <Divider/>
                                 </DividerContainer>
                             </ReviewContainer>
-                        )):
-                        <Typography variant="paragraph" >
-                            No reviews yet
-                        </Typography>
+                        ))
                     }
                 </div>
                 <DividerVerticalContainer>

@@ -37,7 +37,7 @@ class WishListContainer extends React.Component {
         const { finalProductList,wishlists} = this.props;
         if(prevProps.finalProductList !== finalProductList || prevProps.wishlists !== wishlists){
             if(finalProductList !== null && wishlists !== null){
-                wishlists.map(cartItem=>{
+                wishlists.forEach(cartItem=>{
                     const product = finalProductList.find(prod=>prod.product.id === cartItem.productId)
                     const productPrice = product.productDescriptions.find(prodPrice => prodPrice.size === cartItem.size)
                     wishlistProducts.push({

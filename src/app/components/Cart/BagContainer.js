@@ -62,7 +62,7 @@ export default class BagContainer extends React.Component {
         const { productList,cartList} = this.props;
         if(prevProps.productList !== productList || prevProps.cartList !== cartList){
             if(productList !== null && cartList !== null){
-                cartList.map(cartItem=>{
+                cartList.forEach(cartItem=>{
                     const product = productList.find(prod=>prod.product.id === cartItem.productId)
                     const productPrice = product.productDescriptions.find(prodPrice => prodPrice.size === cartItem.size)
                     cartProducts.push({

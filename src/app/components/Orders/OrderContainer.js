@@ -76,7 +76,7 @@ class OrderContainer extends React.Component {
                 <SubMainContainer>
                     <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#F6F2F1',borderRadius:'2px',borderWidth:'1px',padding:'10px',width:'90%'}}>
                         <ItemDetailsContainer>
-                            <img src={require('../images/haldi.jpg')} style={{height:'18vh',width:'18vh'}} alt="ItemImage"/>
+                            <img src="#" style={{height:'18vh',width:'18vh'}} alt="ItemImage"/>
                             <DetailsContainer style={{width:'100%',display:'flex',justifyContent:'space-between',padding:'2vh',paddingRight:'10vh'}}>
                                 <DetailsNameContainer>
                                     <Typography variant="h5">Haldi</Typography>

@@ -34,6 +34,18 @@ export function wishlist(state = initialState, action) {
             return {
                 error: action.error
             };
+        case wishlistConstants.DELETE_WISHLIST_REQUEST:
+            return {
+                loading: true
+            };
+        case wishlistConstants.DELETE_WISHLIST_SUCCESS:
+            return {
+                success:true,
+            };
+        case wishlistConstants.DELETE_WISHLIST_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

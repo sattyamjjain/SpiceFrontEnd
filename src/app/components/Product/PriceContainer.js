@@ -104,9 +104,6 @@ class PriceContainer extends React.Component {
     }
 
     handleCart (){
-        console.log('state',this.state)
-        console.log('product',this.props.product.product.id)
-        console.log('userid',user.id)
         const formValue = {
             userId:user.id,
             productId:this.props.product.product.id,

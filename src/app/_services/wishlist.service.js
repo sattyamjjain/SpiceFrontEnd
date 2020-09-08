@@ -3,6 +3,7 @@ import { authHeader } from '../_helpers';
 export const wishlistService = {
     getAllById,
     postWishlist,
+    deleteWishlist
 };
 
 function getAllById(userId) {
@@ -22,6 +23,15 @@ function postWishlist(wishlist) {
     };
 
     return fetch(`http://localhost:8080/api/users/wishlist`, requestOptions).then(handleResponse);
+}
+
+function deleteWishlist(wishlistId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {...authHeader(), 'Content-Type': 'application/json' }
+    };
+
+    return fetch(`http://localhost:8080/api/users/wishlist/${wishlistId}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

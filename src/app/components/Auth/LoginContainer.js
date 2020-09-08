@@ -42,7 +42,6 @@ class LoginContainer extends React.Component {
     handleLogin(formValues){
         this.props.login(formValues)
             .then(res=>{
-                console.log('res',res)
                 this.setState({
                     successSnackBar:true
                 })
@@ -51,7 +50,6 @@ class LoginContainer extends React.Component {
                 //this.props.handleClose()
             })
             .catch(err=>{
-                console.log('err',err)
                 this.setState({
                     failureSnackBar:true
                 })

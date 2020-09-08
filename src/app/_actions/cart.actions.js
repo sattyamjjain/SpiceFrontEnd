@@ -3,7 +3,8 @@ import { cartService } from '../_services';
 
 export const cartActions = {
     getAllById,
-    postCart
+    postCart,
+    deleteCart
 };
 
 function getAllById(id) {
@@ -25,16 +26,34 @@ function getAllById(id) {
 }
 
 function postCart(cart) {
-    return dispatch => {
+    return dispatch => new Promise(function(resolve, reject){
         dispatch(request());
         cartService.postCart(cart)
+            .then(cart => { 
+                dispatch(success(cart));
+                resolve(cart);
+            }).catch(error=>{
+                dispatch(failure(error.toString()))
+                reject(error);
+            })
+    });
+
+    function request() { return { type: cartConstants.POST_CART_REQUEST } }
+    function success(cart) { return { type: cartConstants.POST_CART_SUCCESS, cart } }
+    function failure(error) { return { type: cartConstants.POST_CART_FAILURE, error } }
+}
+
+function deleteCart(cartId) {
+    return dispatch => {
+        dispatch(request());
+        cartService.deleteCart(cartId)
             .then(
                 cart => dispatch(success(cart)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request() { return { type: cartConstants.POST_CART_REQUEST } }
-    function success(cart) { return { type: cartConstants.POST_CART_SUCCESS, cart } }
-    function failure(error) { return { type: cartConstants.POST_CART_FAILURE, error } }
+    function request() { return { type: cartConstants.DELETE_CART_REQUEST } }
+    function success(cart) { return { type: cartConstants.DELETE_CART_SUCCESS, cart } }
+    function failure(error) { return { type: cartConstants.DELETE_CART_FAILURE, error } }
 }

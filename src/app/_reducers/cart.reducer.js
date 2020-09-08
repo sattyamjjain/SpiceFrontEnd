@@ -34,6 +34,18 @@ export function cart(state = initialState, action) {
             return {
                 error: action.error
             };
+        case cartConstants.DELETE_CART_REQUEST:
+            return {
+                loading: true
+            };
+        case cartConstants.DELETE_CART_SUCCESS:
+            return {
+                success:true,
+            };
+        case cartConstants.DELETE_CART_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

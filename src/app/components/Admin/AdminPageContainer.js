@@ -30,7 +30,6 @@ class AdminPageContainer extends React.Component {
     handleAdminLogin(formValues){
         this.props.adminLogin(formValues)
         .then(res=>{
-            console.log('res',res)
             this.setState({
                 successSnackBar:true
             })
@@ -38,7 +37,6 @@ class AdminPageContainer extends React.Component {
             history.go(0)
         })
         .catch(err=>{
-            console.log('err',err)
             this.setState({
                 failureSnackBar:true
             })

@@ -3,6 +3,8 @@ import {Table,TableBody,Paper,TableContainer,TableHead,Typography,TableCell,Brea
 import * as FeatherIcon from 'react-feather';
 import styled from 'styled-components';
 
+const wishlistProducts = []
+
 const MainContainer = styled.div`
     padding:40px;
     padding-top:30px;
@@ -29,6 +31,42 @@ class WishListContainer extends React.Component {
         super(props)
         this.state={
         }
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        const { finalProductList,wishlists} = this.props;
+        if(prevProps.finalProductList !== finalProductList || prevProps.wishlists !== wishlists){
+            if(finalProductList !== null && wishlists !== null){
+                wishlists.map(cartItem=>{
+                    const product = finalProductList.find(prod=>prod.product.id === cartItem.productId)
+                    const productPrice = product.productDescriptions.find(prodPrice => prodPrice.size === cartItem.size)
+                    wishlistProducts.push({
+                        id:cartItem.id,
+                        productId:cartItem.productId,
+                        title:product.product.title,
+                        image:product.productImages[0].image,
+                        mrp:typeof productPrice === "undefined" ? null: productPrice.mrp,
+                        price:typeof productPrice === "undefined" ? null: productPrice.price,
+                        quantity:cartItem.quantity,
+                        availability:typeof productPrice === "undefined" ? null: productPrice.availability
+                    })
+                })
+            }
+        }
+    }
+
+    handleWishlistDelete(item){
+        this.props.handleWishlistDelete(item.id)
+    }
+
+    handleWishlistCart(item){
+        const formValues={
+            id:item.id,
+            productId:item.productId,
+            size:item.size,
+            quantity:item.quantity
+        }
+        this.props.handleWishlistCart(formValues)
     }
 
     render() {
@@ -64,36 +102,62 @@ class WishListContainer extends React.Component {
                                 <TableCell align="center">Product Image</TableCell>
                                 <TableCell align="center">Product Name</TableCell>
                                 <TableCell align="center">Price</TableCell>
+                                <TableCell align="center">MRP</TableCell>
+                                <TableCell align="center">Size</TableCell>
+                                <TableCell align="center">Quantity</TableCell>
                                 <TableCell align="center">Availability</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                             </TableHead>
-                            <TableBody>
-                                <TableRow >
-                                    <TableCell component="th" scope="row" align="center">
-                                        <img src={require('../images/haldi.jpg')} alt="haldi" style={{height:'80px',width:'80px'}}/>
-                                    </TableCell>
-                                    <TableCell align="center">Haldi</TableCell>
-                                    <TableCell align="center">400 Rs.</TableCell>
-                                    <TableCell align="center">In Stock</TableCell>
-                                    <TableCell align="center">
-                                        <LinkContainer>
-                                            <Button>
-                                                <FeatherIcon.Trash2
-                                                    color="#000000"
-                                                    size={24}
-                                                />
-                                            </Button>
-                                            <Button>
-                                                <FeatherIcon.Truck
-                                                    color="#000000"
-                                                    size={24}
-                                                />
-                                            </Button>
-                                        </LinkContainer>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
+                            {
+                                wishlistProducts && wishlistProducts !== null && (
+                                <TableBody>
+                                    {
+                                        wishlistProducts.map((wishlistItem,index)=>(
+                                        <TableRow key={index}>
+                                            <TableCell component="th" scope="row" align="center">
+                                                <img src={wishlistItem.image} alt={wishlistItem !== null ? '':wishlistItem.title} style={{height:'80px',width:'80px'}}/>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.title}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.price} Rs.
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.mrp} Rs.
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.size}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.quantity}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {wishlistItem === null ? '':wishlistItem.availability}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <LinkContainer>
+                                                    <Button onClick={this.handleWishlistDelete.bind(this,wishlistItem)}>
+                                                        <FeatherIcon.Trash2
+                                                            color="#000000"
+                                                            size={24}
+                                                        />
+                                                    </Button>
+                                                    <Button onClick={this.handleWishlistCart.bind(this,wishlistItem)}>
+                                                        <FeatherIcon.Truck
+                                                            color="#000000"
+                                                            size={24}
+                                                        />
+                                                    </Button>
+                                                </LinkContainer>
+                                            </TableCell>
+                                        </TableRow>
+                                        ))
+                                    }
+                                </TableBody>
+                                )
+                            }
                         </Table>
                     </TableContainer>
                 </SubMainContainer>
@@ -102,4 +166,4 @@ class WishListContainer extends React.Component {
     }
 }
 
-export {WishListContainer}
+export {WishListContainer};

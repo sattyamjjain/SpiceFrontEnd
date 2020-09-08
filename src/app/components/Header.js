@@ -94,8 +94,6 @@ function Header (props) {
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorAccount, setAnchorAccount] = React.useState(null);
 
-  //console.log('productList',JSON.parse(localStorage.getItem('productList')))
-
   React.useEffect(() => {
     if(localStorage.getItem('user')){
       setAccountButton(true)
@@ -299,16 +297,3 @@ function Header (props) {
 };
 
 export {Header};
-
-// function mapState(state) {
-//   const { products } = state.product;
-//   console.log('header product',products)
-//   return { products };
-// }
-
-// const actionCreators = {
-//   getAll:productActions.getAll
-// };
-
-// const connectedHeader = connect(mapState, actionCreators)(Header);
-// export { connectedHeader as Header };

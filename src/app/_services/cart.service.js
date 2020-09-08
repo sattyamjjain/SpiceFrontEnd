@@ -3,6 +3,7 @@ import { authHeader } from '../_helpers';
 export const cartService = {
     getAllById,
     postCart,
+    deleteCart
 };
 
 function getAllById(userId) {
@@ -23,6 +24,16 @@ function postCart(cart) {
 
     return fetch(`http://localhost:8080/api/users/cart`, requestOptions).then(handleResponse);
 }
+
+function deleteCart(cartId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {...authHeader(), 'Content-Type': 'application/json' }
+    };
+
+    return fetch(`http://localhost:8080/api/users/cart/${cartId}`, requestOptions).then(handleResponse);
+}
+
 
 function handleResponse(response) {
     return response.text().then(text => {

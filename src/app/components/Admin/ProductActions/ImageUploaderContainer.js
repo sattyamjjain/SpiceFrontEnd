@@ -33,7 +33,7 @@ const PicUploader = (props) => {
             setFieldValue("profilePic", res);
           })
           .catch((err) => {
-            console.log('error',err)
+            //error
           });
       },
     })

@@ -19,7 +19,6 @@ class Profile extends React.Component{
   }
 
   render(){
-    console.log('user',this.props.user)
     return (
       <div>
         <ProfileContainer user={this.props.user}/>

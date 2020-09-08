@@ -36,7 +36,7 @@ const PicUploader = (props) => {
             setFieldValue("profilePic", res);
           })
           .catch((err) => {
-            console.log('error',err)
+            //error
           });
       },
     })
@@ -72,7 +72,6 @@ class EditProfileContainer extends React.Component {
 
     handleProfileSubmit = (formValues) =>{
         formValues.gender = this.state.gender
-        console.log('user profile',formValues)
         this.props.editProfile(formValues,this.props.userData.user.id)
         //window.location.reload(true)
     }

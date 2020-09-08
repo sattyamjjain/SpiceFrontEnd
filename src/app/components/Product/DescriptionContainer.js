@@ -58,22 +58,7 @@ class DescriptionContainer extends React.Component {
         }
     }
 
-    // static getDerivedStateFromProps(props, state){
-    //     console.log('state getDerivedStateFromProps',state)
-    //     if(props.product!=null && state.wishlistRes !== null){
-    //         state.wishlistRes.map((wishlistItem)=>{
-    //             if(wishlistItem.productId === props.product.product.id){
-    //                 console.log('match')
-    //                 return {
-    //                     isLiked : true
-    //                 }
-    //             }
-    //         })
-    //     }
-    // }
-
     componentDidMount(){
-        console.log('state componentDidMount',this.state.isLiked)
         if(user !== null){
             const userId = user.id;
             this.props.getAllById(userId)
@@ -82,7 +67,9 @@ class DescriptionContainer extends React.Component {
                     wishlistRes:res
                 })
             })
-            .catch(err=>console.log('err',err))
+            .catch(err=>{
+                //error
+            })
         }
     }
 
@@ -98,8 +85,6 @@ class DescriptionContainer extends React.Component {
             }
             if(this.state.isLiked !== true){
                 this.props.postWishlist(wishlistProduct)
-            }else{
-                console.log('else')
             }
         }else{
             history.push('/')

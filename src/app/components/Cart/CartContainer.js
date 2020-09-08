@@ -2,6 +2,7 @@
 import React from "react";
 import {Stepper,Button,StepLabel,Step,makeStyles,Typography,TableCell,Breadcrumbs,TableRow,Link} from '@material-ui/core';
 import * as FeatherIcon from 'react-feather';
+import { shallowEqual,useDispatch, useSelector } from "react-redux";
 import { productActions } from '../../_actions';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -40,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
     }];
   }
   
-  function getStepContent(stepIndex) {
+  function getStepContent(stepIndex,productList,cartList,handleCartDelete,handleWishlistCart) {
     switch (stepIndex) {
       case 0:
         return (
-            <BagContainer/>
+            <BagContainer productList={productList} cartList={cartList} handleCartDelete={handleCartDelete} handleWishlistCart={handleWishlistCart}/>
         );
       case 1:
         return (
@@ -62,28 +63,7 @@ const useStyles = makeStyles((theme) => ({
 function CartContainer(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [product, setProduct] =  React.useState(null)
-  const [state, dispatch] = React.useReducer(product, product);
   const steps = getSteps();
-  const cartList = props.carts
-  const productList = []
-
-  dispatch(props.getProdById('1aea731a-ea7a-4515-ab7d-4749948584da'))
-
-  // React.useEffect(()=>{
-  //   if(cartList !== null){
-  //     cartList.map(cartItem => {
-  //       console.log('cartItem id',cartItem.productId)
-  //       props.getProdById(cartItem.productId)
-  //       .then(res=>{
-  //         setProduct(res)
-  //       })
-  //       .catch(err=>console.log('err',err))
-  //       productList.push(product)
-  //     })
-  //     console.log('final product list',productList)
-  //   }
-  // },[])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -96,6 +76,14 @@ function CartContainer(props) {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const handleCartDelete = (item)=>{
+    props.handleCartDelete(item)
+  }
+
+  const handleWishlistCart = (item)=>{
+    props.handleWishlistCart(item)
+  }
 
   return (
     <MainContainer>
@@ -114,7 +102,7 @@ function CartContainer(props) {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+            <Typography className={classes.instructions}>{getStepContent(activeStep,props.finalProductList,props.carts,handleCartDelete,handleWishlistCart)}</Typography>
             <div style={{display:'flex',justifyContent:'flex-end',paddingRight:'5%'}} >
               <Button
                 disabled={activeStep === 0}
@@ -135,15 +123,4 @@ function CartContainer(props) {
   );
 }
 
-function mapState(state) {
-  const { product } = state.product;
-  return { product };
-}
-
-const actionCreators = {
-  getProdById: productActions.getProdById,
-};
-
-const connectedCart = connect(mapState, actionCreators)(CartContainer);
-
-export {connectedCart as CartContainer};
+ export {CartContainer}

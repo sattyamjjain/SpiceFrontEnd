@@ -28,7 +28,6 @@ class DeleteAddressContainer extends React.Component {
     }
 
     handlePopupClose(){
-        console.log('clicked')
         this.props.handleActionPopupClose();
     }
 

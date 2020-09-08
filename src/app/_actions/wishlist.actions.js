@@ -3,7 +3,8 @@ import { wishlistService } from '../_services';
 
 export const wishlistActions = {
     getAllById,
-    postWishlist
+    postWishlist,
+    deleteWishlist
 };
 
 function getAllById(id) {
@@ -25,16 +26,34 @@ function getAllById(id) {
 }
 
 function postWishlist(wishlist) {
-    return dispatch => {
+    return dispatch => new Promise(function(resolve, reject){
         dispatch(request());
         wishlistService.postWishlist(wishlist)
+        .then(wishlist => { 
+            dispatch(success(wishlist));
+            resolve(wishlist);
+        }).catch(error=>{
+            dispatch(failure(error.toString()))
+            reject(error);
+        })
+    });
+
+    function request() { return { type: wishlistConstants.POST_WISHLIST_REQUEST } }
+    function success(wishlist) { return { type: wishlistConstants.POST_WISHLIST_SUCCESS, wishlist } }
+    function failure(error) { return { type: wishlistConstants.POST_WISHLIST_FAILURE, error } }
+}
+
+function deleteWishlist(wishlistId) {
+    return dispatch => {
+        dispatch(request());
+        wishlistService.deleteWishlist(wishlistId)
             .then(
                 wishlist => dispatch(success(wishlist)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request() { return { type: wishlistConstants.POST_WISHLIST_REQUEST } }
-    function success(wishlist) { return { type: wishlistConstants.POST_WISHLIST_SUCCESS, wishlist } }
-    function failure(error) { return { type: wishlistConstants.POST_WISHLIST_FAILURE, error } }
+    function request() { return { type: wishlistConstants.DELETE_WISHLIST_REQUEST } }
+    function success(wishlist) { return { type: wishlistConstants.DELETE_WISHLIST_SUCCESS, wishlist } }
+    function failure(error) { return { type: wishlistConstants.DELETE_WISHLIST_FAILURE, error } }
 }

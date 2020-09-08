@@ -5,6 +5,8 @@ import * as FeatherIcon from 'react-feather';
 
 import styled from 'styled-components';
 
+const cartProducts = []
+
 const MainContainer = styled.div`
     display:flex;
     justify-content:space-between;
@@ -32,6 +34,12 @@ const ItemDetailsContainer = styled.div`
 const DetailsContainer = styled.div`
 `;
 
+const DetailsPartContainer = styled.div`
+`;
+
+const PaperMapContainer = styled.div`
+`;
+
 const ButtonContainer = styled.div`
     display:flex;
     justify-content:space-between;
@@ -43,6 +51,48 @@ const DividerContainer = styled.div`
 `;
 
 export default class BagContainer extends React.Component {
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        const { productList,cartList} = this.props;
+        if(prevProps.productList !== productList || prevProps.cartList !== cartList){
+            if(productList !== null && cartList !== null){
+                cartList.map(cartItem=>{
+                    const product = productList.find(prod=>prod.product.id === cartItem.productId)
+                    const productPrice = product.productDescriptions.find(prodPrice => prodPrice.size === cartItem.size)
+                    cartProducts.push({
+                        id:cartItem.id,
+                        productId:cartItem.productId,
+                        title:product.product.title,
+                        image:product.productImages[0].image,
+                        mrp:typeof productPrice === "undefined" ? null: productPrice.mrp,
+                        price:typeof productPrice === "undefined" ? null: productPrice.price,
+                        quantity:cartItem.quantity,
+                        availability:typeof productPrice === "undefined" ? null: productPrice.availability
+                    })
+                })
+            }
+        }
+    }
+
+    handleCartDelete(item){
+        this.props.handleCartDelete(item)
+    }
+
+    handleWishlistCart(item){
+        const formValues={
+            id:item.id,
+            productId:item.productId,
+            quantity:item.quantity
+        }
+        this.props.handleWishlistCart(formValues)
+    }
+
     render() {
         return (
             <MainContainer>
@@ -57,39 +107,49 @@ export default class BagContainer extends React.Component {
                         </Typography>
                     </Paper>
                     <PaddingContainer/>
-                    <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'10px'}}>
-                        <ItemDetailsContainer>
-                            <img src={require('../images/haldi.jpg')} style={{height:'20vh',width:'20vh'}} alt="ItemImage"/>
-                            <DetailsContainer style={{width:'100%'}}>
-                                <div style={{display:'flex',justifyContent:'space-between'}}>
-                                    <Typography variant="h6">
-                                        Haldi
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        400.00 Rs.
-                                    </Typography>
-                                </div>
-                                <div style={{display:'flex',justifyContent:'space-between'}}>
-                                    <Typography variant="subtitle2">
-                                        Description Example wtitten
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        <strike>460.50 Rs.</strike>  (13% off)
-                                    </Typography>
-                                </div>
-                                <Typography variant="subtitle2">
-                                    SIze Quantity
-                                </Typography>
-                            </DetailsContainer>
-                        </ItemDetailsContainer>
-                        <DividerContainer>
-                            <Divider />
-                        </DividerContainer>
-                        <ButtonContainer>
-                            <Button color="primary" style={{width:'30%'}} >REMOVE</Button>
-                            <Button color="primary" style={{width:'60%'}}  >MOVE TO WISHLIST</Button>
-                        </ButtonContainer>
-                    </Paper>
+                    {
+                        cartProducts && cartProducts !== null && cartProducts.map((cartProductItem,index)=>(
+                        <PaperMapContainer key={index}>
+                            <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'10px'}}>
+                                <ItemDetailsContainer>
+                                    <img src={cartProductItem.image} style={{height:'20vh',width:'20vh'}} alt="ItemImage"/>
+                                    <DetailsContainer style={{width:'100%',padding:'2vh'}}>
+                                        <DetailsPartContainer style={{display:'flex',justifyContent:'space-between'}}>
+                                            <Typography variant="h6">
+                                                {cartProductItem === null ? '' : cartProductItem.title}
+                                            </Typography>
+                                            <Typography variant="subtitle1">
+                                                {cartProductItem === null ? '' : cartProductItem.price} Rs.
+                                            </Typography>
+                                        </DetailsPartContainer>
+                                        <DetailsPartContainer style={{display:'flex',justifyContent:'space-between'}}>
+                                            <Typography variant="subtitle2">
+                                                Size &nbsp; {cartProductItem === null ? '' : cartProductItem.size} 
+                                            </Typography>
+                                            <Typography variant="subtitle1">
+                                                <strike>{cartProductItem === null ? '' : cartProductItem.mrp} Rs.</strike>
+                                            </Typography>
+                                        </DetailsPartContainer>
+                                        <Typography variant="subtitle2">
+                                            Quantity &nbsp; {cartProductItem === null ? '' : cartProductItem.quantity}
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                            Availability &nbsp; {cartProductItem === null ? '' : cartProductItem.availability}
+                                        </Typography>
+                                    </DetailsContainer>
+                                </ItemDetailsContainer>
+                                <DividerContainer>
+                                    <Divider />
+                                </DividerContainer>
+                                <ButtonContainer>
+                                    <Button color="primary" style={{width:'30%'}} onClick={this.handleCartDelete.bind(this,cartProductItem)}>REMOVE</Button>
+                                    <Button color="primary" style={{width:'60%'}} onClick={this.handleWishlistCart.bind(this,cartProductItem)}>MOVE TO WISHLIST</Button>
+                                </ButtonContainer>
+                            </Paper>
+                            <PaddingContainer/>
+                        </PaperMapContainer>
+                        ))
+                    }
                     <PaddingContainer/>
                     <Paper variant="elevation" elevation={10} style={{borderStyle:'solid',borderColor:'#000000',borderRadius:'2px',borderWidth:'1px',padding:'10px',justifyContent:'flex-start'}}>
                         <FeatherIcon.Bookmark

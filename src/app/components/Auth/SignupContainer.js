@@ -33,11 +33,9 @@ class SignupContainer extends React.Component {
     }
 
     handleSignup(formValues){
-        console.log('formValues',formValues)
         if(formValues.password === formValues.confirmPassword){
             this.props.register(formValues)
             .then(res=>{
-                console.log('res',res)
                 this.setState({
                     successSnackBar:true
                 })
@@ -45,7 +43,6 @@ class SignupContainer extends React.Component {
             })
             .catch(err=>{
                 const errMessage = err.split('Error: ')[1]
-                console.log('err',errMessage)
                 this.setState({
                     failureSnackBar:true,
                     failureMessage:errMessage

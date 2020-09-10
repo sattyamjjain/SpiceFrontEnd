@@ -116,6 +116,19 @@ export function product(state = initialState, action) {
             return {
                 error: action.error
             };
+        case productConstants.POST_UPLOAD_IMAGE_REQUEST:
+            return {
+                loading: true
+            };
+        case productConstants.POST_UPLOAD_IMAGE_SUCCESS:
+            return {
+                ...state,
+                success:true
+                };
+        case productConstants.POST_UPLOAD_IMAGE_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

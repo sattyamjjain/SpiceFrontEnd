@@ -20,6 +20,7 @@ class AddEditProduct extends React.Component {
             
         }
         this.handleProductSubmit =  this.handleProductSubmit.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleProductSubmit = (formValues)=>{
@@ -29,6 +30,11 @@ class AddEditProduct extends React.Component {
             this.props.addProduct(formValues)
         }
     }
+
+    handlePopupClose(){
+        this.props.handleActionPopupClose();
+    }
+
   render() {
     return (
         <MainContainer>

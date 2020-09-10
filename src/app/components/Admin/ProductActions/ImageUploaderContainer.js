@@ -3,7 +3,8 @@ import {Button,Typography} from '@material-ui/core';
 import { Formik } from 'formik';
 import * as FeatherIcon from 'react-feather';
 import { useDropzone } from 'react-dropzone';
-
+import { productActions } from '../../../_actions';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -30,7 +31,7 @@ const PicUploader = (props) => {
       onDrop: acceptedFiles => {
         getBase64(acceptedFiles[0])
           .then((res) => {
-            setFieldValue("profilePic", res);
+            setFieldValue("image", res);
           })
           .catch((err) => {
             //error
@@ -49,7 +50,22 @@ const PicUploader = (props) => {
     )
 }
 
-export default class ImageUploaderContainer extends React.Component {
+class ImageUploaderContainer extends React.Component {
+  constructor(props){
+    super(props)
+    this.state={
+
+    }
+    this.handleImageSubmit = this.handleImageSubmit.bind(this)
+  }
+
+  handleImageSubmit = (formValues)=>{
+    formValues.productId = this.props.product.product.id
+    console.log('formValues',formValues)
+    this.props.uploadImage(formValues)
+    //window.location.reload()
+  }
+
   render() {
     return (
         <MainContainer>
@@ -58,13 +74,8 @@ export default class ImageUploaderContainer extends React.Component {
             </Typography>
             <FormContainer>
                 <Formik
-                    initialValues={{ profilePic:''}}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                        }, 400);
-                    }}
+                    initialValues={{ image:''}}
+                    onSubmit={this.handleImageSubmit}
                     >
                     {({
                         values,
@@ -78,7 +89,7 @@ export default class ImageUploaderContainer extends React.Component {
                     }) => (
                         <form onSubmit={handleSubmit}>
                             <div style={{paddingTop:'10px'}}>
-                                <PicUploader setFieldValue={setFieldValue} name="profilePic"/>
+                                <PicUploader setFieldValue={setFieldValue} name="image"/>
                             </div>
                             <div style={{paddingTop:'20px',textAlign:'center'}}>
                                 <Button variant="contained" type="submit" disabled={isSubmitting} color="primary" style={{textTransform:'capitalize'}}>
@@ -93,3 +104,15 @@ export default class ImageUploaderContainer extends React.Component {
     );
   }
 }
+
+function mapState(state) {
+  const { products } = state.product;
+  return { products };
+}
+
+const actionCreators = {
+  uploadImage: productActions.uploadImage,
+};
+
+const connectedProductContainer = connect(mapState, actionCreators)(ImageUploaderContainer);
+export { connectedProductContainer as ImageUploaderContainer };

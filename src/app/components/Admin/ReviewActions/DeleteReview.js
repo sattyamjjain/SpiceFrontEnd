@@ -20,11 +20,19 @@ class DeleteReview extends React.Component {
 
         }
         this.handleDelete = this.handleDelete.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleDelete = () =>{
         this.props.deleteReview(this.props.review.id)
+        this.props.handleActionPopupClose();
+        window.location.reload()
     }
+
+    handlePopupClose(){
+        this.props.handleActionPopupClose();
+    }
+
   render() {
     return (
         <MainContainer>
@@ -36,7 +44,7 @@ class DeleteReview extends React.Component {
                 Are you sure you want to delete this review?
             </Typography>
             <div style={{display:'flex',justifyContent:'flex-end',paddingTop:'10px'}}>
-                <Button variant="contained">Close</Button>
+                <Button variant="contained" onClick={this.handlePopupClose}>Close</Button>
                 <PaddingContainer/>
                 <Button variant="contained" color="primary" onClick={this.handleDelete}>Delete</Button>
             </div>
@@ -51,7 +59,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    deleteReview:productReviewActions.deleteReview
+    deleteReview:productReviewActions.deleteReview,
+    getAllReview:productReviewActions.getAllReview
 };
 
 const connectedTabReviewContainer = connect(mapState, actionCreators)(DeleteReview);

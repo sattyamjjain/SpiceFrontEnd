@@ -9,7 +9,8 @@ export const productActions = {
     deleteProduct,
     addProductSize,
     editProductSize,
-    deleteProductSize
+    deleteProductSize,
+    uploadImage
 };
 
 function getAll() {
@@ -135,3 +136,17 @@ function deleteProductSize(productSizeId) {
     function failure(error) { return { type: productConstants.DELETE_PRODUCT_SIZE_FAILURE, error } }
 }
 
+function uploadImage(imageData) {
+    return dispatch => {
+        dispatch(request());
+        productService.uploadImage(imageData)
+            .then(
+                imageData => dispatch(success(imageData)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: productConstants.POST_UPLOAD_IMAGE_REQUEST } }
+    function success(imageData) { return { type: productConstants.POST_UPLOAD_IMAGE_SUCCESS, imageData } }
+    function failure(error) { return { type: productConstants.POST_UPLOAD_IMAGE_FAILURE, error } }
+}

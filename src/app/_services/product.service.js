@@ -6,7 +6,8 @@ export const productService = {
     deleteProduct,
     addProductSize,
     editProductSize,
-    deleteProductSize
+    deleteProductSize,
+    uploadImage
 };
 
 function getAll() {
@@ -82,6 +83,16 @@ function deleteProductSize(productSizeId) {
     };
 
     return fetch(`http://localhost:8080/api/product-desc/${productSizeId}`, requestOptions).then(handleResponse);
+}
+
+function uploadImage(imagedata) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(imagedata)
+    };
+
+    return fetch(`http://localhost:8080/api/product-images`, requestOptions).then(handleResponse);
 }
 
 

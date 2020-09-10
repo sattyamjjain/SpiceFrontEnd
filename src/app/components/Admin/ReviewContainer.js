@@ -56,9 +56,10 @@ class ReviewContainer extends React.Component {
     }
   render() {
     const {reviews} = this.props
+    console.log('reviews',reviews)
     const deleteBody = (
         <Paper style={{width:'80vh',height:'25vh'}}>
-            <DeleteReview review={this.state.review}/>
+            <DeleteReview review={this.state.review} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
       );
 
@@ -73,6 +74,7 @@ class ReviewContainer extends React.Component {
                         <TableRow>
                             <TableCell align="center">Product</TableCell>
                             <TableCell align="center">Reviewer</TableCell>
+                            <TableCell align="center">Reviewer Email</TableCell>
                             <TableCell align="center">Rating</TableCell>
                             <TableCell align="center">Review</TableCell>
                             <TableCell align="right">Actions</TableCell>
@@ -89,6 +91,9 @@ class ReviewContainer extends React.Component {
                                     </TableCell>
                                     <TableCell align="center">
                                         {review === null ? '' :review.usersName}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {review === null ? '' :review.usersEmail}
                                     </TableCell>
                                     <TableCell align="center">
                                         {review === null ? '' :review.rating}
@@ -131,7 +136,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-getAllReview:productReviewActions.getAllReview
+    getAllReview:productReviewActions.getAllReview
 };
 
 const connectedTabReviewContainer = connect(mapState, actionCreators)(ReviewContainer);

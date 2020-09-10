@@ -43,6 +43,9 @@ class UserContainer extends React.Component {
                             <TableCell align="center">Name</TableCell>
                             <TableCell align="center">Orders</TableCell>
                             <TableCell align="center">Mobile</TableCell>
+                            <TableCell align="center">Alternate Mobile</TableCell>
+                            <TableCell align="center">Gender</TableCell>
+                            <TableCell align="center">Location</TableCell>
                         </TableRow>
                     </TableHead>
                     {users && users.length !== 0 && (
@@ -54,6 +57,9 @@ class UserContainer extends React.Component {
                                     <TableCell align="center">{user===null?'':user.user.firstName }</TableCell>
                                     <TableCell align="center">4</TableCell>
                                     <TableCell align="center">{user===null?'':user.user.mobile}</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.alternateMobile}</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.gender}</TableCell>
+                                    <TableCell align="center">{user===null?'':user.user.location}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

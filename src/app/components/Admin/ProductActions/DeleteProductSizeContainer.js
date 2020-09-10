@@ -21,11 +21,17 @@ export default class DeleteProductSizeContainer extends React.Component {
 
         }
         this.handleDelete = this.handleDelete.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleDelete = () =>{
         this.props.deleteProductSize(this.props.productDesc.id)
     }
+
+    handlePopupClose(){
+        this.props.handleActionPopupClose();
+    }
+
   render() {
     return (
         <MainContainer>
@@ -37,7 +43,7 @@ export default class DeleteProductSizeContainer extends React.Component {
                 Are you sure you want to delete this product Size?
             </Typography>
             <div style={{display:'flex',justifyContent:'flex-end',paddingTop:'10px'}}>
-                <Button variant="contained">Close</Button>
+                <Button variant="contained" onClick={this.handlePopupClose}>Close</Button>
                 <PaddingContainer/>
                 <Button variant="contained" color="primary" onClick={this.handleDelete}>Delete</Button>
             </div>

@@ -38,7 +38,7 @@ class AddEditProductSize extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitProductSize =  this.handleSubmitProductSize.bind(this)
-
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleSubmitProductSize = (formValues)=>{
@@ -55,6 +55,11 @@ class AddEditProductSize extends React.Component {
             stockAvailability:event.target.value
         })
       };
+
+      handlePopupClose(){
+        this.props.handleActionPopupClose();
+    }
+
   render() {
     return (
         <MainContainer>

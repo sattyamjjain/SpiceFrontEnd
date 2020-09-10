@@ -7,7 +7,7 @@ import {DeleteProduct} from './ProductActions/DeleteProduct';
 import DeleteProductSizeContainer from './ProductActions/DeleteProductSizeContainer';
 import {AddEditProductSize} from './ProductActions/AddEditProductSize';
 import {AddEditProduct} from './ProductActions/AddEditProduct';
-import ImageUploaderContainer from './ProductActions/ImageUploaderContainer';
+import {ImageUploaderContainer} from './ProductActions/ImageUploaderContainer';
 import withStyles from "@material-ui/core/styles/withStyles";
 import { productActions } from '../../_actions';
 import { connect } from 'react-redux';
@@ -89,7 +89,7 @@ class ProductContainer extends React.Component {
                 this.handleAddAction();
                 break;
             case UPLOAD_IMAGE:
-                this.handleUploadImage();
+                this.handleUploadImage(data);
                 break;
             default:
                 break;
@@ -137,9 +137,10 @@ class ProductContainer extends React.Component {
         })
     }
 
-    handleUploadImage() {
+    handleUploadImage(data) {
         this.setState({
-            visibleActionPopup:UPLOAD_IMAGE
+            visibleActionPopup:UPLOAD_IMAGE,
+            product:data
         })
     }
 
@@ -154,43 +155,43 @@ class ProductContainer extends React.Component {
 
     const deleteBody = (
         <Paper style={{width:'80vh',height:'25vh'}}>
-            <DeleteProduct product={this.state.product}/>
+            <DeleteProduct product={this.state.product} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const deleteProductSizeBody = (
         <Paper style={{width:'80vh',height:'25vh'}}>
-            <DeleteProductSizeContainer productDesc={this.state.productDesc}/>
+            <DeleteProductSizeContainer productDesc={this.state.productDesc} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const editProductSizeBody = (
         <Paper style={{width:'45vh',height:'60vh'}}>
-            <AddEditProductSize isEdit={true} productDesc={this.state.productDesc} />
+            <AddEditProductSize isEdit={true} productDesc={this.state.productDesc} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const addProductSizeBody = (
         <Paper style={{width:'45vh',height:'60vh'}}>
-            <AddEditProductSize product={this.state.product}/>
+            <AddEditProductSize product={this.state.product} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const addProductBody = (
         <Paper style={{width:'70vh',height:'40vh'}}>
-            <AddEditProduct/>
+            <AddEditProduct handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const editProductBody = (
         <Paper style={{width:'70vh',height:'40vh'}}>
-            <AddEditProduct isEdit={true} product={this.state.product}/>
+            <AddEditProduct isEdit={true} product={this.state.product} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
     const uploadImageBody = (
         <Paper style={{width:'40vh',height:'40vh'}}>
-            <ImageUploaderContainer/>
+            <ImageUploaderContainer product={this.state.product} handleActionPopupClose={this.handleActionPopupClose}/>
         </Paper>
     );
 
@@ -216,7 +217,7 @@ class ProductContainer extends React.Component {
                                         <Button variant="text" onClick={this.onActionClickHandler.bind(this,ADD_PRODUCT_SIZE,product)}>
                                             <FeatherIcon.PlusCircle size={20}/>
                                         </Button>
-                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,UPLOAD_IMAGE)}>
+                                        <Button variant="text" onClick={this.onActionClickHandler.bind(this,UPLOAD_IMAGE,product)}>
                                             <FeatherIcon.Upload size={20}/>
                                         </Button>
                                         <Button variant="text" onClick={this.onActionClickHandler.bind(this,EDIT_PRODUCT,product)}>

@@ -20,11 +20,17 @@ class DeleteProduct extends React.Component {
 
         }
         this.handleDelete = this.handleDelete.bind(this)
+        this.handlePopupClose = this.handlePopupClose.bind(this)
     }
 
     handleDelete = () =>{
         this.props.deleteProduct(this.props.product.product.id)
     }
+
+    handlePopupClose(){
+        this.props.handleActionPopupClose();
+    }
+
   render() {
     return (
         <MainContainer>
@@ -36,7 +42,7 @@ class DeleteProduct extends React.Component {
                 Are you sure you want to delete this product?
             </Typography>
             <div style={{display:'flex',justifyContent:'flex-end',paddingTop:'10px'}}>
-                <Button variant="contained">Close</Button>
+                <Button variant="contained" onClick={this.handlePopupClose}>Close</Button>
                 <PaddingContainer/>
                 <Button variant="contained" color="primary" onClick={this.handleDelete}>Delete</Button>
             </div>

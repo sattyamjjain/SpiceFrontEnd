@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import { productActions } from '../../_actions';
 import { connect } from 'react-redux';
 
+import 'react-multi-carousel/lib/styles.css';
+
 const MainContainer = styled.div`
     width:100%;
 `;
